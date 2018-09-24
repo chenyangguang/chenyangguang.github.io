@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>设计模式-迭代器模式 | 重剑无锋</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="设计模式," />
+  
+
+  <meta name="description" content="0x00 迭代器模式迭代器类似于一个数据库中(MySQL的游标是单向的)的游标，可以在一个容器内翻滚，遍历所有的查看的元素. 定义Provide a way to access the elements of an arrgegate object sequentially without exposing its underlying representation.(它提供一种方法访问容器对象中">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式-迭代器模式">
+<meta property="og:url" content="http://chenyangguang.github.com/2017-11-27-iterator/index.html">
+<meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="0x00 迭代器模式迭代器类似于一个数据库中(MySQL的游标是单向的)的游标，可以在一个容器内翻滚，遍历所有的查看的元素. 定义Provide a way to access the elements of an arrgegate object sequentially without exposing its underlying representation.(它提供一种方法访问容器对象中">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-12T07:14:27.740Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式-迭代器模式">
+<meta name="twitter:description" content="0x00 迭代器模式迭代器类似于一个数据库中(MySQL的游标是单向的)的游标，可以在一个容器内翻滚，遍历所有的查看的元素. 定义Provide a way to access the elements of an arrgegate object sequentially without exposing its underlying representation.(它提供一种方法访问容器对象中">
+
+  
+
+  
+    <link rel="icon" href="https://avatars2.githubusercontent.com/u/7223579?s=400&u=5a9bfec68e7704ff383953eb0d2fb5e257e50de0&v=4">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-迭代器模式"><span class="toc-text">0x00 迭代器模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#定义"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#角色"><span class="toc-text">角色</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php实现"><span class="toc-text">php实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php-中自有的-Iterator-接口"><span class="toc-text">php 中自有的 Iterator 接口</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-小结"><span class="toc-text">0x01 小结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-iterator" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">设计模式-迭代器模式</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.11.27</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Gitvim</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="0x00-迭代器模式"><a href="#0x00-迭代器模式" class="headerlink" title="0x00 迭代器模式"></a>0x00 迭代器模式</h1><p>迭代器类似于一个数据库中(MySQL的游标是单向的)的游标，可以在一个容器内翻滚，遍历所有的查看的元素.</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>Provide a way to access the elements of an arrgegate object sequentially without exposing its underlying representation.</strong>(它提供一种方法访问容器对象中的各个元素，而又不需暴露对象的内部细节．)<br><a id="more"></a></p>
+<h2 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h2><ul>
+<li>Iterator 抽象迭代器, 定义和遍历元素的接口, 一般有固定的三个方法: first(), next(), hasNext().</li>
+<li>ConcreteIterator 具体迭代器, 具体实现迭代器接口．</li>
+<li>Aggregate 抽象容器, 提供创建具体迭代器角色的接口．</li>
+<li>ConcreteAggregate 具体容器, 创建迭代器的对象．</li>
+</ul>
+<h2 id="php实现"><a href="#php实现" class="headerlink" title="php实现"></a>php实现</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Iterator Pattern</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IIterator</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">next</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">hasNext</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remove</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteIterator</span> <span class="keyword">implements</span> <span class="title">IIterator</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $arr = [];</span><br><span class="line">    <span class="keyword">public</span> $cursor = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($_arr)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;arr = $_arr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">hasNext</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;cursor == count(<span class="keyword">$this</span>-&gt;arr) ? <span class="keyword">false</span> : <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">next</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $result = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;hasNext()) &#123;</span><br><span class="line">            <span class="keyword">return</span> (<span class="keyword">$this</span>-&gt;arr)[<span class="keyword">$this</span>-&gt;cursor++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> $result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 开发系统时，如果用到迭代器的删除方法，应该完成两个功能: 1. 删除当前元素, 2. 当前游标指向下一个元素．</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remove</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;cursor = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Aggregate</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">($obj)</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remove</span><span class="params">($obj)</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">iterator</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteAggregate</span> <span class="keyword">implements</span> <span class="title">Aggregate</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $arr = [];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">($obj)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;arr[] = $obj;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">iterator</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteIterator(<span class="keyword">$this</span>-&gt;arr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remove</span><span class="params">($obj)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;remove($obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $agg = <span class="keyword">new</span> ConcreteAggregate();</span><br><span class="line">        $agg-&gt;add(<span class="string">'test'</span>);</span><br><span class="line">        $agg-&gt;add(<span class="string">'hello'</span>);</span><br><span class="line">        $agg-&gt;add(<span class="string">'world'</span>);</span><br><span class="line">        $iterator = $agg-&gt;iterator();</span><br><span class="line">        <span class="keyword">while</span> ($iterator-&gt;hasNext()) &#123;</span><br><span class="line">            <span class="keyword">echo</span> $iterator-&gt;next(), PHP_EOL;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">(<span class="keyword">new</span> Client())::main();</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">test</span></span><br><span class="line"><span class="comment">hello</span></span><br><span class="line"><span class="comment">world</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<h2 id="php-中自有的-Iterator-接口"><a href="#php-中自有的-Iterator-接口" class="headerlink" title="php 中自有的 Iterator 接口"></a>php 中自有的 Iterator 接口</h2><p><a href="http://php.net/manual/en/spl.iterators.php" target="_blank" rel="noopener">php 原生迭代器</a>.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Iterator extends Traversable &#123;</span><br><span class="line"><span class="comment">/* 方法 */</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="keyword">public</span> mixed current ( void )</span><br><span class="line"><span class="keyword">abstract</span> <span class="keyword">public</span> scalar key ( void )</span><br><span class="line"><span class="keyword">abstract</span> <span class="keyword">public</span> void next ( void )</span><br><span class="line"><span class="keyword">abstract</span> <span class="keyword">public</span> void rewind ( void )</span><br><span class="line"><span class="keyword">abstract</span> <span class="keyword">public</span> boolean valid ( void )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>提供了好几个方法.</p>
+<h1 id="0x01-小结"><a href="#0x01-小结" class="headerlink" title="0x01 小结"></a>0x01 小结</h1><p>渐渐能摸着一些门道了．<br><!--more--></p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持gitvim</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/wechat.jpg" alt="">
+          </li>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/alipay.jpg" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017-11-26-adapterPattern/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017-11-28-composite/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

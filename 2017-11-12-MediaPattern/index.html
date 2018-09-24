@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>中介者模式 | 重剑无锋</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="设计模式," />
+  
+
+  <meta name="description" content="0x00 中介者模式现实生活中像神舟飞船的指挥中心, 机场的调度中心, MVC 框架中的 C(controller), 媒体网关, 房租中介等等, 都有着中介者的影子．中介者模式还叫 调停者模式 ． 定义Define an boject that encapsulates how a set of objects nteract. Mediator promotes loose coupling">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中介者模式">
+<meta property="og:url" content="http://chenyangguang.github.com/2017-11-12-MediaPattern/index.html">
+<meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="0x00 中介者模式现实生活中像神舟飞船的指挥中心, 机场的调度中心, MVC 框架中的 C(controller), 媒体网关, 房租中介等等, 都有着中介者的影子．中介者模式还叫 调停者模式 ． 定义Define an boject that encapsulates how a set of objects nteract. Mediator promotes loose coupling">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-12T07:14:27.735Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="中介者模式">
+<meta name="twitter:description" content="0x00 中介者模式现实生活中像神舟飞船的指挥中心, 机场的调度中心, MVC 框架中的 C(controller), 媒体网关, 房租中介等等, 都有着中介者的影子．中介者模式还叫 调停者模式 ． 定义Define an boject that encapsulates how a set of objects nteract. Mediator promotes loose coupling">
+
+  
+
+  
+    <link rel="icon" href="https://avatars2.githubusercontent.com/u/7223579?s=400&u=5a9bfec68e7704ff383953eb0d2fb5e257e50de0&v=4">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-中介者模式"><span class="toc-text">0x00 中介者模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#定义"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构成"><span class="toc-text">构成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优点"><span class="toc-text">优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缺点"><span class="toc-text">缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用场景"><span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php-实现"><span class="toc-text">php 实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-MediaPattern" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">中介者模式</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.11.12</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Gitvim</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="0x00-中介者模式"><a href="#0x00-中介者模式" class="headerlink" title="0x00 中介者模式"></a>0x00 中介者模式</h1><p>现实生活中像神舟飞船的指挥中心, 机场的调度中心, MVC 框架中的 C(controller), 媒体网关, 房租中介等等, 都有着中介者的影子．中介者模式还叫 <strong>调停者模式</strong> ．</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><em>Define an boject that encapsulates how a set of objects nteract. Mediator promotes loose coupling by keeping objects from referring to each other explicitly, and it lets you vary their interaction independently.(用一个中介对象封装一系列的对象交互，中介者是各对象不需要显示地相互作用，从而使其耦合松散，而且可以独立地改变它们之间的交互．)</em></p>
+<h2 id="构成"><a href="#构成" class="headerlink" title="构成"></a>构成</h2><ul>
+<li>Mediator 抽象中介者角色, 抽象中介者角色定义统一的接口，用于各同事角色之间的通信．</li>
+<li>Concrete Mediator 具体中介者角色, 具体中介者角色通过协调各同事角色实现协作行为，因此它必须依赖于同事角色．</li>
+<li>Colleague 同事角色, 每个同事角色与其他的同事角色的通信, 必须经过”和事老”<strong>中介者</strong>协作．每个同事类的行为分为两种: <ol>
+<li>自发行为: 同事本身的行为, 如改变对象自身的状态, 处理自己的行为等不需要依赖中介者的动作．</li>
+<li>依赖方法: 依赖中介者才能完成的行为．</li>
+</ol>
+</li>
+</ul>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>中介者模式减少了类之间的依赖，同事类只依赖于中介者, 将<strong>一对多</strong>的依赖变成<strong>一对一</strong>的依赖，减少依赖的同时也降低了类之间的耦合．</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>随着逻辑复杂度增加，原本 N　个对象直接的相互依赖关系转嫁给中介者和同事类的依赖关系，中介者的逻辑会逐渐复杂，并且变得越来越庞大臃肿．</p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>多个对象之间<strong>紧密耦合</strong>(在类图中出现了蜘蛛网状结构)的情况下，用中介者是好的选择．<br>话说那些什么经纪人什么秘书的是不是中介者模式？</p>
+<h2 id="php-实现"><a href="#php-实现" class="headerlink" title="php 实现"></a>php 实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">// 通用抽象中介者</span><br><span class="line">abstract class Mediator &#123;</span><br><span class="line">    protected  $colleague;</span><br><span class="line"></span><br><span class="line">    public function getColleague() &#123;</span><br><span class="line">        return $this-&gt;colleague;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function setColleague(ConcreteColleague $conColl) &#123;</span><br><span class="line">        $this-&gt;colleague = $conColl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    abstract public function doSth();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 通用中介者</span><br><span class="line">class ConcreteMediator extends  Mediator &#123;</span><br><span class="line">    public function dosth() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 抽象同事类</span><br><span class="line">abstract class Colleague &#123;</span><br><span class="line">    protected $mediator;</span><br><span class="line"></span><br><span class="line">    public function Colleague(Mediator $_mediator) &#123;</span><br><span class="line">        $this-&gt;mediator = $_mediator;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体同事类</span><br><span class="line">class ConcreteColleague extends Colleague &#123;</span><br><span class="line">    public function ConcreteColleague(Mediator $_mediator) &#123;</span><br><span class="line">        parent::setColleague($_mediator);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 自发行为</span><br><span class="line">    public function selfMethod() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    // 依赖方法</span><br><span class="line">    public function relyMethod() &#123;</span><br><span class="line">        parent::doSth(); // 委托中介处理</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>字面上中介和代理多少带着模糊的雷同，所以中介和代理的区别是？</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持gitvim</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/wechat.jpg" alt="">
+          </li>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/alipay.jpg" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017-11-08-secKill/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017-11-21-command/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

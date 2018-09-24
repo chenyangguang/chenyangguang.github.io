@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>源码 | 重剑无锋</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="php," />
+  
+
+  <meta name="description" content="源码看累了源码看着看着，会产生一种疑惑： 我为什么要看源码？当初我之所以到底层看源码，完全是好奇，想知道它后面运行的机制。但是，最近开始疲劳了。忽然觉得：这样是不是没什么必要？因为，一个好的赛车手，未必就能造车，或者修车。但他可以将车玩的很溜, 上演速度与激情！而一个造车师傅，或者修车师傅，却不一定能在 F1 赛道上撒的开。那么，如果满足了好奇心之后，还有必要去深究底层的实现逻辑么？">
+<meta name="keywords" content="php">
+<meta property="og:type" content="article">
+<meta property="og:title" content="源码">
+<meta property="og:url" content="http://chenyangguang.github.com/2018-05-01-tools/index.html">
+<meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="源码看累了源码看着看着，会产生一种疑惑： 我为什么要看源码？当初我之所以到底层看源码，完全是好奇，想知道它后面运行的机制。但是，最近开始疲劳了。忽然觉得：这样是不是没什么必要？因为，一个好的赛车手，未必就能造车，或者修车。但他可以将车玩的很溜, 上演速度与激情！而一个造车师傅，或者修车师傅，却不一定能在 F1 赛道上撒的开。那么，如果满足了好奇心之后，还有必要去深究底层的实现逻辑么？">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-12T07:14:27.741Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="源码">
+<meta name="twitter:description" content="源码看累了源码看着看着，会产生一种疑惑： 我为什么要看源码？当初我之所以到底层看源码，完全是好奇，想知道它后面运行的机制。但是，最近开始疲劳了。忽然觉得：这样是不是没什么必要？因为，一个好的赛车手，未必就能造车，或者修车。但他可以将车玩的很溜, 上演速度与激情！而一个造车师傅，或者修车师傅，却不一定能在 F1 赛道上撒的开。那么，如果满足了好奇心之后，还有必要去深究底层的实现逻辑么？">
+
+  
+
+  
+    <link rel="icon" href="https://avatars2.githubusercontent.com/u/7223579?s=400&u=5a9bfec68e7704ff383953eb0d2fb5e257e50de0&v=4">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#源码看累了"><span class="toc-text">源码看累了</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-tools" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">源码</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.05.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Gitvim</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="源码看累了"><a href="#源码看累了" class="headerlink" title="源码看累了"></a>源码看累了</h2><p>源码看着看着，会产生一种疑惑： 我为什么要看源码？当初我之所以到底层看源码，完全是好奇，想知道它后面运行的机制。但是，最近开始疲劳了。忽然觉得：这样是不是没什么必要？因为，一个好的赛车手，未必就能造车，或者修车。但他可以将车玩的很溜, 上演速度与激情！而一个造车师傅，或者修车师傅，却不一定能在 F1 赛道上撒的开。<br>那么，如果满足了好奇心之后，还有必要去深究底层的实现逻辑么？</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持gitvim</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/wechat.jpg" alt="">
+          </li>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/alipay.jpg" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018-04-26-lua-lumen/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018-05-01-php-source-code-appreciation/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

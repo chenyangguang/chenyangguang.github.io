@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>秒杀场景小结 | 重剑无锋</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Web,计算机技术," />
+  
+
+  <meta name="description" content="即使看过秒杀场景的处理办法，还是会忘，因为没有真正实战过．总得抽时间总结一下这个场景的应对策略．那天就需要处理这块业务呢？以防一般的 bug 在那时顶风作案. 0x00 那山，那人，那秒杀">
+<meta name="keywords" content="Web,计算机技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="秒杀场景小结">
+<meta property="og:url" content="http://chenyangguang.github.com/2017-11-08-secKill/index.html">
+<meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="即使看过秒杀场景的处理办法，还是会忘，因为没有真正实战过．总得抽时间总结一下这个场景的应对策略．那天就需要处理这块业务呢？以防一般的 bug 在那时顶风作案. 0x00 那山，那人，那秒杀">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-12T07:14:27.741Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="秒杀场景小结">
+<meta name="twitter:description" content="即使看过秒杀场景的处理办法，还是会忘，因为没有真正实战过．总得抽时间总结一下这个场景的应对策略．那天就需要处理这块业务呢？以防一般的 bug 在那时顶风作案. 0x00 那山，那人，那秒杀">
+
+  
+
+  
+    <link rel="icon" href="https://avatars2.githubusercontent.com/u/7223579?s=400&u=5a9bfec68e7704ff383953eb0d2fb5e257e50de0&v=4">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-那山，那人，那秒杀"><span class="toc-text">0x00 那山，那人，那秒杀</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#现场特点"><span class="toc-text">现场特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#针对性的架构"><span class="toc-text">针对性的架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关键点"><span class="toc-text">关键点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-让暴风雨来的更猛烈些吧"><span class="toc-text">0x01 让暴风雨来的更猛烈些吧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-参考"><span class="toc-text">0x02 参考</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-secKill" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">秒杀场景小结</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.11.08</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Gitvim</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>即使看过秒杀场景的处理办法，还是会忘，因为没有真正实战过．总得抽时间总结一下这个场景的应对策略．那天就需要处理这块业务呢？以防一般的 bug 在那时顶风作案.</p>
+<h2 id="0x00-那山，那人，那秒杀"><a href="#0x00-那山，那人，那秒杀" class="headerlink" title="0x00 那山，那人，那秒杀"></a>0x00 那山，那人，那秒杀</h2><a id="more"></a>
+<p>秒杀场景通常发生在活动日, 节假日促销，”双十一”, 春运火车票抢购等. 此时,　一般是月黑风高, Bug 容易趁机做乱之时．</p>
+<!-- 但是根本上, bug能顶风作案的 -->
+<p>秒杀开始之前，先来欣赏一段&lt;&lt;亮剑&gt;&gt;李云龙攻打县城的场景, 当时日方从四面八方往平安县城增援时, 丁伟所在的防区的阻击方式很是巧妙: </p>
+<p>一开始没搞懂增援的敌人是干啥时, 丁伟的策略是: “一线部队放过敌人的骑兵, 全力阻击敌人的步兵， 二线部队务将敌人的骑兵拦截在二道河口”.　然后发现敌人不顾一切地要奔赴县城时，他明白了，这伙部队是下了死命令往县城奔啊！如果硬抗，肯定是伤亡惨重啊，但是又不能撤出部队，让敌军从防区里过去．亮点来了, 下了四道命令: </p>
+<ol>
+<li>发动地方武装和民兵, 沿公路线及公路两侧埋设地雷, 密度要大;</li>
+<li>派出小部队，占据公路沿线的隘口和制高点, 节节抗击．迟缓敌人的进攻锋芒;</li>
+<li>炸毁防区内所有的桥梁;</li>
+<li>前沿部队撤出阵地，让开路口，让敌人进来．采用麻雀战，袭扰敌人．</li>
+</ol>
+<p>“原则就只有一个，不惜一切代价，阻敌增援.”</p>
+<p> 这不就是活生生的秒杀现场吗！下单的人就是”日军”，不顾死活的都狂点狂刷剩下的库存, 提交表单, 奔赴”县城(数据库)”! 买!买!买!但是你说我网站能让你轻易从我”防区”过去么？那么怎么阻击经过我秒杀系统的场景＂防区＂呢?或者说怎么设计和优化我防区的阻击能力呢？</p>
+<h3 id="现场特点"><a href="#现场特点" class="headerlink" title="现场特点"></a>现场特点</h3><ol>
+<li>大量用户在同一时间发起进攻, 造成瞬时的高流量.</li>
+<li>访问量远远大于库存量．</li>
+<li>业务流程就是下单并减库存.</li>
+</ol>
+<h3 id="针对性的架构"><a href="#针对性的架构" class="headerlink" title="针对性的架构"></a>针对性的架构</h3><p>秒杀页面-&gt;服务器站点-&gt;服务层-&gt;数据库层</p>
+<ul>
+<li>秒杀页面 <ol>
+<li>静态化，在秒杀页面，就得将页面静态化, 除了必要的静态元素，其余的全部静态化，结合 CDN抵抗页面静态元素的访问．</li>
+<li>禁止用户重复提交, 提交过后按钮置为不可点击或者灰色.</li>
+<li>用户限流, 同一个IP用户一定时间内只允许提交一次订单.</li>
+<li>验证码填写识别.</li>
+</ol>
+</li>
+<li>服务器站点: <ol>
+<li>限制用一个 UID 用户一段时间内的访问次数．</li>
+<li>采用消息队列缓存请求, 批量读取, 把多个请求的查询合并到一起进行, 减少数据库的访问次数．</li>
+<li>redis 缓存查询的结果, 特别是库存量．</li>
+</ol>
+</li>
+<li>服务层<ol>
+<li>分时分段分批次放票, “骑兵”, “步兵”梯队放过处理．</li>
+<li>下订单模块(秒杀的核心部分), 队列控制异步化，做请求队列，判断读列是否已经满, 若未满，则将请求放到队列中;若已满, 则后面的请求返回秒杀失败. 总之, 单位时间只透过有限的”部队”(请求)去”县城”(数据库).</li>
+<li>下单, 异步付款．</li>
+</ol>
+</li>
+</ul>
+<h3 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h3><ol>
+<li>业务拆分, 独立并发访问.</li>
+<li>高并发控制，请求量拦截．</li>
+<li>读写分离(查询和下单拆分独立).</li>
+<li>请求队列控制接受数，控制并发量.</li>
+<li>订单和支付保持一致性．</li>
+</ol>
+<h2 id="0x01-让暴风雨来的更猛烈些吧"><a href="#0x01-让暴风雨来的更猛烈些吧" class="headerlink" title="0x01 让暴风雨来的更猛烈些吧"></a>0x01 让暴风雨来的更猛烈些吧</h2><p>要点是层层阻击, 将流量压力拦在上游．减少到达写入数据库的增援部队数量．<br>留给中国队的时间已经不多了，哦不，是留给 Bug 的时间已经不多了, 又错了，是留给增援到数据库的”敌军”(写操作)已经不多了……</p>
+<h2 id="0x02-参考"><a href="#0x02-参考" class="headerlink" title="0x02 参考"></a>0x02 参考</h2><ol>
+<li><a href="https://mp.weixin.qq.com/s?sn=fb28fd5e5f0895ddb167406d8a735548&amp;__biz=MjM5ODYxMDA5OQ==&amp;mid=2651959391&amp;idx=1&amp;scene=21&amp;pass_ticket=5a1eixuRcaxaEfBB3VPh7z%2BRHowhFEJSqSWxYJTsomcQQ1yIU7LMGpQxjDey9Xgj" target="_blank" rel="noopener">秒杀系统架构优化之路.58沈剑</a></li>
+<li><a href="http://blog.csdn.net/suifeng3051/article/details/52607544" target="_blank" rel="noopener">如何设计一个秒杀系统</a></li>
+<li><a href="http://www.csdn.net/article/2014-11-28/2822858" target="_blank" rel="noopener">Web系统大规模并发–电商秒杀与抢购.徐汉彬</a><!--more-->
+</li>
+</ol>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持gitvim</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/wechat.jpg" alt="">
+          </li>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/alipay.jpg" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017-11-06-TheZenOfDesignPatternPrototype/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017-11-12-MediaPattern/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

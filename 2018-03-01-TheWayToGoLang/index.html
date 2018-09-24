@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Golang way | 重剑无锋</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="go," />
+  
+
+  <meta name="description" content="Go 入门  一直听说 Go 是天生支持并发编程的, 于是磨刀霍霍向牛羊, 入坑。 开始特点 Go 语言可以进行隐式定义, 但是不存在隐式类型转换。 所有的内存在 Go 中都经过初始化的。 变量的命名使用陀峰法，首个单词小写，每个新单词首字母大写。如果需要全局变量能够被外包所使用， 则首字母也需要大写。  基本类型和运算符 两个类型相同的值可以使用 == 或者 != 来比较。不同类型的值不可以比较">
+<meta name="keywords" content="go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang way">
+<meta property="og:url" content="http://chenyangguang.github.com/2018-03-01-TheWayToGoLang/index.html">
+<meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="Go 入门  一直听说 Go 是天生支持并发编程的, 于是磨刀霍霍向牛羊, 入坑。 开始特点 Go 语言可以进行隐式定义, 但是不存在隐式类型转换。 所有的内存在 Go 中都经过初始化的。 变量的命名使用陀峰法，首个单词小写，每个新单词首字母大写。如果需要全局变量能够被外包所使用， 则首字母也需要大写。  基本类型和运算符 两个类型相同的值可以使用 == 或者 != 来比较。不同类型的值不可以比较">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-12T07:14:27.735Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Golang way">
+<meta name="twitter:description" content="Go 入门  一直听说 Go 是天生支持并发编程的, 于是磨刀霍霍向牛羊, 入坑。 开始特点 Go 语言可以进行隐式定义, 但是不存在隐式类型转换。 所有的内存在 Go 中都经过初始化的。 变量的命名使用陀峰法，首个单词小写，每个新单词首字母大写。如果需要全局变量能够被外包所使用， 则首字母也需要大写。  基本类型和运算符 两个类型相同的值可以使用 == 或者 != 来比较。不同类型的值不可以比较">
+
+  
+
+  
+    <link rel="icon" href="https://avatars2.githubusercontent.com/u/7223579?s=400&u=5a9bfec68e7704ff383953eb0d2fb5e257e50de0&v=4">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Go-入门"><span class="toc-text">Go 入门</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#开始"><span class="toc-text">开始</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#特点"><span class="toc-text">特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基本类型和运算符"><span class="toc-text">基本类型和运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#精华的-goroutine-和-channel"><span class="toc-text">精华的 goroutine 和  channel</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考来源"><span class="toc-text">参考来源</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-TheWayToGoLang" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Golang way</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.03.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Gitvim</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="Go-入门"><a href="#Go-入门" class="headerlink" title="Go 入门"></a>Go 入门</h1><p>  一直听说 Go 是天生支持并发编程的, 于是磨刀霍霍向牛羊, 入坑。</p>
+<h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>Go 语言可以进行隐式定义, 但是不存在隐式类型转换。</li>
+<li>所有的内存在 Go 中都经过初始化的。</li>
+<li>变量的命名使用陀峰法，首个单词小写，每个新单词首字母大写。如果需要全局变量能够被外包所使用， 则首字母也需要大写。</li>
+</ul>
+<h4 id="基本类型和运算符"><a href="#基本类型和运算符" class="headerlink" title="基本类型和运算符"></a>基本类型和运算符</h4><ul>
+<li>两个类型相同的值可以使用 <strong>==</strong> 或者 <strong>!=</strong> 来比较。不同类型的值不可以比较。</li>
+<li>Go 支持 整形和浮点型数字, 并且原生支持复数, 其中位的运算采用补码。int 是最快的类型, 尽量使用 float64。</li>
+<li><ul>
+<li>号和指针名称间留有一个空格，以防止被误认为是乘法表达式。 <em> 用在一个指针前面时，将得到这个指针指向地址所存储的值；这就是反引用(间接引用)操作符, 也可以称为指针转移。指针的高级应用是可以传递一个变量的应用(如函数的参数), 如此不会传递变量的拷贝。注意: 在 Go 中不允许像 C 中的 </em>pointer++ 的指针算法。</li>
+</ul>
+</li>
+<li>特殊的流程控制, <strong>select</strong> 结构用于 <strong>channel</strong> 的选择。可省掉判断条件里面的小括号。必要时使用小括号提高优先级。 <strong>switch</strong> 可以接受的 <strong>case</strong> 判断可以是统一类型的任何类型的值或者表达式。而 <strong>for</strong> 可以在循环体内同时使用多个计数器。</li>
+</ul>
+<h4 id="精华的-goroutine-和-channel"><a href="#精华的-goroutine-和-channel" class="headerlink" title="精华的 goroutine 和  channel"></a>精华的 goroutine 和  channel</h4><p><strong>goroutine</strong> 是 Go 程序并发的执行体, <strong>channel</strong> 是它们之间的连接, 是可以让一个 goroutine 发送特征值到另一个 goroutine 的通信机制．没一个 channel 是一个具体类型的导管，叫做通道的元素类型．channel 的创建使用 make. channel 有两个操作, send, receive 统称通信．使用上古神奇的符号 <strong>&lt;-</strong>．close(ch) 关闭　channel, make()可以创建两种通道, 带正数的第二个参数的是缓冲通道，其他的是非缓冲通道.</p>
+<h2 id="参考来源"><a href="#参考来源" class="headerlink" title="参考来源"></a>参考来源</h2><ul>
+<li><a href="https://github.com/Unknwon/the-way-to-go_ZH_CN" target="_blank" rel="noopener">Go之路</a></li>
+<li><a href="https://golang.org/" target="_blank" rel="noopener">Go官网</a></li>
+</ul>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持gitvim</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/wechat.jpg" alt="">
+          </li>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/alipay.jpg" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018-01-14-theEndOf2017/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018-04-24-update-ubuntu2LTS18.04/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

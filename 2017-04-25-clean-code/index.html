@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Clean Code | 重剑无锋</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="灵犀指,代码,编程," />
+  
+
+  <meta name="description" content="为啥看《Clean Code》将需求明确到机器可以执行的细节程度，就是编程要做的事，这种归约正是代码。重新审视自己写过的一些业务代码，发现依然是个熊样儿。学习一下《代码整洁之道》, 让自己的代码整洁一些。虽然启示本身不值钱，但是学习启示与案例研究中清理代码的具体决策之间的关系，对现在的我是有很大帮助的。 小处见大软件无论写得多庞大，神在细节之中。He who is faithful in litt">
+<meta name="keywords" content="灵犀指,代码,编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Clean Code">
+<meta property="og:url" content="http://chenyangguang.github.com/2017-04-25-clean-code/index.html">
+<meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="为啥看《Clean Code》将需求明确到机器可以执行的细节程度，就是编程要做的事，这种归约正是代码。重新审视自己写过的一些业务代码，发现依然是个熊样儿。学习一下《代码整洁之道》, 让自己的代码整洁一些。虽然启示本身不值钱，但是学习启示与案例研究中清理代码的具体决策之间的关系，对现在的我是有很大帮助的。 小处见大软件无论写得多庞大，神在细节之中。He who is faithful in litt">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-12T07:14:27.737Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Clean Code">
+<meta name="twitter:description" content="为啥看《Clean Code》将需求明确到机器可以执行的细节程度，就是编程要做的事，这种归约正是代码。重新审视自己写过的一些业务代码，发现依然是个熊样儿。学习一下《代码整洁之道》, 让自己的代码整洁一些。虽然启示本身不值钱，但是学习启示与案例研究中清理代码的具体决策之间的关系，对现在的我是有很大帮助的。 小处见大软件无论写得多庞大，神在细节之中。He who is faithful in litt">
+
+  
+
+  
+    <link rel="icon" href="https://avatars2.githubusercontent.com/u/7223579?s=400&u=5a9bfec68e7704ff383953eb0d2fb5e257e50de0&v=4">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#为啥看《Clean-Code》"><span class="toc-text">为啥看《Clean Code》</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小处见大"><span class="toc-text">小处见大</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-clean-code" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Clean Code</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.04.25</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Gitvim</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="为啥看《Clean-Code》"><a href="#为啥看《Clean-Code》" class="headerlink" title="为啥看《Clean Code》"></a>为啥看《Clean Code》</h2><p>将需求明确到机器可以执行的细节程度，就是编程要做的事，这种归约正是代码。<br>重新审视自己写过的一些业务代码，发现依然是个熊样儿。学习一下《代码整洁之道》, 让自己的代码整洁一些。虽然启示本身不值钱，但是学习启示与案例研究中清理代码的具体决策之间的关系，对现在的我是有很大帮助的。</p>
+<h2 id="小处见大"><a href="#小处见大" class="headerlink" title="小处见大"></a>小处见大</h2><p>软件无论写得多庞大，神在细节之中。<br>He who is faithful in little is faithful in much.<br>Mighty oaks from little acorns grow.<br>“小处诚实非小事”。<br>“物皆有其位，而后物尽归其位”。</p>
+<p>## </p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持gitvim</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/wechat.jpg" alt="">
+          </li>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/alipay.jpg" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017-04-25-awk/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017-05-01-hello-world/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

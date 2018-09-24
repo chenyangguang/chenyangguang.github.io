@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>php 源码 (string) | 重剑无锋</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="php," />
+  
+
+  <meta name="description" content="PHP 源码赏析 ~ 第一套广播体操(string 篇)寻根究底最近看到一些 php 的函数时，一直在想，它背后是怎么实现的呢？不仔细的挖一遍它的底细，压根就是经常会用错。而且感觉用的是一个黑箱子。指不定里面啥时候窜出一条蛇来。所以，找来源码，推敲一下底层的实现逻辑。">
+<meta name="keywords" content="php">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php 源码 (string)">
+<meta property="og:url" content="http://chenyangguang.github.com/2018-05-01-php-source-code-appreciation/index.html">
+<meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="PHP 源码赏析 ~ 第一套广播体操(string 篇)寻根究底最近看到一些 php 的函数时，一直在想，它背后是怎么实现的呢？不仔细的挖一遍它的底细，压根就是经常会用错。而且感觉用的是一个黑箱子。指不定里面啥时候窜出一条蛇来。所以，找来源码，推敲一下底层的实现逻辑。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-12T07:14:27.740Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="php 源码 (string)">
+<meta name="twitter:description" content="PHP 源码赏析 ~ 第一套广播体操(string 篇)寻根究底最近看到一些 php 的函数时，一直在想，它背后是怎么实现的呢？不仔细的挖一遍它的底细，压根就是经常会用错。而且感觉用的是一个黑箱子。指不定里面啥时候窜出一条蛇来。所以，找来源码，推敲一下底层的实现逻辑。">
+
+  
+
+  
+    <link rel="icon" href="https://avatars2.githubusercontent.com/u/7223579?s=400&u=5a9bfec68e7704ff383953eb0d2fb5e257e50de0&v=4">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP-源码赏析-第一套广播体操-string-篇"><span class="toc-text">PHP 源码赏析 ~ 第一套广播体操(string 篇)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#寻根究底"><span class="toc-text">寻根究底</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第一节-伸展运动-strpos"><span class="toc-text">第一节: 伸展运动 strpos</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#strpos-源码"><span class="toc-text">strpos 源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初探"><span class="toc-text">初探</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#细究"><span class="toc-text">细究</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strpos-的实现思路"><span class="toc-text">strpos 的实现思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有木有启发"><span class="toc-text">有木有启发?</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-php-source-code-appreciation" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">php 源码 (string)</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.05.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Gitvim</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="PHP-源码赏析-第一套广播体操-string-篇"><a href="#PHP-源码赏析-第一套广播体操-string-篇" class="headerlink" title="PHP 源码赏析 ~ 第一套广播体操(string 篇)"></a>PHP 源码赏析 ~ 第一套广播体操(string 篇)</h1><h2 id="寻根究底"><a href="#寻根究底" class="headerlink" title="寻根究底"></a>寻根究底</h2><p>最近看到一些 php 的函数时，一直在想，它背后是怎么实现的呢？不仔细的挖一遍它的底细，压根就是经常会用错。而且感觉用的是一个黑箱子。指不定里面啥时候窜出一条蛇来。所以，找来源码，推敲一下底层的实现逻辑。<br><a id="more"></a></p>
+<h2 id="第一节-伸展运动-strpos"><a href="#第一节-伸展运动-strpos" class="headerlink" title="第一节: 伸展运动 strpos"></a>第一节: 伸展运动 <a href="https://github.com/php/php-src/blob/master/ext/standard/string.c" target="_blank" rel="noopener">strpos</a></h2><p>它的整个实现风貌先展现出来， 长的是貌美如花: </p>
+<h3 id="strpos-源码"><a href="#strpos-源码" class="headerlink" title="strpos 源码"></a>strpos 源码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">PHP_FUNCTION(strpos)</span><br><span class="line">&#123;</span><br><span class="line">	zval *needle;</span><br><span class="line">	zend_string *haystack;</span><br><span class="line">	char *found = NULL;</span><br><span class="line">	char  needle_char[2];</span><br><span class="line">	zend_long  offset = 0;</span><br><span class="line"></span><br><span class="line">	ZEND_PARSE_PARAMETERS_START(2, 3)</span><br><span class="line">		Z_PARAM_STR(haystack)</span><br><span class="line">		Z_PARAM_ZVAL(needle)</span><br><span class="line">		Z_PARAM_OPTIONAL</span><br><span class="line">		Z_PARAM_LONG(offset)</span><br><span class="line">	ZEND_PARSE_PARAMETERS_END();</span><br><span class="line"></span><br><span class="line">	if (offset &lt; 0) &#123;</span><br><span class="line">		offset += (zend_long)ZSTR_LEN(haystack);</span><br><span class="line">	&#125;</span><br><span class="line">	if (offset &lt; 0 || (size_t)offset &gt; ZSTR_LEN(haystack)) &#123;</span><br><span class="line">		php_error_docref(NULL, E_WARNING, &quot;Offset not contained in string&quot;);</span><br><span class="line">		RETURN_FALSE;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	if (Z_TYPE_P(needle) == IS_STRING) &#123;</span><br><span class="line">		if (!Z_STRLEN_P(needle)) &#123;</span><br><span class="line">			php_error_docref(NULL, E_WARNING, &quot;Empty needle&quot;);</span><br><span class="line">			RETURN_FALSE;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		found = (char*)php_memnstr(ZSTR_VAL(haystack) + offset,</span><br><span class="line">			                Z_STRVAL_P(needle),</span><br><span class="line">			                Z_STRLEN_P(needle),</span><br><span class="line">			                ZSTR_VAL(haystack) + ZSTR_LEN(haystack));</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		if (php_needle_char(needle, needle_char) != SUCCESS) &#123;</span><br><span class="line">			RETURN_FALSE;</span><br><span class="line">		&#125;</span><br><span class="line">		needle_char[1] = 0;</span><br><span class="line"></span><br><span class="line">		found = (char*)php_memnstr(ZSTR_VAL(haystack) + offset,</span><br><span class="line">							needle_char,</span><br><span class="line">							1,</span><br><span class="line">		                    ZSTR_VAL(haystack) + ZSTR_LEN(haystack));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	if (found) &#123;</span><br><span class="line">		RETURN_LONG(found - ZSTR_VAL(haystack));</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		RETURN_FALSE;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="初探"><a href="#初探" class="headerlink" title="初探"></a>初探</h3><p>咋看，果然没有让我失望, 有点蒙: 这都啥啥啥? 第一眼只看懂了 if, else。 没系统的学习过 c 语言，阅读起来真的很费眼力劲, 呵呵。<br>那就先过一遍: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zval *needle;</span><br><span class="line">zend_string *haystack;</span><br><span class="line">char *found = NULL;</span><br><span class="line">char  needle_char[2];</span><br><span class="line">zend_long  offset = 0;</span><br></pre></td></tr></table></figure>
+<p>这一堆，是定义了一些变量。</p>
+<p>然后<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ZEND_PARSE_PARAMETERS_START(2, 3)</span><br><span class="line">	Z_PARAM_STR(haystack)</span><br><span class="line">	Z_PARAM_ZVAL(needle)</span><br><span class="line">	Z_PARAM_OPTIONAL</span><br><span class="line">	Z_PARAM_LONG(offset)</span><br><span class="line">ZEND_PARSE_PARAMETERS_END();</span><br></pre></td></tr></table></figure></p>
+<p>没看懂，应该是初始化参数, (2, 3)说明是这个 <strong>strpos</strong> 函数的参数在 2 - 3 个之间。</p>
+<p>接着，进行至第三个参数 offset 的判断了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (offset &lt; 0) &#123;</span><br><span class="line">	offset += (zend_long)ZSTR_LEN(haystack);</span><br><span class="line">&#125;</span><br><span class="line">if (offset &lt; 0 || (size_t)offset &gt; ZSTR_LEN(haystack)) &#123;</span><br><span class="line">	php_error_docref(NULL, E_WARNING, &quot;Offset not contained in string&quot;);</span><br><span class="line">	RETURN_FALSE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>猜测当第三个参数 offset 是负数的时候，是反向的查找的。如果负数太小了，比如反向查找 ‘test’ 中的 ‘s’ 来说， 就是 strpos(‘test’, ‘t’, -10), 就会报错了。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜   php -r &quot;echo strpos(&apos;test&apos;, &apos;s&apos;, -10);&quot;</span><br><span class="line">PHP Warning:  strpos(): Offset not contained in string in Command line code on line 1</span><br><span class="line"></span><br><span class="line">Warning: strpos(): Offset not contained in string in Command line code on line 1</span><br></pre></td></tr></table></figure>
+<p>果然。</p>
+<p>先不追究细节, 走着。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">if (Z_TYPE_P(needle) == IS_STRING) &#123;</span><br><span class="line">	if (!Z_STRLEN_P(needle)) &#123;</span><br><span class="line">		php_error_docref(NULL, E_WARNING, &quot;Empty needle&quot;);</span><br><span class="line">		RETURN_FALSE;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	found = (char*)php_memnstr(ZSTR_VAL(haystack) + offset,</span><br><span class="line">		                Z_STRVAL_P(needle),</span><br><span class="line">		                Z_STRLEN_P(needle),</span><br><span class="line">		                ZSTR_VAL(haystack) + ZSTR_LEN(haystack));</span><br><span class="line">&#125; else &#123;</span><br><span class="line">	if (php_needle_char(needle, needle_char) != SUCCESS) &#123;</span><br><span class="line">		RETURN_FALSE;</span><br><span class="line">	&#125;</span><br><span class="line">	needle_char[1] = 0;</span><br><span class="line"></span><br><span class="line">	found = (char*)php_memnstr(ZSTR_VAL(haystack) + offset,</span><br><span class="line">						needle_char,</span><br><span class="line">						1,</span><br><span class="line">	                    ZSTR_VAL(haystack) + ZSTR_LEN(haystack));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一个 if(){} else{}, 哎呀，我滴亲娘啊，好像很简单啊，就判断一下要查找的参数 needle 是不是字符串类型, 然后如此如此, 最后返回一个 found。</p>
+<p>而 found 最核心的就是一个真正查找这个字符的位置的函数 <strong>php_memnstr</strong>, 这个函数的实体实际是 <strong>zend_memnstr</strong> 这个函数。</p>
+<p>继续追下去看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">static zend_always_inline const char *</span><br><span class="line">zend_memnstr(const char *haystack, const char *needle, size_t needle_len, const char *end)</span><br><span class="line">&#123;</span><br><span class="line">	const char *p = haystack;</span><br><span class="line">	const char ne = needle[needle_len-1];</span><br><span class="line">	ptrdiff_t off_p; </span><br><span class="line">	size_t off_s;</span><br><span class="line"></span><br><span class="line">	if (needle_len == 1) &#123;</span><br><span class="line">		return (const char *)memchr(p, *needle, (end-p));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	off_p = end - haystack;</span><br><span class="line">	off_s = (off_p &gt; 0) ? (size_t)off_p : 0;</span><br><span class="line"></span><br><span class="line">	if (needle_len &gt; off_s) &#123;</span><br><span class="line">		return NULL;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	if (EXPECTED(off_s &lt; 1024 || needle_len &lt; 9)) &#123;	/* glibc memchr is faster when needle is too short */</span><br><span class="line">		end -= needle_len;</span><br><span class="line"></span><br><span class="line">		while (p &lt;= end) &#123;</span><br><span class="line">			if ((p = (const char *)memchr(p, *needle, (end-p+1))) &amp;&amp; ne == p[needle_len-1]) &#123;</span><br><span class="line">				if (!memcmp(needle, p, needle_len-1)) &#123;</span><br><span class="line">					return p;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			if (p == NULL) &#123;</span><br><span class="line">				return NULL;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			p++;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		return NULL;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		return zend_memnstr_ex(haystack, needle, needle_len, end);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里 zend_memnstr() , 接收四个传进来的参数。 这里可以看到， 当判断出查找的字符串很短，查找的区间也很短时，(为啥是off_s &lt; 1024 或者 needle_len &lt; 9 这两个阀值， 不得而知) 调用的是 glibc 库，这个库是 linux 最底层的 api, 否则就跑去调用 <strong>zend_operators.h</strong> 文件下面的 <strong>ZEND_FASTCALL</strong> 类型的 <strong>zend_memnstr_ex</strong>, 注释里说 glibc 更快。</p>
+<p>ptrdiff_t  这个其实是一个 zend_long 在/intl/collator/collator_sort.c文件下面有这个定义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#if !defined(HAVE_PTRDIFF_T) &amp;&amp; !defined(_PTRDIFF_T_DEFINED)</span><br><span class="line">typedef zend_long ptrdiff_t;</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<p>又跳去搞事情了</p>
+<p>/ext/standard/file.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define FPUTCSV_FLD_CHK(c) memchr(ZSTR_VAL(field_str), c, ZSTR_LEN(field_str))</span><br></pre></td></tr></table></figure>
+<p>其他看不太明白。</p>
+<p>在非字符串类型搜索分支判断里面，还进行了详细的判断。总之: 要搜索的字符应该是字符串或者数值类型。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">static int php_needle_char(zval *needle, char *target)</span><br><span class="line">&#123;</span><br><span class="line">	switch (Z_TYPE_P(needle)) &#123;</span><br><span class="line">		case IS_LONG:</span><br><span class="line">			*target = (char)Z_LVAL_P(needle);</span><br><span class="line">			return SUCCESS;</span><br><span class="line">		case IS_NULL:</span><br><span class="line">		case IS_FALSE:</span><br><span class="line">			*target = &apos;\0&apos;;</span><br><span class="line">			return SUCCESS;</span><br><span class="line">		case IS_TRUE:</span><br><span class="line">			*target = &apos;\1&apos;;</span><br><span class="line">			return SUCCESS;</span><br><span class="line">		case IS_DOUBLE:</span><br><span class="line">			*target = (char)(int)Z_DVAL_P(needle);</span><br><span class="line">			return SUCCESS;</span><br><span class="line">		case IS_OBJECT:</span><br><span class="line">			*target = (char) zval_get_long(needle);</span><br><span class="line">			return SUCCESS;</span><br><span class="line">		default:</span><br><span class="line">			php_error_docref(NULL, E_WARNING, &quot;needle is not a string or an integer&quot;);</span><br><span class="line">			return FAILURE;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后就看到世界的尽头： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (found) &#123;</span><br><span class="line">	RETURN_LONG(found - ZSTR_VAL(haystack));</span><br><span class="line">&#125; else &#123;</span><br><span class="line">	RETURN_FALSE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>找到了, 就返回一个位置，没找到就返回 FALSE 了。<br>伸展运动就做完了。<br>现在回过头来看，好像没那么简单。好多个宏不知道是干啥用的， 还有几个方法。</p>
+<h3 id="细究"><a href="#细究" class="headerlink" title="细究"></a>细究</h3><p>第一个需要搞明白的是 ZSTR_LEN(haystack) 这个宏是干啥用的。  在 zend_string.h 中找到了它的定义： </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ZSTR_VAL(zstr)  (zstr)-&gt;val</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ZSTR_LEN(zstr)  (zstr)-&gt;len</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ZSTR_H(zstr)    (zstr)-&gt;h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ZSTR_HASH(zstr) zend_string_hash_val(zstr)</span></span><br></pre></td></tr></table></figure>
+<p>这个解释在一篇 PHP 字符扩展的<a href="https://juejin.im/entry/583e8f36ac502e006c3605ee" target="_blank" rel="noopener">文章</a>里面有写道：<br>“ <strong>ZSTR_</strong> 开头的宏方法是 <strong>zend_string</strong> 结构专属的方法 <strong>ZSTR_VAL</strong>, <strong>ZSTR_LEN</strong>, <strong>ZSTR_H</strong> 宏方法分别对应 <strong> zend_string</strong> 结构的成员。<br><strong>ZSTR_HASH</strong> 是获取字符串的hash值，如果不存在，就调用 hash 函数生成一个”。</p>
+<h2 id="strpos-的实现思路"><a href="#strpos-的实现思路" class="headerlink" title="strpos 的实现思路"></a>strpos 的实现思路</h2><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>头疼</p>
+<h2 id="有木有启发"><a href="#有木有启发" class="headerlink" title="有木有启发?"></a>有木有启发?</h2><p>木有，感觉 底层写的很难懂。因为中间总是卡住。各种宏定义, 各种指针子子孙孙无穷尽也。</p>
+<!--more-->
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持gitvim</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/wechat.jpg" alt="">
+          </li>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/alipay.jpg" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018-05-01-tools/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018-05-01-php-source-code-basic-string/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

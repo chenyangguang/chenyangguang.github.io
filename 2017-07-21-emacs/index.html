@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Emacs 漫步-- 快捷键入口 | 重剑无锋</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Emacs,编辑器," />
+  
+
+  <meta name="description" content="Space 系列空格键 space 开始的快捷键非常多, 查看方式，敲下 Space 键，瞬间出来第一层以 space 为绑定的快捷键。 之后，还有以关键字打头阵的第二层快捷键。 +f 系列 就是和文件相关的。需要直接在 emacs 内部使用 sudo 命令编辑的文件，可以使用 space + f + E 启动。 +p 系列是和项目有关联的，如 +p 进去，发现 space+p+t 就是查看根目录">
+<meta name="keywords" content="Emacs,编辑器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Emacs 漫步-- 快捷键入口">
+<meta property="og:url" content="http://chenyangguang.github.com/2017-07-21-emacs/index.html">
+<meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="Space 系列空格键 space 开始的快捷键非常多, 查看方式，敲下 Space 键，瞬间出来第一层以 space 为绑定的快捷键。 之后，还有以关键字打头阵的第二层快捷键。 +f 系列 就是和文件相关的。需要直接在 emacs 内部使用 sudo 命令编辑的文件，可以使用 space + f + E 启动。 +p 系列是和项目有关联的，如 +p 进去，发现 space+p+t 就是查看根目录">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://raw.githubusercontent.com/chenyangguang/StudyNotes/master/photos/space.png">
+<meta property="og:image" content="https://github.com/chenyangguang/StudyNotes/blob/master/photos/ctrl-c.png?raw=true">
+<meta property="og:image" content="https://github.com/chenyangguang/StudyNotes/blob/master/photos/ctrl-x.png?raw=true">
+<meta property="og:image" content="https://github.com/chenyangguang/StudyNotes/blob/master/photos/douhao.png?raw=true">
+<meta property="og:updated_time" content="2018-08-12T07:14:27.737Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Emacs 漫步-- 快捷键入口">
+<meta name="twitter:description" content="Space 系列空格键 space 开始的快捷键非常多, 查看方式，敲下 Space 键，瞬间出来第一层以 space 为绑定的快捷键。 之后，还有以关键字打头阵的第二层快捷键。 +f 系列 就是和文件相关的。需要直接在 emacs 内部使用 sudo 命令编辑的文件，可以使用 space + f + E 启动。 +p 系列是和项目有关联的，如 +p 进去，发现 space+p+t 就是查看根目录">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/chenyangguang/StudyNotes/master/photos/space.png">
+
+  
+
+  
+    <link rel="icon" href="https://avatars2.githubusercontent.com/u/7223579?s=400&u=5a9bfec68e7704ff383953eb0d2fb5e257e50de0&v=4">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Space-系列"><span class="toc-text">Space 系列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#f-系列"><span class="toc-text">+f 系列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#p-系列是和项目有关联的，"><span class="toc-text">+p 系列是和项目有关联的，</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b-buffer-系列"><span class="toc-text">+b buffer 系列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#g-git-系列"><span class="toc-text">+g git 系列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#h-帮助"><span class="toc-text">+h 帮助</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shell-命令快捷键"><span class="toc-text">+! shell 命令快捷键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#n-数字窗口切换"><span class="toc-text">+n 数字窗口切换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ctrl-c-系列"><span class="toc-text">Ctrl+c 系列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ctrl-x-系列"><span class="toc-text">Ctrl+x 系列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#逗号系列"><span class="toc-text">, 逗号系列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-emacs" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Emacs 漫步-- 快捷键入口</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.07.21</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Gitvim</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="Space-系列"><a href="#Space-系列" class="headerlink" title="Space 系列"></a>Space 系列</h2><p>空格键 space 开始的快捷键非常多, 查看方式，敲下 Space 键，瞬间出来第一层以 space 为绑定的快捷键。 之后，还有以关键字打头阵的第二层快捷键。</p>
+<h3 id="f-系列"><a href="#f-系列" class="headerlink" title="+f 系列"></a>+f 系列</h3><p> 就是和文件相关的。需要直接在 emacs 内部使用 sudo 命令编辑的文件，可以使用 <em>space + f + E</em> 启动。</p>
+<h3 id="p-系列是和项目有关联的，"><a href="#p-系列是和项目有关联的，" class="headerlink" title="+p 系列是和项目有关联的，"></a>+p 系列是和项目有关联的，</h3><p>如 +p 进去，发现 <em>space+p+t</em> 就是查看根目录的 nerdtree 文件目录管理。</p>
+<h3 id="b-buffer-系列"><a href="#b-buffer-系列" class="headerlink" title="+b buffer 系列"></a>+b buffer 系列</h3><p>直接 space+b+b 最近编辑过的文件的 buffer 一览无余。</p>
+<h3 id="g-git-系列"><a href="#g-git-系列" class="headerlink" title="+g git 系列"></a>+g git 系列</h3><p>各种操作 git 命令的快捷键。下雨天，magit 和 emacs 更配哟。</p>
+<h3 id="h-帮助"><a href="#h-帮助" class="headerlink" title="+h 帮助"></a>+h 帮助</h3><p>space+h 是各种 emacs 快捷键的前置快捷键</p>
+<h3 id="shell-命令快捷键"><a href="#shell-命令快捷键" class="headerlink" title="+! shell 命令快捷键"></a>+! shell 命令快捷键</h3><p>直接执行 shell 命令。So cool~</p>
+<h3 id="n-数字窗口切换"><a href="#n-数字窗口切换" class="headerlink" title="+n 数字窗口切换"></a>+n 数字窗口切换</h3><p>就是以窗口序号 1-n 之间的切换。</p>
+<p><img src="https://raw.githubusercontent.com/chenyangguang/StudyNotes/master/photos/space.png" alt="space快捷键大观园"><br><a id="more"></a></p>
+<h2 id="Ctrl-c-系列"><a href="#Ctrl-c-系列" class="headerlink" title="Ctrl+c 系列"></a>Ctrl+c 系列</h2><p>ctrl + c 系列， 有大量 org-mode 和 markdown 的玩法。<br>比如 <em>ctrl+c+t</em> 进行 todo-list 的进度管理</p>
+<p><img src="https://github.com/chenyangguang/StudyNotes/blob/master/photos/ctrl-c.png?raw=true" alt="ctrl+c 系列快捷键"></p>
+<h2 id="Ctrl-x-系列"><a href="#Ctrl-x-系列" class="headerlink" title="Ctrl+x 系列"></a>Ctrl+x 系列</h2><p><img src="https://github.com/chenyangguang/StudyNotes/blob/master/photos/ctrl-x.png?raw=true" alt="ctrl+x系列"></p>
+<h2 id="逗号系列"><a href="#逗号系列" class="headerlink" title=", 逗号系列"></a>, 逗号系列</h2><p><img src="https://github.com/chenyangguang/StudyNotes/blob/master/photos/douhao.png?raw=true" alt="逗号系列"><br>比如快速的插入一个 markdown 格式图片使用 <em>,+i+i</em><br><!--more--></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>一句话: 玩溜了，Emacs 之内，舒服。</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持gitvim</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/wechat.jpg" alt="">
+          </li>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/alipay.jpg" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017-05-01-hello-world/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017-08-15-emacs-org/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

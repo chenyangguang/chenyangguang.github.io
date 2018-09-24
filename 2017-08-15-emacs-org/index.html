@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Emacs 漫步-- org-mode 二三事之 link | 重剑无锋</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Emacs,编辑器," />
+  
+
+  <meta name="description" content="org-linkemacs 内使用 Alt + X 调起 helm 界面。 helm 界面可以在输入模式下直接调起。不像vim。 输入 org-link 可以看到各种有关 org-mode 下 link 相关的操作。helm 非常友好，只要输入相关关键字的命令名称，就给列出来所有包含这个关键字的命令了。而且输入这些关键字查询的时候, 可以不分次序! org-mode 下的 link 是这样款式的">
+<meta name="keywords" content="Emacs,编辑器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Emacs 漫步-- org-mode 二三事之 link">
+<meta property="og:url" content="http://chenyangguang.github.com/2017-08-15-emacs-org/index.html">
+<meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="org-linkemacs 内使用 Alt + X 调起 helm 界面。 helm 界面可以在输入模式下直接调起。不像vim。 输入 org-link 可以看到各种有关 org-mode 下 link 相关的操作。helm 非常友好，只要输入相关关键字的命令名称，就给列出来所有包含这个关键字的命令了。而且输入这些关键字查询的时候, 可以不分次序! org-mode 下的 link 是这样款式的">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-12T07:14:27.737Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Emacs 漫步-- org-mode 二三事之 link">
+<meta name="twitter:description" content="org-linkemacs 内使用 Alt + X 调起 helm 界面。 helm 界面可以在输入模式下直接调起。不像vim。 输入 org-link 可以看到各种有关 org-mode 下 link 相关的操作。helm 非常友好，只要输入相关关键字的命令名称，就给列出来所有包含这个关键字的命令了。而且输入这些关键字查询的时候, 可以不分次序! org-mode 下的 link 是这样款式的">
+
+  
+
+  
+    <link rel="icon" href="https://avatars2.githubusercontent.com/u/7223579?s=400&u=5a9bfec68e7704ff383953eb0d2fb5e257e50de0&v=4">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#org-link"><span class="toc-text">org-link</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-emacs-org" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Emacs 漫步-- org-mode 二三事之 link</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.08.15</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Gitvim</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="org-link"><a href="#org-link" class="headerlink" title="org-link"></a>org-link</h2><p>emacs 内使用 Alt + X 调起 helm 界面。 helm 界面可以在输入模式下直接调起。不像vim。 输入 org-link 可以看到各种有关 org-mode 下 link 相关的操作。helm 非常友好，只要输入相关关键字的命令名称，就给列出来所有包含这个关键字的命令了。而且输入这些关键字查询的时候, 可以不分次序!</p>
+<p>org-mode 下的 link 是这样款式的 [[<a href="http://www.gnu.org/software/emacs/][GNU" target="_blank" rel="noopener">http://www.gnu.org/software/emacs/][GNU</a> Emacs]], <a href="markdown的链接方式">http://wowubuntu.com/markdown/</a>, 大同小异。正常情况下 org-link 带有三个中括号，内部第一个中括号是链接地址，可以是文件路径，图片地址，http 超链接，第二个中括号是这个链接的描述，描述可以为空 如 [[<a href="http://www.gitvim.com]]。" target="_blank" rel="noopener">http://www.gitvim.com]]。</a></p>
+<p>列举几个常用的 link 操作: </p>
+<ol>
+<li><p>org-insert-link<br>顾名思义， 添加一个带有链接和描述的超链接文案, 先输入 link, 然后是 description。</p>
+</li>
+<li><p>org-toggle-link-display<br>可以切换 link 和 description 之间的显示, 方便修改描述和链接地址。 </p>
+</li>
+<li><p>org-store-link<br>用于…这个诡异</p>
+</li>
+<li><p>org-previous-link &amp; org-next-link<br>双胞胎, 前后跳转到链接的命令。</p>
+</li>
+</ol>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>Emacs 这种程序国之重器, 思量之，适可而止。</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持gitvim</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/wechat.jpg" alt="">
+          </li>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/alipay.jpg" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017-07-21-emacs/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017-09-01-Out-of-Control/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

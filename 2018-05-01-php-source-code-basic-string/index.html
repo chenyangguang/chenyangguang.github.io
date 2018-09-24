@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>php 源码 (宏) | 重剑无锋</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="php," />
+  
+
+  <meta name="description" content="zend 基础类型- 宏zend 底层有相当多的宏, 特别是 php7 系列, 源码比 php 5 有不少结构方面的改变。所以不去研究 php5 的 zend 了, 直接往后研究的源码都主要看最新的 php-src。 zend 系列的宏主要分布在 zend_API.h, zend_types.h, zend_operators.h 里面。">
+<meta name="keywords" content="php">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php 源码 (宏)">
+<meta property="og:url" content="http://chenyangguang.github.com/2018-05-01-php-source-code-basic-string/index.html">
+<meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="zend 基础类型- 宏zend 底层有相当多的宏, 特别是 php7 系列, 源码比 php 5 有不少结构方面的改变。所以不去研究 php5 的 zend 了, 直接往后研究的源码都主要看最新的 php-src。 zend 系列的宏主要分布在 zend_API.h, zend_types.h, zend_operators.h 里面。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-12T07:14:27.740Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="php 源码 (宏)">
+<meta name="twitter:description" content="zend 基础类型- 宏zend 底层有相当多的宏, 特别是 php7 系列, 源码比 php 5 有不少结构方面的改变。所以不去研究 php5 的 zend 了, 直接往后研究的源码都主要看最新的 php-src。 zend 系列的宏主要分布在 zend_API.h, zend_types.h, zend_operators.h 里面。">
+
+  
+
+  
+    <link rel="icon" href="https://avatars2.githubusercontent.com/u/7223579?s=400&u=5a9bfec68e7704ff383953eb0d2fb5e257e50de0&v=4">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#zend-基础类型-宏"><span class="toc-text">zend 基础类型- 宏</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#zval"><span class="toc-text">zval</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-php-source-code-basic-string" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">php 源码 (宏)</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.05.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Gitvim</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="zend-基础类型-宏"><a href="#zend-基础类型-宏" class="headerlink" title="zend 基础类型- 宏"></a>zend 基础类型- 宏</h2><p>zend 底层有相当多的宏, 特别是 php7 系列, 源码比 php 5 有不少结构方面的改变。所以不去研究 php5 的 zend 了, 直接往后研究的源码都主要看最新的 <strong>php-src</strong>。 zend 系列的宏主要分布在 zend_API.h, zend_types.h, zend_operators.h 里面。<br><a id="more"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">typedef struct _zend_object_handlers zend_object_handlers;</span><br><span class="line">typedef struct _zend_class_entry     zend_class_entry;</span><br><span class="line">typedef union  _zend_function        zend_function;</span><br><span class="line">typedef struct _zend_execute_data    zend_execute_data;</span><br><span class="line"></span><br><span class="line">typedef struct _zval_struct     zval;</span><br><span class="line"></span><br><span class="line">typedef struct _zend_refcounted zend_refcounted;</span><br><span class="line">typedef struct _zend_string     zend_string;</span><br><span class="line">typedef struct _zend_array      zend_array;</span><br><span class="line">typedef struct _zend_object     zend_object;</span><br><span class="line">typedef struct _zend_resource   zend_resource;</span><br><span class="line">typedef struct _zend_reference  zend_reference;</span><br><span class="line">typedef struct _zend_ast_ref    zend_ast_ref;</span><br><span class="line">typedef struct _zend_ast        zend_ast;</span><br></pre></td></tr></table></figure>
+<p>放眼望去，似曾相识燕归来！ </p>
+<h3 id="zval"><a href="#zval" class="headerlink" title="zval"></a>zval</h3><p>zval 不就是大名鼎鼎的 php 变量容器么！源码内使用频率相当高。一搜 php-src，超过 9999 次现身!<br>可想而知， zval 肯定是灰常重要的。<br>解开这个结构体，发现是这个模样:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">struct _zval_struct &#123;</span><br><span class="line">	zend_value        value;			/* value */</span><br><span class="line">	union &#123;</span><br><span class="line">		struct &#123;</span><br><span class="line">			ZEND_ENDIAN_LOHI_4(</span><br><span class="line">				zend_uchar    type,			/* active type */</span><br><span class="line">				zend_uchar    type_flags,</span><br><span class="line">				zend_uchar    const_flags,</span><br><span class="line">				zend_uchar    reserved)	    /* call info for EX(This) */</span><br><span class="line">		&#125; v;</span><br><span class="line">		uint32_t type_info;</span><br><span class="line">	&#125; u1;</span><br><span class="line">	union &#123;</span><br><span class="line">		uint32_t     next;                 /* hash collision chain */</span><br><span class="line">		uint32_t     cache_slot;           /* literal cache slot */</span><br><span class="line">		uint32_t     lineno;               /* line number (for ast nodes) */</span><br><span class="line">		uint32_t     num_args;             /* arguments number for EX(This) */</span><br><span class="line">		uint32_t     fe_pos;               /* foreach position */</span><br><span class="line">		uint32_t     fe_iter_idx;          /* foreach iterator index */</span><br><span class="line">		uint32_t     access_flags;         /* class constant access flags */</span><br><span class="line">		uint32_t     property_guard;       /* single property guard */</span><br><span class="line">		uint32_t     extra;                /* not further specified */</span><br><span class="line">	&#125; u2;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>分为三个部分， zend_value, u1, u2 三个联合体。<br>跟踪 zend_value 看看, </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">typedef union _zend_value &#123;</span><br><span class="line">	zend_long         lval;				/* long value */</span><br><span class="line">	double            dval;				/* double value */</span><br><span class="line">	zend_refcounted  *counted;</span><br><span class="line">	zend_string      *str;</span><br><span class="line">	zend_array       *arr;</span><br><span class="line">	zend_object      *obj;</span><br><span class="line">	zend_resource    *res;</span><br><span class="line">	zend_reference   *ref;</span><br><span class="line">	zend_ast_ref     *ast;</span><br><span class="line">	zval             *zv;</span><br><span class="line">	void             *ptr;</span><br><span class="line">	zend_class_entry *ce;</span><br><span class="line">	zend_function    *func;</span><br><span class="line">	struct &#123;</span><br><span class="line">		uint32_t w1;</span><br><span class="line">		uint32_t w2;</span><br><span class="line">	&#125; ww;</span><br><span class="line">&#125; zend_value;</span><br></pre></td></tr></table></figure>
+<p>跋山涉水， zend_value 这个联合体可以存放所有可能的 php 数据类型数据。 数值分: 长整型或者双精度浮点型。 剩下的基本是指针值。有计数器指针，字符串指针，数组指针，对象指针，资源指针，引用指针, 空指针， 类指针，函数指针。 </p>
+<p>而 u1 里面又是啥东东？ ZEND_ENDIAN_LOHI_4()这个东西, </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#ifdef WORDS_BIGENDIAN</span><br><span class="line"># define ZEND_ENDIAN_LOHI(lo, hi)          hi; lo;</span><br><span class="line"># define ZEND_ENDIAN_LOHI_3(lo, mi, hi)    hi; mi; lo;</span><br><span class="line"># define ZEND_ENDIAN_LOHI_4(a, b, c, d)    d; c; b; a;</span><br><span class="line"># define ZEND_ENDIAN_LOHI_C(lo, hi)        hi, lo</span><br><span class="line"># define ZEND_ENDIAN_LOHI_C_3(lo, mi, hi)  hi, mi, lo,</span><br><span class="line"># define ZEND_ENDIAN_LOHI_C_4(a, b, c, d)  d, c, b, a</span><br><span class="line">#else</span><br><span class="line"># define ZEND_ENDIAN_LOHI(lo, hi)          lo; hi;</span><br><span class="line"># define ZEND_ENDIAN_LOHI_3(lo, mi, hi)    lo; mi; hi;</span><br><span class="line"># define ZEND_ENDIAN_LOHI_4(a, b, c, d)    a; b; c; d;</span><br><span class="line"># define ZEND_ENDIAN_LOHI_C(lo, hi)        lo, hi</span><br><span class="line"># define ZEND_ENDIAN_LOHI_C_3(lo, mi, hi)  lo, mi, hi,</span><br><span class="line"># define ZEND_ENDIAN_LOHI_C_4(a, b, c, d)  a, b, c, d</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<p>这些 哆瑞咪发嗦啦奇多, 暂时不知道做什么。不过 type, type_flags, const_flags, reserved 按照字面意思应该包含激活的类型，类型标志，常量标记，保留值。所以 u1 其实是存的类型相关的信息值。</p>
+<p>u2 里面是存放一个额外的数据, 有介绍说是一般情况下用不到？这个<a href="http://nikic.github.io/" target="_blank" rel="noopener">博客</a>说的。</p>
+<p>这里面有几个疑问仍未确定: </p>
+<ol>
+<li>zend_ast_ref 是类型数据？ </li>
+<li>又有一个 zval! 这个是为什么？ 这个效果是不是这样： 我这个值里面还可以放任何类型的数据！php 就是这样实现存放数据的么？</li>
+<li>php 官方文档给出的是基本类型是 Boolean 布尔类型， Integer整型，Float 浮点型，String 字符串，Array 数组，Object 对象，Resource 资源类型，NULL, CallBack/Callable类型。</li>
+<li>ww 这个结构体是干啥用的？莫非是存放 CallBack/Callable 类型的数据？</li>
+</ol>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>PHP 底层没有看起来的那么简单。有些构造可能是巧妙的，但是目前还领会不到。</p>
+<!--more-->
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持gitvim</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/wechat.jpg" alt="">
+          </li>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/alipay.jpg" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018-05-01-php-source-code-appreciation/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018-05-19-arch/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>设计模式-责任链模式 | 重剑无锋</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="设计模式," />
+  
+
+  <meta name="description" content="0x00 责任链模式定义Avoid coupling the sender of a request to its rceiver by giving more than one object a chance to handle the request. Chain the receiving objects and pass the request along the chain until">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式-责任链模式">
+<meta property="og:url" content="http://chenyangguang.github.com/2017-11-22-chainOfResponsibility/index.html">
+<meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="0x00 责任链模式定义Avoid coupling the sender of a request to its rceiver by giving more than one object a chance to handle the request. Chain the receiving objects and pass the request along the chain until">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-12T07:14:27.736Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式-责任链模式">
+<meta name="twitter:description" content="0x00 责任链模式定义Avoid coupling the sender of a request to its rceiver by giving more than one object a chance to handle the request. Chain the receiving objects and pass the request along the chain until">
+
+  
+
+  
+    <link rel="icon" href="https://avatars2.githubusercontent.com/u/7223579?s=400&u=5a9bfec68e7704ff383953eb0d2fb5e257e50de0&v=4">
+  
+
+  <link href="/css/styles.css?v=c114cben" rel="stylesheet">
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-责任链模式"><span class="toc-text">0x00 责任链模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#定义"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重点"><span class="toc-text">重点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优点"><span class="toc-text">优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缺点"><span class="toc-text">缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#留意"><span class="toc-text">留意</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php-实现"><span class="toc-text">php 实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-小结"><span class="toc-text">0x01 小结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-chainOfResponsibility" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">设计模式-责任链模式</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.11.22</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Gitvim</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="0x00-责任链模式"><a href="#0x00-责任链模式" class="headerlink" title="0x00 责任链模式"></a>0x00 责任链模式</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>Avoid coupling the sender of a request to its rceiver by giving more than one object a chance to handle the request. Chain the receiving objects and pass the request along the chain until an object handles it.(使多个对象都有机会处理请求，从而避免了请求的发送者和接受者之间的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有对象处理它为止。)</strong></p>
+<a id="more"></a>
+<h2 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h2><p>其重心和核心都在“链”上，有一条链去处理相似的请求在链中决定谁来处理这个请求，并返回相应的结果，多个具体处理者 ConcreteHandler 组成了责任者模式的核心”链”。</p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>将请求和处理分开。请求者只需递交请求到窗口，不关心谁在处理，而处理者只关心自己的处理部分，然后提交下一级处理者，直至结束。灵活解耦。</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li>性能, 每个请求从链头遍历到链尾, 当链较长时，性能会有问题。</li>
+<li>调试，这个是否只能二分断点排查了。。。。。。</li>
+</ul>
+<h2 id="留意"><a href="#留意" class="headerlink" title="留意"></a>留意</h2><p>对链的节点数量进行限制，避免超长链的现象发生。可在 setNext()方法中判断</p>
+<h2 id="php-实现"><a href="#php-实现" class="headerlink" title="php 实现"></a>php 实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">abstract class Handler &#123;</span><br><span class="line">    private  $nextHandler;</span><br><span class="line">    public final function job(Request $_request) &#123;</span><br><span class="line">        $reponse = null;</span><br><span class="line">        if ($this-&gt;getEmerLevel() == $_request-&gt;getRequestLevel()) &#123;</span><br><span class="line">            $response = $this-&gt;report($_request);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if ($this-&gt;nextHandler != null) &#123;</span><br><span class="line">                $response = $this-&gt;nextHandler-&gt;job($_request);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return $response;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function setNext(Handler $_handler) &#123;</span><br><span class="line">        $this-&gt;nextHandler = $_handler;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 处理紧急程度</span><br><span class="line">    abstract function getEmerLevel();</span><br><span class="line"></span><br><span class="line">    // 处理任务</span><br><span class="line">    abstract function report();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Level &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Request  &#123;</span><br><span class="line">    public function getRequestLevel() &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Response &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 三个具体处理者</span><br><span class="line">class ConcreteHandler1 extends Handler &#123;</span><br><span class="line">    protected function report(Request $_request) &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected function getEmerLevel() &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class ConcreteHandler2 extends Handler &#123;</span><br><span class="line">    protected function report(Request $_request) &#123;</span><br><span class="line">        return null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">    protected function getEmerLevel() &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class ConcreteHandler3 extends Handler &#123;</span><br><span class="line">    protected function report(Request $_request) &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">    protected function getEmerLevel() &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 场景类</span><br><span class="line">class Client &#123;</span><br><span class="line">    public static function main() &#123;</span><br><span class="line">        $handler1 = new ConcreteHandler1();</span><br><span class="line">        $handler2 = new ConcreteHandler2();</span><br><span class="line">        $handler3 = new ConcreteHandler3();</span><br><span class="line">        $handler1-&gt;setNext($handler2);</span><br><span class="line">        $handler2-&gt;setNext($handler3);</span><br><span class="line">        $res = $handler1-&gt;job(new Request());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="0x01-小结"><a href="#0x01-小结" class="headerlink" title="0x01 小结"></a>0x01 小结</h1><p>在责任者模式的核心是: 发起的一个请求直接投给第一个处理者, 依次传递给下一层处理者，直至最终返回结构, 整个请求的处理过程被屏蔽起来。</p>
+<!--more-->
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持gitvim</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>微信扫一扫</span>
+            
+            <img src="/images/wechat.jpg" alt="">
+          </li>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/alipay.jpg" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017-11-21-command/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017-11-23-decorator/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+
+   
+      <div class="git"></div>
+   
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
