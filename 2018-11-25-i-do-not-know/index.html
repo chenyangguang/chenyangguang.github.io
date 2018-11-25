@@ -7,26 +7,29 @@
 <head>
   <meta charset="utf-8">
   
-  <title>源码 | 重剑无锋</title>
+  <title>使用org-mode管理自己的日常计划目标 | 重剑无锋</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="php," />
+    <meta name="keywords" content="Emacs,我不知道到事," />
   
 
-  <meta name="description" content="源码看累了源码看着看着，会产生一种疑惑： 我为什么要看源码？当初我之所以到底层看源码，完全是好奇，想知道它后面运行的机制。但是，最近开始疲劳了。忽然觉得：这样是不是没什么必要？因为，一个好的赛车手，未必就能造车，或者修车。但他可以将车玩的很溜, 上演速度与激情！而一个造车师傅，或者修车师傅，却不一定能在 F1 赛道上撒的开。那么，如果满足了好奇心之后，还有必要去深究底层的实现逻辑么？">
-<meta name="keywords" content="php">
+  <meta name="description" content="org-mode杂事使用org-mode有些时日了。整理一下最简单的日常使用方式。 自助服务因为我是用的是 spacemacs, 所以如果是 org-mode 相关的指令，是可以直接使用 Alt+X 调起这些命令去执行的。或者直接 Ctrl+h org 看下帮助文档。 GTDGTD就是Getting Things Done。以目标为导向去完成计划。可以配合番茄闹钟工作，更有疗效。 我的org-mo">
+<meta name="keywords" content="Emacs,我不知道到事">
 <meta property="og:type" content="article">
-<meta property="og:title" content="源码">
-<meta property="og:url" content="http://chenyangguang.github.com/2018-05-01-tools/index.html">
+<meta property="og:title" content="使用org-mode管理自己的日常计划目标">
+<meta property="og:url" content="http://chenyangguang.github.com/2018-11-25-i-do-not-know/index.html">
 <meta property="og:site_name" content="重剑无锋">
-<meta property="og:description" content="源码看累了源码看着看着，会产生一种疑惑： 我为什么要看源码？当初我之所以到底层看源码，完全是好奇，想知道它后面运行的机制。但是，最近开始疲劳了。忽然觉得：这样是不是没什么必要？因为，一个好的赛车手，未必就能造车，或者修车。但他可以将车玩的很溜, 上演速度与激情！而一个造车师傅，或者修车师傅，却不一定能在 F1 赛道上撒的开。那么，如果满足了好奇心之后，还有必要去深究底层的实现逻辑么？">
+<meta property="og:description" content="org-mode杂事使用org-mode有些时日了。整理一下最简单的日常使用方式。 自助服务因为我是用的是 spacemacs, 所以如果是 org-mode 相关的指令，是可以直接使用 Alt+X 调起这些命令去执行的。或者直接 Ctrl+h org 看下帮助文档。 GTDGTD就是Getting Things Done。以目标为导向去完成计划。可以配合番茄闹钟工作，更有疗效。 我的org-mo">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-12T07:14:27.741Z">
+<meta property="og:image" content="http://chenyangguang.github.com/2018-11-25-i-do-not-know/org.png">
+<meta property="og:image" content="http://chenyangguang.github.com/2018-11-25-i-do-not-know/my-org.png">
+<meta property="og:updated_time" content="2018-11-25T14:42:30.596Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="源码">
-<meta name="twitter:description" content="源码看累了源码看着看着，会产生一种疑惑： 我为什么要看源码？当初我之所以到底层看源码，完全是好奇，想知道它后面运行的机制。但是，最近开始疲劳了。忽然觉得：这样是不是没什么必要？因为，一个好的赛车手，未必就能造车，或者修车。但他可以将车玩的很溜, 上演速度与激情！而一个造车师傅，或者修车师傅，却不一定能在 F1 赛道上撒的开。那么，如果满足了好奇心之后，还有必要去深究底层的实现逻辑么？">
+<meta name="twitter:title" content="使用org-mode管理自己的日常计划目标">
+<meta name="twitter:description" content="org-mode杂事使用org-mode有些时日了。整理一下最简单的日常使用方式。 自助服务因为我是用的是 spacemacs, 所以如果是 org-mode 相关的指令，是可以直接使用 Alt+X 调起这些命令去执行的。或者直接 Ctrl+h org 看下帮助文档。 GTDGTD就是Getting Things Done。以目标为导向去完成计划。可以配合番茄闹钟工作，更有疗效。 我的org-mo">
+<meta name="twitter:image" content="http://chenyangguang.github.com/2018-11-25-i-do-not-know/org.png">
 
   
 
@@ -112,20 +115,20 @@
 
   <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#源码看累了"><span class="toc-text">源码看累了</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#org-mode杂事"><span class="toc-text">org-mode杂事</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#自助服务"><span class="toc-text">自助服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GTD"><span class="toc-text">GTD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#我的org-mode在干什么"><span class="toc-text">我的org-mode在干什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#keys"><span class="toc-text">keys</span></a></li></ol></li></ol>
   </div>
 
 
 
 <div class="content content-post CENTER">
-   <article id="post-tools" class="article article-type-post" itemprop="blogPost">
+   <article id="post-i-do-not-know" class="article article-type-post" itemprop="blogPost">
   <header class="article-header">
-    <h1 class="post-title">源码</h1>
+    <h1 class="post-title">使用org-mode管理自己的日常计划目标</h1>
 
     <div class="article-meta">
       <span>
         <i class="icon-calendar"></i>
-        <span>2018.05.01</span>
+        <span>2018.11.25</span>
       </span>
 
       
@@ -153,7 +156,11 @@
 
   <div class="article-content">
     
-      <h2 id="源码看累了"><a href="#源码看累了" class="headerlink" title="源码看累了"></a>源码看累了</h2><p>源码看着看着，会产生一种疑惑： 我为什么要看源码？当初我之所以到底层看源码，完全是好奇，想知道它后面运行的机制。但是，最近开始疲劳了。忽然觉得：这样是不是没什么必要？因为，一个好的赛车手，未必就能造车，或者修车。但他可以将车玩的很溜, 上演速度与激情！而一个造车师傅，或者修车师傅，却不一定能在 F1 赛道上撒的开。<br>那么，如果满足了好奇心之后，还有必要去深究底层的实现逻辑么？</p>
+      <h2 id="org-mode杂事"><a href="#org-mode杂事" class="headerlink" title="org-mode杂事"></a>org-mode杂事</h2><p>使用org-mode有些时日了。整理一下最简单的日常使用方式。</p>
+<h3 id="自助服务"><a href="#自助服务" class="headerlink" title="自助服务"></a>自助服务</h3><p>因为我是用的是 <a href="http://spacemacs.org/" title="spacemacs" target="_blank" rel="noopener">spacemacs</a>, 所以如果是 <strong>org-mode</strong> 相关的指令，是可以直接使用 <strong>Alt+X</strong> 调起这些命令去执行的。或者直接 <strong>Ctrl+h org</strong> 看下帮助文档。<br><img src="/2018-11-25-i-do-not-know/org.png" alt="org-help" title="org-help"></p>
+<h3 id="GTD"><a href="#GTD" class="headerlink" title="GTD"></a>GTD</h3><p>GTD就是Getting Things Done。以目标为导向去完成计划。可以配合番茄闹钟工作，更有疗效。</p>
+<h3 id="我的org-mode在干什么"><a href="#我的org-mode在干什么" class="headerlink" title="我的org-mode在干什么"></a>我的org-mode在干什么</h3><p>我每天的计划是每天做三件值得做的事，外加一个小结。其中每件事按照A、B、C分三个由高到低的轻重缓急层级，并且设置开始做的时间点和截止时间点，完成时会补录结束之间。Like this:<br><img src="/2018-11-25-i-do-not-know/my-org.png" alt="my-org" title="my-org-png"></p>
+<h3 id="keys"><a href="#keys" class="headerlink" title="keys"></a>keys</h3><p><a href="https://lucaseo.github.io/2018/02/20/howtodo-20180220-1/" title="here" target="_blank" rel="noopener">Here</a> 有一篇文章教怎么在 <em>Hero</em> 的博客的 <strong>source/_post/对应文章路径</strong> 中 弄进来一张自定义的图片。</p>
 
     
   </div>
@@ -191,10 +198,10 @@
 
    
   <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2018-04-26-lua-lumen/">
+    <a class="show pull-left" href="/2018-11-11-weekenday/">
         <i class="icon icon-angle-left"></i>
     </a>
-    <a class="show pull-right" href="/2018-05-01-php-source-code-appreciation/">
+    <a class="hide pull-right" href="/">
         <i class="icon icon-angle-right"></i>
     </a>
   </div>
