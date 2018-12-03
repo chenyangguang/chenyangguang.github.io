@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="重剑无锋">
 <meta property="og:description" content="周末发版周六上线, 大版本的升级。虽说不是太大波动但也是一波三折。做个记录吧。可以改进的地方当然还是很多的。昨天还想着总结一下的。但是昨天其他部门折腾到晚上 22:00 多。回到家都 11:30 了, 当时没来得及仔细回顾。洗洗睡了。今天来回顾一下都用了哪些上线操作技巧。 就位8:30 我就已经就位了。基本上进入上线的节奏了。但是同时上线的其他部门的四个部门还没有准备好。我需要等其中一个部门的人将">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-02T15:38:27.958Z">
+<meta property="og:updated_time" content="2018-12-03T13:39:04.980Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="考验你的时候到了">
 <meta name="twitter:description" content="周末发版周六上线, 大版本的升级。虽说不是太大波动但也是一波三折。做个记录吧。可以改进的地方当然还是很多的。昨天还想着总结一下的。但是昨天其他部门折腾到晚上 22:00 多。回到家都 11:30 了, 当时没来得及仔细回顾。洗洗睡了。今天来回顾一下都用了哪些上线操作技巧。 就位8:30 我就已经就位了。基本上进入上线的节奏了。但是同时上线的其他部门的四个部门还没有准备好。我需要等其中一个部门的人将">
@@ -184,7 +184,7 @@
 <p>这下导入了。之后开始加字段,<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE X ADD COLUMN xxx VARCHAR(50) NOT NULL COMMENT &apos;XXX&apos;;</span><br><span class="line">UPDATE TABLE ...</span><br><span class="line">ALTER TABLE ADD INDEX (`YYY`);</span><br><span class="line">...</span><br><span class="line"># 还有一顿的操作, 按流程文档走。</span><br></pre></td></tr></table></figure></p>
 <p>初始化历时 30 分钟左右。<br>此时已经 <em>16:30</em> 左右了! 根据上线次序，必须其他三个部门全部上线完，我才能上线。但是其中的一个部门还在初始化。<br>然后继续等。结果，等到了晚上快 20:00 点，才等来了消息: 其他部门初始化完成了，这下我才可上线。在这中间，我又把本次接入的出入的接口加上监控项目。这样，代码一上线，我就可以开始变看日志，边看监控发现存在的问题了。</p>
 <h3 id="上线"><a href="#上线" class="headerlink" title="上线"></a>上线</h3><p>于是我用了 7 秒就把后端所有的镜像部署上去了。为啥？因为我在等待其他部门操作期间，把所有的镜像都准备好了。万事俱备，只欠灭霸的一个响指了。哦，好像哪里不对啊。<br>紧接着又上线前端的容器。<br>看日志，发现有一个错误级别的。反馈是数据库有一个字段找不到！这个字段是第八版本中修改的！赶紧加上。这回后续时间内那个错误级别日志消失了。<br>然后联合线上回归。又发现几个问题。马上跟进！<br>原来其中有一个问题是我这边的，有一个表的有关时间字段设置的 int(11) 没有 UNSIGNED ! 长度不够。所以我改了一下这个字段长度。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE table_name CHANGE `x_column` `x_column` int(11)  UNSIGNED  NOT NULL DEFAULT 0 COMMENT &apos;过期时间&apos;;</span><br></pre></td></tr></table></figure></p>
-<p>然后再验，还是还够。原来另一个接口返回的时间戳是精确到毫秒级的时间戳， 从 2147483647 扩大到 4294967295还是不够。所以我改为 bigint 之后才行。<br>其他问题，协助他们验证的线上的 bug 进行日志跟进。依次都化解了。</p>
+<p>然后再验，还是不够。原来另一个接口返回的时间戳是精确到毫秒级的时间戳， 从 2147483647 扩大到 4294967295还是不够。所以我改为 bigint 之后才行。<br>其他问题，协助他们验证的线上的 bug 进行日志跟进。依次都化解了。</p>
 <p>验证完，都已经 22:00 了。<br>然后就坐地铁回家了!</p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ol>
 <li>永远准备好应对任何来自生产环境的异常问题。生产环境和测试环境不可能完全一致, 只能无限逼近。 </li>
