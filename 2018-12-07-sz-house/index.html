@@ -7,26 +7,26 @@
 <head>
   <meta charset="utf-8">
   
-  <title>源码 | 重剑无锋</title>
+  <title>go 爬虫爬取深圳房源信息 | 重剑无锋</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="php," />
+    <meta name="keywords" content="爬虫," />
   
 
-  <meta name="description" content="源码看累了源码看着看着，会产生一种疑惑： 我为什么要看源码？当初我之所以到底层看源码，完全是好奇，想知道它后面运行的机制。但是，最近开始疲劳了。忽然觉得：这样是不是没什么必要？因为，一个好的赛车手，未必就能造车，或者修车。但他可以将车玩的很溜, 上演速度与激情！而一个造车师傅，或者修车师傅，却不一定能在 F1 赛道上撒的开。那么，如果满足了好奇心之后，还有必要去深究底层的实现逻辑么？">
-<meta name="keywords" content="php">
+  <meta name="description" content="没事就捣鼓一下爬虫，弄点数据玩一下吧。今天就拿下深圳房源来弄一下。花了半小时加调试正确。深圳房源价格概况">
+<meta name="keywords" content="爬虫">
 <meta property="og:type" content="article">
-<meta property="og:title" content="源码">
-<meta property="og:url" content="http://chenyangguang.github.com/2018-05-01-tools/index.html">
+<meta property="og:title" content="go 爬虫爬取深圳房源信息">
+<meta property="og:url" content="http://chenyangguang.github.com/2018-12-07-sz-house/index.html">
 <meta property="og:site_name" content="重剑无锋">
-<meta property="og:description" content="源码看累了源码看着看着，会产生一种疑惑： 我为什么要看源码？当初我之所以到底层看源码，完全是好奇，想知道它后面运行的机制。但是，最近开始疲劳了。忽然觉得：这样是不是没什么必要？因为，一个好的赛车手，未必就能造车，或者修车。但他可以将车玩的很溜, 上演速度与激情！而一个造车师傅，或者修车师傅，却不一定能在 F1 赛道上撒的开。那么，如果满足了好奇心之后，还有必要去深究底层的实现逻辑么？">
+<meta property="og:description" content="没事就捣鼓一下爬虫，弄点数据玩一下吧。今天就拿下深圳房源来弄一下。花了半小时加调试正确。深圳房源价格概况">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-12T07:14:27.741Z">
+<meta property="og:updated_time" content="2018-12-07T15:32:56.103Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="源码">
-<meta name="twitter:description" content="源码看累了源码看着看着，会产生一种疑惑： 我为什么要看源码？当初我之所以到底层看源码，完全是好奇，想知道它后面运行的机制。但是，最近开始疲劳了。忽然觉得：这样是不是没什么必要？因为，一个好的赛车手，未必就能造车，或者修车。但他可以将车玩的很溜, 上演速度与激情！而一个造车师傅，或者修车师傅，却不一定能在 F1 赛道上撒的开。那么，如果满足了好奇心之后，还有必要去深究底层的实现逻辑么？">
+<meta name="twitter:title" content="go 爬虫爬取深圳房源信息">
+<meta name="twitter:description" content="没事就捣鼓一下爬虫，弄点数据玩一下吧。今天就拿下深圳房源来弄一下。花了半小时加调试正确。深圳房源价格概况">
 
   
 
@@ -110,22 +110,17 @@
 </div>
 
 
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#源码看累了"><span class="toc-text">源码看累了</span></a></li></ol>
-  </div>
-
 
 
 <div class="content content-post CENTER">
-   <article id="post-tools" class="article article-type-post" itemprop="blogPost">
+   <article id="post-sz-house" class="article article-type-post" itemprop="blogPost">
   <header class="article-header">
-    <h1 class="post-title">源码</h1>
+    <h1 class="post-title">go 爬虫爬取深圳房源信息</h1>
 
     <div class="article-meta">
       <span>
         <i class="icon-calendar"></i>
-        <span>2018.05.01</span>
+        <span>2018.12.07</span>
       </span>
 
       
@@ -141,7 +136,7 @@
       
         <span>
           <i class="icon-comment"></i>
-          <a href="https://chenyangguang.github.io/2018-05-01-tools/#disqus_thread"></a>
+          <a href="https://chenyangguang.github.io/2018-12-07-sz-house/#disqus_thread"></a>
         </span>
       
 
@@ -158,7 +153,7 @@
 
   <div class="article-content">
     
-      <h2 id="源码看累了"><a href="#源码看累了" class="headerlink" title="源码看累了"></a>源码看累了</h2><p>源码看着看着，会产生一种疑惑： 我为什么要看源码？当初我之所以到底层看源码，完全是好奇，想知道它后面运行的机制。但是，最近开始疲劳了。忽然觉得：这样是不是没什么必要？因为，一个好的赛车手，未必就能造车，或者修车。但他可以将车玩的很溜, 上演速度与激情！而一个造车师傅，或者修车师傅，却不一定能在 F1 赛道上撒的开。<br>那么，如果满足了好奇心之后，还有必要去深究底层的实现逻辑么？</p>
+      <p>没事就捣鼓一下爬虫，弄点数据玩一下吧。<br>今天就拿下深圳房源来弄一下。<br>花了半小时加调试正确。<br><a href="https://github.com/chenyangguang/hundun/blob/master/sz-house/sz-house-summary.csv" title="深圳房源概况" target="_blank" rel="noopener">深圳房源价格概况</a></p>
 
     
   </div>
@@ -196,10 +191,10 @@
 
    
   <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2018-05-01-php-source-code-basic-string/">
+    <a class="show pull-left" href="/2018-12-02-do-it-now/">
         <i class="icon icon-angle-left"></i>
     </a>
-    <a class="show pull-right" href="/2018-05-01-php-source-code-appreciation/">
+    <a class="hide pull-right" href="/">
         <i class="icon icon-angle-right"></i>
     </a>
   </div>
@@ -284,7 +279,7 @@
   <script>
     var disqus_shortname = 'wangkunlin';
     
-    var disqus_url = 'http://chenyangguang.github.com/2018-05-01-tools/';
+    var disqus_url = 'http://chenyangguang.github.com/2018-12-07-sz-house/';
     
     (function(){
       var dsq = document.createElement('script');
@@ -322,9 +317,9 @@
         <script type="text/javascript">
          var disqus_shortname = 'wangkunlin';
          var disqus_config = function () {
-             this.page.url = 'http://chenyangguang.github.com/2018-05-01-tools/';
-             this.page.identifier = '/2018-05-01-tools/';
-             this.page.title = '源码';
+             this.page.url = 'http://chenyangguang.github.com/2018-12-07-sz-house/';
+             this.page.identifier = '/2018-12-07-sz-house/';
+             this.page.title = 'go 爬虫爬取深圳房源信息';
          };
          (function(){
              var d = document;
