@@ -1,28 +1,92 @@
 <!DOCTYPE html>
 
 
-  <html class="dark page-post">
+
+  
 
 
+<html class="theme-next muse use-motion" lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  
-  <title>从 ubuntu 到 arch | 重剑无锋</title>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   
-    <meta name="keywords" content="arch," />
   
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
-  <meta name="description" content="逃离 ubuntu 转投 arch起因先是 ubuntu16.04 升级到 ubuntu18.04, 结果每次开机直接进入了一个grub的　shell 界面, 系统无法启动了。第二次装了ubuntu18.04, 然后后面装了不少开发软件，再升级时，又挂了！有点来气，花了两天时间重装系统。不过，这次是换成了 arch。为啥，因为 arch 官网上介绍说它的定制性更高（更需要折腾），而且是滚动更新(W">
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="arch," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="逃离 ubuntu 转投 arch起因先是 ubuntu16.04 升级到 ubuntu18.04, 结果每次开机直接进入了一个grub的　shell 界面, 系统无法启动了。第二次装了ubuntu18.04, 然后后面装了不少开发软件，再升级时，又挂了！有点来气，花了两天时间重装系统。不过，这次是换成了 arch。为啥，因为 arch 官网上介绍说它的定制性更高（更需要折腾），而且是滚动更新(W">
 <meta name="keywords" content="arch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从 ubuntu 到 arch">
 <meta property="og:url" content="http://chenyangguang.github.com/2018-05-19-arch/index.html">
 <meta property="og:site_name" content="重剑无锋">
 <meta property="og:description" content="逃离 ubuntu 转投 arch起因先是 ubuntu16.04 升级到 ubuntu18.04, 结果每次开机直接进入了一个grub的　shell 界面, 系统无法启动了。第二次装了ubuntu18.04, 然后后面装了不少开发软件，再升级时，又挂了！有点来气，花了两天时间重装系统。不过，这次是换成了 arch。为啥，因为 arch 官网上介绍说它的定制性更高（更需要折腾），而且是滚动更新(W">
-<meta property="og:locale" content="default">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://chenyangguang.github.com/images/full.jpg">
 <meta property="og:updated_time" content="2018-08-12T07:14:27.736Z">
 <meta name="twitter:card" content="summary">
@@ -30,121 +94,235 @@
 <meta name="twitter:description" content="逃离 ubuntu 转投 arch起因先是 ubuntu16.04 升级到 ubuntu18.04, 结果每次开机直接进入了一个grub的　shell 界面, 系统无法启动了。第二次装了ubuntu18.04, 然后后面装了不少开发软件，再升级时，又挂了！有点来气，花了两天时间重装系统。不过，这次是换成了 arch。为啥，因为 arch 官网上介绍说它的定制性更高（更需要折腾），而且是滚动更新(W">
 <meta name="twitter:image" content="http://chenyangguang.github.com/images/full.jpg">
 
-  
-
-  
-    <link rel="icon" href="/images/pingtou.jpeg">
-  
-
-  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
 
 
-  
-    <link rel="stylesheet" href="/css/style.css">
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chenyangguang.github.com/2018-05-19-arch/"/>
+
+
+
+
+
+  <title>从 ubuntu 到 arch | 重剑无锋</title>
   
 
-  
-
-  
-
-  
 
 
-  
+
+
+
+
 
 </head>
 
-<body>
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
-    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+    
   
 
-  <div class="post-header CENTER">
-   
-  <div class="toolbox">
-    <a class="toolbox-entry" href="/">
-      <span class="toolbox-entry-text">盒子</span>
-      <i class="icon-angle-down"></i>
-      <i class="icon-home"></i>
-    </a>
-    <ul class="list-toolbox">
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">重剑无锋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
       
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/archives/"
-            rel="noopener noreferrer"
-            target="_self"
-            >
-            博客
-          </a>
-        </li>
+        <p class="site-subtitle"></p>
       
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/tag/"
-            rel="noopener noreferrer"
-            target="_self"
-            >
-            标签
-          </a>
-        </li>
-      
-    </ul>
   </div>
 
-
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
+<nav class="site-nav">
+  
 
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#逃离-ubuntu-转投-arch"><span class="toc-text">逃离 ubuntu 转投 arch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#arch-系统的-u-盘安装"><span class="toc-text">arch 系统的 ｕ 盘安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#切到-arch-的感受"><span class="toc-text">切到 arch 的感受</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
-  </div>
-
-
-
-<div class="content content-post CENTER">
-   <article id="post-arch" class="article article-type-post" itemprop="blogPost">
-  <header class="article-header">
-    <h1 class="post-title">从 ubuntu 到 arch</h1>
-
-    <div class="article-meta">
-      <span>
-        <i class="icon-calendar"></i>
-        <span>2018.05.19</span>
-      </span>
-
+  
+    <ul id="menu" class="menu">
       
-        <span class="article-author">
-          <i class="icon-user"></i>
-          <span>Gitvim</span>
-        </span>
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
       
-
-      
-
-
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
       
 
       
-      
-    </div>
-  </header>
+    </ul>
+  
 
-  <div class="article-content">
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <h2 id="逃离-ubuntu-转投-arch"><a href="#逃离-ubuntu-转投-arch" class="headerlink" title="逃离 ubuntu 转投 arch"></a>逃离 ubuntu 转投 arch</h2><p>起因先是 ubuntu16.04 升级到 ubuntu18.04, 结果每次开机直接进入了一个grub的　shell 界面, 系统无法启动了。第二次装了ubuntu18.04, 然后后面装了不少开发软件，再升级时，又挂了！有点来气，花了两天时间重装系统。不过，这次是换成了 arch。为啥，因为 arch 官网上介绍说它的定制性更高（更需要折腾），而且是滚动更新(What are you 弄啥咧?)。</p>
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018-05-19-arch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gitvim">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="重剑无锋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">从 ubuntu 到 arch</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-19T21:48:54+08:00">
+                2018-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="逃离-ubuntu-转投-arch"><a href="#逃离-ubuntu-转投-arch" class="headerlink" title="逃离 ubuntu 转投 arch"></a>逃离 ubuntu 转投 arch</h2><p>起因先是 ubuntu16.04 升级到 ubuntu18.04, 结果每次开机直接进入了一个grub的　shell 界面, 系统无法启动了。第二次装了ubuntu18.04, 然后后面装了不少开发软件，再升级时，又挂了！有点来气，花了两天时间重装系统。不过，这次是换成了 arch。为啥，因为 arch 官网上介绍说它的定制性更高（更需要折腾），而且是滚动更新(What are you 弄啥咧?)。</p>
 <h2 id="arch-系统的-u-盘安装"><a href="#arch-系统的-u-盘安装" class="headerlink" title="arch 系统的 ｕ 盘安装"></a>arch 系统的 ｕ 盘安装</h2><p>记录一下，头一天的时候，我的安装方式是按照知乎某个人的推荐装的，结果好几个地方卡死了。比如联网，比如挂载。后来证明，只要熟读 arch 官网　wiki 上面的文档(武功秘籍)，基本上是不会整出一些”奇门遁甲”的啥”幺蛾子”的。前提是，一定要通读。</p>
 <h2 id="切到-arch-的感受"><a href="#切到-arch-的感受" class="headerlink" title="切到 arch 的感受"></a>切到 arch 的感受</h2><ul>
 <li>速度比 ubuntu 快。天下武功，唯快不破。不知道是否因为 arch 的二进制包的安装方式，还是 安装的无关的依赖很少的缘故，在 arch 下面上网几乎不卡。即使看 youtube 视频也是非常流畅!</li>
 <li>安装效率高。arch 下面 <strong>sudo pacman -S smartgit</strong>, 需要安装的依赖，直接选数字然后回车就好了。安装好快。而 ubuntu 下面安装 smartgit 的需要好几个步骤，比如你安装了 smartgit包，好需要相同的命令去找缺失的依赖包(javaxxxxxx)。还得说下使用 “yaourt” 去安装 <strong>AUR</strong> 类型的软件真的是很便利。比如 安装个 <strong>nmap</strong> 扫描一下主机ip和端口:</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">➜  blog git:(master) ✗ yaourt nmap</span><br><span class="line">1 extra/nmap 7.70-2 [installed]</span><br><span class="line">    Utility for network discovery and security auditing</span><br><span class="line">2 community/vulscan 2.0-2</span><br><span class="line">    A module which enhances nmap to a vulnerability scanner</span><br><span class="line">3 blackarch/autonse 20.82a6e18-1 (blackarch blackarch-automation)</span><br><span class="line">    Massive NSE (Nmap Scripting Engine) AutoSploit and AutoScanner.</span><br><span class="line">4 blackarch/brutespray 116.bd65d69-2 (blackarch blackarch-automation blackarch-cracker)</span><br><span class="line">...</span><br><span class="line">32 aur/umit 1.0-1 (67) (0.20)</span><br><span class="line">    A powerful nmap frontend.</span><br><span class="line">==&gt; Enter n° of packages to be installed (e.g., 1 2 3 or 1-3)</span><br><span class="line">==&gt; ---------------------------------------------------------</span><br><span class="line">==&gt; (这里选数字然后回车就可以了)</span><br></pre></td></tr></table></figure>
-<ul>
+<pre><code>➜  blog git:(master) ✗ yaourt nmap
+1 extra/nmap 7.70-2 [installed]
+    Utility for network discovery and security auditing
+2 community/vulscan 2.0-2
+    A module which enhances nmap to a vulnerability scanner
+3 blackarch/autonse 20.82a6e18-1 (blackarch blackarch-automation)
+    Massive NSE (Nmap Scripting Engine) AutoSploit and AutoScanner.
+4 blackarch/brutespray 116.bd65d69-2 (blackarch blackarch-automation blackarch-cracker)
+...
+32 aur/umit 1.0-1 (67) (0.20)
+    A powerful nmap frontend.
+==&gt; Enter n° of packages to be installed (e.g., 1 2 3 or 1-3)
+==&gt; ---------------------------------------------------------
+==&gt; (这里选数字然后回车就可以了)
+</code></pre><ul>
 <li>几乎所有需要的比较新的软件和开发工具都有了。而且都是命令行三两下就安装好了。比如 docker, vim，emacs, docker, git, smartgit, nodejs, npm, nvm, python(系统自带了), php, nginx, apache, mysql, mariadb, postgresql， virtualbox, tmux, zsh(这个好像是自带了), shadowsocks(这个好极了,就下个package, 再命令行启动一下，浏览器加个 proxy 扩展就直接翻出去了!)等, 而且这些软件几乎都是主流中非常新的版本！这个比较和我心意。</li>
 </ul>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ol>
@@ -159,150 +337,374 @@
 <li>然后，能用命令行快速解决的，就不要多花时间去选个图标了。比如一开视频，发现，播放没有声音! 装个 alsamixer　即可, 命令行里面直接调起 alsamixer, 控制音量啥的，都在里面了。弄张图吧。<br><img src="/images/full.jpg" alt=""></li>
 </ol>
 
+      
+    </div>
     
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/arch/" rel="tag"># arch</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018-05-01-php-source-code-basic-string/" rel="next" title="php 源码 (宏)">
+                <i class="fa fa-chevron-left"></i> php 源码 (宏)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018-05-20-ball-lightning/" rel="prev" title="ball-lightning">
+                ball-lightning <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
-</article>
+
+          </div>
+          
 
 
-   
+          
 
-   
-  <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2018-05-01-php-source-code-appreciation/">
-        <i class="icon icon-angle-left"></i>
-    </a>
-    <a class="show pull-right" href="/2018-05-20-ball-lightning/">
-        <i class="icon icon-angle-right"></i>
-    </a>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
   </div>
 
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Gitvim</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#逃离-ubuntu-转投-arch"><span class="nav-number">1.</span> <span class="nav-text">逃离 ubuntu 转投 arch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#arch-系统的-u-盘安装"><span class="nav-number">2.</span> <span class="nav-text">arch 系统的 ｕ 盘安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#切到-arch-的感受"><span class="nav-number">3.</span> <span class="nav-text">切到 arch 的感受</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
 
 
+        
+      </div>
+    </main>
 
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Gitvim</span>
+
+  
 </div>
 
 
-  <a id="backTop" class="back-top">
-    <i class="icon-angle-up"></i>
-  </a>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
 
 
 
-  <div class="modal" id="modal">
-  <span id="cover" class="cover hide"></span>
-  <div id="modal-dialog" class="modal-dialog hide-dialog">
-    <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
-    </div>
-    <hr>
-    <div class="modal-body">
-      <ul class="list-toolbox">
         
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/archives/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              博客
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/tag/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              标签
-            </a>
-          </li>
-        
-      </ul>
 
-    </div>
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
   </div>
-</div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
 
 
 
   
-      <div class="fexo-comments comments-post">
-    
-
-    
-
-    
-    
-
-    
-
-    
-    
-
-    
-
-<!-- Gitalk评论插件通用代码 -->
-<div id="gitalk-container"></div>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
-<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
-<script>
-const gitalk = new Gitalk({
-  clientID: '1f4a4b05d59a33d8767f',
-  clientSecret: 'b111970400d0b17cc47cb290520052a9d95706d7',
-  repo: 'chenyangguang.github.io',
-  owner: 'chenyangguang',
-  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
-  // 50个字符串则会报错.
-  id: location.pathname.split('/').pop().substring(0, 49),
-  admin: ['chenyangguang'],
-  // facebook-like distraction free mode
-  distractionFreeMode: false
-})
-gitalk.render('gitalk-container')
-</script>
-<!-- Gitalk代码结束 -->
 
 
 
-  </div>
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
 
   
 
-  <script type="text/javascript">
-  function loadScript(url, callback) {
-    var script = document.createElement('script')
-    script.type = 'text/javascript';
 
-    if (script.readyState) { //IE
-      script.onreadystatechange = function() {
-        if (script.readyState == 'loaded' ||
-          script.readyState == 'complete') {
-          script.onreadystatechange = null;
-          callback();
-        }
-      };
-    } else { //Others
-      script.onload = function() {
-        callback();
-      };
-    }
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
 
-    script.src = url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
 
-  window.onload = function() {
-    loadScript('/js/bundle.js?235683', function() {
-      // load success
-    });
-  }
-</script>
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
 
 </body>
 </html>

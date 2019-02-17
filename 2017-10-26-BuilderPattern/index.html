@@ -1,28 +1,92 @@
 <!DOCTYPE html>
 
 
-  <html class="dark page-post">
+
+  
 
 
+<html class="theme-next muse use-motion" lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  
-  <title>设计模式-建造者模式 | 重剑无锋</title>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   
-    <meta name="keywords" content="设计模式," />
   
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
-  <meta name="description" content="0x00 建造者模式定义Separate the construction of a complex object from its representation so that the sameconstruction process can create different representations.(将一个复杂对象的构建与它的表示分离, 使得同样的构建过程可以创建不同的表示。)">
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="设计模式," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="0x00 建造者模式定义Separate the construction of a complex object from its representation so that the sameconstruction process can create different representations.(将一个复杂对象的构建与它的表示分离, 使得同样的构建过程可以创建不同的表示。)">
 <meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式-建造者模式">
 <meta property="og:url" content="http://chenyangguang.github.com/2017-10-26-BuilderPattern/index.html">
 <meta property="og:site_name" content="重剑无锋">
 <meta property="og:description" content="0x00 建造者模式定义Separate the construction of a complex object from its representation so that the sameconstruction process can create different representations.(将一个复杂对象的构建与它的表示分离, 使得同样的构建过程可以创建不同的表示。)">
-<meta property="og:locale" content="default">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://chenyangguang.github.com/2017-10-26-BuilderPattern/photos/builder-pattern.png">
 <meta property="og:updated_time" content="2018-08-12T07:14:27.734Z">
 <meta name="twitter:card" content="summary">
@@ -30,114 +94,215 @@
 <meta name="twitter:description" content="0x00 建造者模式定义Separate the construction of a complex object from its representation so that the sameconstruction process can create different representations.(将一个复杂对象的构建与它的表示分离, 使得同样的构建过程可以创建不同的表示。)">
 <meta name="twitter:image" content="http://chenyangguang.github.com/2017-10-26-BuilderPattern/photos/builder-pattern.png">
 
-  
-
-  
-    <link rel="icon" href="/images/pingtou.jpeg">
-  
-
-  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
 
 
-  
-    <link rel="stylesheet" href="/css/style.css">
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chenyangguang.github.com/2017-10-26-BuilderPattern/"/>
+
+
+
+
+
+  <title>设计模式-建造者模式 | 重剑无锋</title>
   
 
-  
-
-  
-
-  
 
 
-  
+
+
+
+
 
 </head>
 
-<body>
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
-    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+    
   
 
-  <div class="post-header CENTER">
-   
-  <div class="toolbox">
-    <a class="toolbox-entry" href="/">
-      <span class="toolbox-entry-text">盒子</span>
-      <i class="icon-angle-down"></i>
-      <i class="icon-home"></i>
-    </a>
-    <ul class="list-toolbox">
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">重剑无锋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
       
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/archives/"
-            rel="noopener noreferrer"
-            target="_self"
-            >
-            博客
-          </a>
-        </li>
+        <p class="site-subtitle"></p>
       
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/tag/"
-            rel="noopener noreferrer"
-            target="_self"
-            >
-            标签
-          </a>
-        </li>
-      
-    </ul>
   </div>
 
-
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
+<nav class="site-nav">
+  
 
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-建造者模式"><span class="toc-text">0x00 建造者模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义"><span class="toc-text">定义</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#优点"><span class="toc-text">优点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用场景"><span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#注意"><span class="toc-text">注意</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PHP-实例"><span class="toc-text">PHP 实例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-小结"><span class="toc-text">0x01 小结</span></a></li></ol>
-  </div>
-
-
-
-<div class="content content-post CENTER">
-   <article id="post-BuilderPattern" class="article article-type-post" itemprop="blogPost">
-  <header class="article-header">
-    <h1 class="post-title">设计模式-建造者模式</h1>
-
-    <div class="article-meta">
-      <span>
-        <i class="icon-calendar"></i>
-        <span>2017.10.26</span>
-      </span>
-
+  
+    <ul id="menu" class="menu">
       
-        <span class="article-author">
-          <i class="icon-user"></i>
-          <span>Gitvim</span>
-        </span>
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
       
-
-      
-
-
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
       
 
       
-      
-    </div>
-  </header>
+    </ul>
+  
 
-  <div class="article-content">
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <h2 id="0x00-建造者模式"><a href="#0x00-建造者模式" class="headerlink" title="0x00 建造者模式"></a>0x00 建造者模式</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p><em>Separate the construction of a complex object from its representation so that the same<br>construction process can create different representations</em>.<br>(将一个复杂对象的构建与它的表示分离, 使得同样的构建过程可以创建不同的表示。)</p>
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2017-10-26-BuilderPattern/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gitvim">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="重剑无锋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">设计模式-建造者模式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-26T11:14:33+08:00">
+                2017-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="0x00-建造者模式"><a href="#0x00-建造者模式" class="headerlink" title="0x00 建造者模式"></a>0x00 建造者模式</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p><em>Separate the construction of a complex object from its representation so that the same<br>construction process can create different representations</em>.<br>(将一个复杂对象的构建与它的表示分离, 使得同样的构建过程可以创建不同的表示。)</p>
 <a id="more"></a>
 <p><img src="/2017-10-26-BuilderPattern/photos/builder-pattern.png" alt=""></p>
 <h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
@@ -151,153 +316,473 @@
 <li>产品类非常复杂，或者产品类中的调用顺序不同产生了不同的效果，这个时候使用建造者模式非常合适.</li>
 </ul>
 <h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p>建造者模式关注的是零件类型和装饰工艺(顺序), 这个是它与工厂模式最大不同的地方。</p>
-<h4 id="PHP-实例"><a href="#PHP-实例" class="headerlink" title="PHP 实例"></a>PHP 实例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">abstract class AbstractQueryBuilder &#123;</span><br><span class="line">    abstract function getQuery();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">abstract class AbstractQueryDirector &#123;</span><br><span class="line">    abstract function __construct(AbstractQueryBuilder $builder);</span><br><span class="line">    abstract function buildQuery();</span><br><span class="line">    abstract function getQuery();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Model &#123;</span><br><span class="line">    private $sql = NULL;</span><br><span class="line">    private $sql_table = NULL;</span><br><span class="line">    private $sql_where = NULL;</span><br><span class="line">    private $sql_limit = NULL;</span><br><span class="line"></span><br><span class="line">    function __construct() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function querySql() &#123;</span><br><span class="line">        return $this-&gt;sql;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function table($table) &#123;</span><br><span class="line">        $this-&gt;sql_table  = $table;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function where($where) &#123;</span><br><span class="line">        $this-&gt;sql_where = $where;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function limit ($limit) &#123;</span><br><span class="line">        $this-&gt;sql_limit = $limit;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function splicingQuery () &#123;</span><br><span class="line">        $this-&gt;sql = &apos;SELECT * FROM &apos;;</span><br><span class="line">        $this-&gt;sql .= $this-&gt;sql_table;</span><br><span class="line">        $this-&gt;sql .= &apos; WHERE &apos; . $this-&gt;sql_where;</span><br><span class="line">        $this-&gt;sql .= &apos; LIMIT &apos; . $this-&gt;sql_limit;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class BaseQueryBuilder extends AbstractQueryBuilder &#123;</span><br><span class="line">    private $query = NULL;</span><br><span class="line">    function __construct() &#123;</span><br><span class="line">        $this-&gt;query = new Model();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function table($table) &#123;</span><br><span class="line">        $this-&gt;query-&gt;table($table);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function where($where) &#123;</span><br><span class="line">        $this-&gt;query-&gt;where($where);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function limit($limit) &#123;</span><br><span class="line">        $this-&gt;query-&gt;limit($limit);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function splicingQuery() &#123;</span><br><span class="line">        $this-&gt;query-&gt;splicingQuery();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function getQuery() &#123;</span><br><span class="line">        return $this-&gt;query;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class UserQueryDirector extends AbstractQueryDirector &#123;</span><br><span class="line">    private $builder = NULL;</span><br><span class="line">    public function __construct(AbstractQueryBuilder $builder_sql) &#123;</span><br><span class="line">        $this-&gt;builder = $builder_sql;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function buildQuery() &#123;</span><br><span class="line">        $this-&gt;builder-&gt;table(&apos;User&apos;);</span><br><span class="line">        $this-&gt;builder-&gt;where(&apos;id &lt; 10&apos;);</span><br><span class="line">        $this-&gt;builder-&gt;limit(&apos;100&apos;);</span><br><span class="line">        $this-&gt;builder-&gt;splicingQuery();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function getQuery() &#123;</span><br><span class="line">        return $this-&gt;builder-&gt;getQuery();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$queryBuilder = new BaseQueryBuilder();</span><br><span class="line">$userDirector = new UserQueryDirector($queryBuilder);</span><br><span class="line">$userDirector-&gt;buildQuery();</span><br><span class="line">$userSql = $userDirector-&gt;getQuery();</span><br><span class="line"></span><br><span class="line">var_dump($userSql-&gt;querySql());</span><br><span class="line"></span><br><span class="line">// string(42) &quot;SELECT * FROM User WHERE id &lt; 10 LIMIT 100&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="0x01-小结"><a href="#0x01-小结" class="headerlink" title="0x01 小结"></a>0x01 小结</h2><p>各个设计模式之间有相似的地方. 比如封装性。<br><!--more--></p>
+<h4 id="PHP-实例"><a href="#PHP-实例" class="headerlink" title="PHP 实例"></a>PHP 实例</h4><pre><code>&lt;?php
+abstract class AbstractQueryBuilder {
+    abstract function getQuery();
+}
 
-    
-  </div>
+abstract class AbstractQueryDirector {
+    abstract function __construct(AbstractQueryBuilder $builder);
+    abstract function buildQuery();
+    abstract function getQuery();
+}
 
-</article>
+class Model {
+    private $sql = NULL;
+    private $sql_table = NULL;
+    private $sql_where = NULL;
+    private $sql_limit = NULL;
 
-
-   
-
-   
-  <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2017-10-25-TheZenOfDesignPatternTemplateMethod/">
-        <i class="icon icon-angle-left"></i>
-    </a>
-    <a class="show pull-right" href="/2017-11-06-TheZenOfDesignPatternPrototype/">
-        <i class="icon icon-angle-right"></i>
-    </a>
-  </div>
-
-
-
-
-</div>
-
-
-  <a id="backTop" class="back-top">
-    <i class="icon-angle-up"></i>
-  </a>
-
-
-
-
-  <div class="modal" id="modal">
-  <span id="cover" class="cover hide"></span>
-  <div id="modal-dialog" class="modal-dialog hide-dialog">
-    <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
-    </div>
-    <hr>
-    <div class="modal-body">
-      <ul class="list-toolbox">
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/archives/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              博客
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/tag/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              标签
-            </a>
-          </li>
-        
-      </ul>
-
-    </div>
-  </div>
-</div>
-
-
-
-  
-      <div class="fexo-comments comments-post">
-    
-
-    
-
-    
-    
-
-    
-
-    
-    
-
-    
-
-<!-- Gitalk评论插件通用代码 -->
-<div id="gitalk-container"></div>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
-<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
-<script>
-const gitalk = new Gitalk({
-  clientID: '1f4a4b05d59a33d8767f',
-  clientSecret: 'b111970400d0b17cc47cb290520052a9d95706d7',
-  repo: 'chenyangguang.github.io',
-  owner: 'chenyangguang',
-  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
-  // 50个字符串则会报错.
-  id: location.pathname.split('/').pop().substring(0, 49),
-  admin: ['chenyangguang'],
-  // facebook-like distraction free mode
-  distractionFreeMode: false
-})
-gitalk.render('gitalk-container')
-</script>
-<!-- Gitalk代码结束 -->
-
-
-
-  </div>
-
-  
-
-  <script type="text/javascript">
-  function loadScript(url, callback) {
-    var script = document.createElement('script')
-    script.type = 'text/javascript';
-
-    if (script.readyState) { //IE
-      script.onreadystatechange = function() {
-        if (script.readyState == 'loaded' ||
-          script.readyState == 'complete') {
-          script.onreadystatechange = null;
-          callback();
-        }
-      };
-    } else { //Others
-      script.onload = function() {
-        callback();
-      };
+    function __construct() {
     }
 
-    script.src = url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
+    function querySql() {
+        return $this-&gt;sql;
+    }
 
-  window.onload = function() {
-    loadScript('/js/bundle.js?235683', function() {
-      // load success
-    });
+    function table($table) {
+        $this-&gt;sql_table  = $table;
+    }
+
+    function where($where) {
+        $this-&gt;sql_where = $where;
+    }
+
+    function limit ($limit) {
+        $this-&gt;sql_limit = $limit;
+    }
+
+    function splicingQuery () {
+        $this-&gt;sql = &#39;SELECT * FROM &#39;;
+        $this-&gt;sql .= $this-&gt;sql_table;
+        $this-&gt;sql .= &#39; WHERE &#39; . $this-&gt;sql_where;
+        $this-&gt;sql .= &#39; LIMIT &#39; . $this-&gt;sql_limit;
+    }
+}
+
+class BaseQueryBuilder extends AbstractQueryBuilder {
+    private $query = NULL;
+    function __construct() {
+        $this-&gt;query = new Model();
+    }
+
+    function table($table) {
+        $this-&gt;query-&gt;table($table);
+    }
+
+    function where($where) {
+        $this-&gt;query-&gt;where($where);
+    }
+
+    function limit($limit) {
+        $this-&gt;query-&gt;limit($limit);
+    }
+
+    function splicingQuery() {
+        $this-&gt;query-&gt;splicingQuery();
+    }
+
+    function getQuery() {
+        return $this-&gt;query;
+    }
+}
+
+class UserQueryDirector extends AbstractQueryDirector {
+    private $builder = NULL;
+    public function __construct(AbstractQueryBuilder $builder_sql) {
+        $this-&gt;builder = $builder_sql;
+    }
+
+    public function buildQuery() {
+        $this-&gt;builder-&gt;table(&#39;User&#39;);
+        $this-&gt;builder-&gt;where(&#39;id &lt; 10&#39;);
+        $this-&gt;builder-&gt;limit(&#39;100&#39;);
+        $this-&gt;builder-&gt;splicingQuery();
+    }
+
+    public function getQuery() {
+        return $this-&gt;builder-&gt;getQuery();
+    }
+}
+
+$queryBuilder = new BaseQueryBuilder();
+$userDirector = new UserQueryDirector($queryBuilder);
+$userDirector-&gt;buildQuery();
+$userSql = $userDirector-&gt;getQuery();
+
+var_dump($userSql-&gt;querySql());
+
+// string(42) &quot;SELECT * FROM User WHERE id &lt; 10 LIMIT 100&quot;
+</code></pre><h2 id="0x01-小结"><a href="#0x01-小结" class="headerlink" title="0x01 小结"></a>0x01 小结</h2><p>各个设计模式之间有相似的地方. 比如封装性。<br><!--more--></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017-10-25-TheZenOfDesignPatternTemplateMethod/" rel="next" title="设计模式-模板方法模式">
+                <i class="fa fa-chevron-left"></i> 设计模式-模板方法模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017-11-06-TheZenOfDesignPatternPrototype/" rel="prev" title="设计模式-原型模式">
+                设计模式-原型模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Gitvim</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-建造者模式"><span class="nav-number">1.</span> <span class="nav-text">0x00 建造者模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">1.1.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用场景"><span class="nav-number">1.1.2.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意"><span class="nav-number">1.1.3.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PHP-实例"><span class="nav-number">1.1.4.</span> <span class="nav-text">PHP 实例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-小结"><span class="nav-number">2.</span> <span class="nav-text">0x01 小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Gitvim</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
   }
 </script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
 
 </body>
 </html>

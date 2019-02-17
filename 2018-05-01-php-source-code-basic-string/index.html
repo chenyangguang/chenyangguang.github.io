@@ -1,151 +1,385 @@
 <!DOCTYPE html>
 
 
-  <html class="dark page-post">
+
+  
 
 
+<html class="theme-next muse use-motion" lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  
-  <title>php 源码 (宏) | 重剑无锋</title>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   
-    <meta name="keywords" content="php," />
   
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
-  <meta name="description" content="zend 基础类型- 宏zend 底层有相当多的宏, 特别是 php7 系列, 源码比 php 5 有不少结构方面的改变。所以不去研究 php5 的 zend 了, 直接往后研究的源码都主要看最新的 php-src。 zend 系列的宏主要分布在 zend_API.h, zend_types.h, zend_operators.h 里面。">
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="php," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="zend 基础类型- 宏zend 底层有相当多的宏, 特别是 php7 系列, 源码比 php 5 有不少结构方面的改变。所以不去研究 php5 的 zend 了, 直接往后研究的源码都主要看最新的 php-src。 zend 系列的宏主要分布在 zend_API.h, zend_types.h, zend_operators.h 里面。">
 <meta name="keywords" content="php">
 <meta property="og:type" content="article">
 <meta property="og:title" content="php 源码 (宏)">
 <meta property="og:url" content="http://chenyangguang.github.com/2018-05-01-php-source-code-basic-string/index.html">
 <meta property="og:site_name" content="重剑无锋">
 <meta property="og:description" content="zend 基础类型- 宏zend 底层有相当多的宏, 特别是 php7 系列, 源码比 php 5 有不少结构方面的改变。所以不去研究 php5 的 zend 了, 直接往后研究的源码都主要看最新的 php-src。 zend 系列的宏主要分布在 zend_API.h, zend_types.h, zend_operators.h 里面。">
-<meta property="og:locale" content="default">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2018-08-12T07:14:27.740Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="php 源码 (宏)">
 <meta name="twitter:description" content="zend 基础类型- 宏zend 底层有相当多的宏, 特别是 php7 系列, 源码比 php 5 有不少结构方面的改变。所以不去研究 php5 的 zend 了, 直接往后研究的源码都主要看最新的 php-src。 zend 系列的宏主要分布在 zend_API.h, zend_types.h, zend_operators.h 里面。">
 
-  
-
-  
-    <link rel="icon" href="/images/pingtou.jpeg">
-  
-
-  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
 
 
-  
-    <link rel="stylesheet" href="/css/style.css">
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chenyangguang.github.com/2018-05-01-php-source-code-basic-string/"/>
+
+
+
+
+
+  <title>php 源码 (宏) | 重剑无锋</title>
   
 
-  
-
-  
-
-  
 
 
-  
+
+
+
+
 
 </head>
 
-<body>
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
-    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+    
   
 
-  <div class="post-header CENTER">
-   
-  <div class="toolbox">
-    <a class="toolbox-entry" href="/">
-      <span class="toolbox-entry-text">盒子</span>
-      <i class="icon-angle-down"></i>
-      <i class="icon-home"></i>
-    </a>
-    <ul class="list-toolbox">
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">重剑无锋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
       
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/archives/"
-            rel="noopener noreferrer"
-            target="_self"
-            >
-            博客
-          </a>
-        </li>
+        <p class="site-subtitle"></p>
       
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/tag/"
-            rel="noopener noreferrer"
-            target="_self"
-            >
-            标签
-          </a>
-        </li>
-      
-    </ul>
   </div>
 
-
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
+<nav class="site-nav">
+  
 
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#zend-基础类型-宏"><span class="toc-text">zend 基础类型- 宏</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#zval"><span class="toc-text">zval</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
-  </div>
-
-
-
-<div class="content content-post CENTER">
-   <article id="post-php-source-code-basic-string" class="article article-type-post" itemprop="blogPost">
-  <header class="article-header">
-    <h1 class="post-title">php 源码 (宏)</h1>
-
-    <div class="article-meta">
-      <span>
-        <i class="icon-calendar"></i>
-        <span>2018.05.01</span>
-      </span>
-
+  
+    <ul id="menu" class="menu">
       
-        <span class="article-author">
-          <i class="icon-user"></i>
-          <span>Gitvim</span>
-        </span>
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
       
-
-      
-
-
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
       
 
       
-      
-    </div>
-  </header>
+    </ul>
+  
 
-  <div class="article-content">
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <h2 id="zend-基础类型-宏"><a href="#zend-基础类型-宏" class="headerlink" title="zend 基础类型- 宏"></a>zend 基础类型- 宏</h2><p>zend 底层有相当多的宏, 特别是 php7 系列, 源码比 php 5 有不少结构方面的改变。所以不去研究 php5 的 zend 了, 直接往后研究的源码都主要看最新的 <strong>php-src</strong>。 zend 系列的宏主要分布在 zend_API.h, zend_types.h, zend_operators.h 里面。<br><a id="more"></a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">typedef struct _zend_object_handlers zend_object_handlers;</span><br><span class="line">typedef struct _zend_class_entry     zend_class_entry;</span><br><span class="line">typedef union  _zend_function        zend_function;</span><br><span class="line">typedef struct _zend_execute_data    zend_execute_data;</span><br><span class="line"></span><br><span class="line">typedef struct _zval_struct     zval;</span><br><span class="line"></span><br><span class="line">typedef struct _zend_refcounted zend_refcounted;</span><br><span class="line">typedef struct _zend_string     zend_string;</span><br><span class="line">typedef struct _zend_array      zend_array;</span><br><span class="line">typedef struct _zend_object     zend_object;</span><br><span class="line">typedef struct _zend_resource   zend_resource;</span><br><span class="line">typedef struct _zend_reference  zend_reference;</span><br><span class="line">typedef struct _zend_ast_ref    zend_ast_ref;</span><br><span class="line">typedef struct _zend_ast        zend_ast;</span><br></pre></td></tr></table></figure>
-<p>放眼望去，似曾相识燕归来！ </p>
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018-05-01-php-source-code-basic-string/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gitvim">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="重剑无锋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">php 源码 (宏)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-01T09:50:57+08:00">
+                2018-05-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="zend-基础类型-宏"><a href="#zend-基础类型-宏" class="headerlink" title="zend 基础类型- 宏"></a>zend 基础类型- 宏</h2><p>zend 底层有相当多的宏, 特别是 php7 系列, 源码比 php 5 有不少结构方面的改变。所以不去研究 php5 的 zend 了, 直接往后研究的源码都主要看最新的 <strong>php-src</strong>。 zend 系列的宏主要分布在 zend_API.h, zend_types.h, zend_operators.h 里面。<br><a id="more"></a></p>
+<pre><code>typedef struct _zend_object_handlers zend_object_handlers;
+typedef struct _zend_class_entry     zend_class_entry;
+typedef union  _zend_function        zend_function;
+typedef struct _zend_execute_data    zend_execute_data;
+
+typedef struct _zval_struct     zval;
+
+typedef struct _zend_refcounted zend_refcounted;
+typedef struct _zend_string     zend_string;
+typedef struct _zend_array      zend_array;
+typedef struct _zend_object     zend_object;
+typedef struct _zend_resource   zend_resource;
+typedef struct _zend_reference  zend_reference;
+typedef struct _zend_ast_ref    zend_ast_ref;
+typedef struct _zend_ast        zend_ast;
+</code></pre><p>放眼望去，似曾相识燕归来！ </p>
 <h3 id="zval"><a href="#zval" class="headerlink" title="zval"></a>zval</h3><p>zval 不就是大名鼎鼎的 php 变量容器么！源码内使用频率相当高。一搜 php-src，超过 9999 次现身!<br>可想而知， zval 肯定是灰常重要的。<br>解开这个结构体，发现是这个模样:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">struct _zval_struct &#123;</span><br><span class="line">	zend_value        value;			/* value */</span><br><span class="line">	union &#123;</span><br><span class="line">		struct &#123;</span><br><span class="line">			ZEND_ENDIAN_LOHI_4(</span><br><span class="line">				zend_uchar    type,			/* active type */</span><br><span class="line">				zend_uchar    type_flags,</span><br><span class="line">				zend_uchar    const_flags,</span><br><span class="line">				zend_uchar    reserved)	    /* call info for EX(This) */</span><br><span class="line">		&#125; v;</span><br><span class="line">		uint32_t type_info;</span><br><span class="line">	&#125; u1;</span><br><span class="line">	union &#123;</span><br><span class="line">		uint32_t     next;                 /* hash collision chain */</span><br><span class="line">		uint32_t     cache_slot;           /* literal cache slot */</span><br><span class="line">		uint32_t     lineno;               /* line number (for ast nodes) */</span><br><span class="line">		uint32_t     num_args;             /* arguments number for EX(This) */</span><br><span class="line">		uint32_t     fe_pos;               /* foreach position */</span><br><span class="line">		uint32_t     fe_iter_idx;          /* foreach iterator index */</span><br><span class="line">		uint32_t     access_flags;         /* class constant access flags */</span><br><span class="line">		uint32_t     property_guard;       /* single property guard */</span><br><span class="line">		uint32_t     extra;                /* not further specified */</span><br><span class="line">	&#125; u2;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>分为三个部分， zend_value, u1, u2 三个联合体。<br>跟踪 zend_value 看看, </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">typedef union _zend_value &#123;</span><br><span class="line">	zend_long         lval;				/* long value */</span><br><span class="line">	double            dval;				/* double value */</span><br><span class="line">	zend_refcounted  *counted;</span><br><span class="line">	zend_string      *str;</span><br><span class="line">	zend_array       *arr;</span><br><span class="line">	zend_object      *obj;</span><br><span class="line">	zend_resource    *res;</span><br><span class="line">	zend_reference   *ref;</span><br><span class="line">	zend_ast_ref     *ast;</span><br><span class="line">	zval             *zv;</span><br><span class="line">	void             *ptr;</span><br><span class="line">	zend_class_entry *ce;</span><br><span class="line">	zend_function    *func;</span><br><span class="line">	struct &#123;</span><br><span class="line">		uint32_t w1;</span><br><span class="line">		uint32_t w2;</span><br><span class="line">	&#125; ww;</span><br><span class="line">&#125; zend_value;</span><br></pre></td></tr></table></figure>
-<p>跋山涉水， zend_value 这个联合体可以存放所有可能的 php 数据类型数据。 数值分: 长整型或者双精度浮点型。 剩下的基本是指针值。有计数器指针，字符串指针，数组指针，对象指针，资源指针，引用指针, 空指针， 类指针，函数指针。 </p>
+<pre><code>struct _zval_struct {
+    zend_value        value;            /* value */
+    union {
+        struct {
+            ZEND_ENDIAN_LOHI_4(
+                zend_uchar    type,            /* active type */
+                zend_uchar    type_flags,
+                zend_uchar    const_flags,
+                zend_uchar    reserved)        /* call info for EX(This) */
+        } v;
+        uint32_t type_info;
+    } u1;
+    union {
+        uint32_t     next;                 /* hash collision chain */
+        uint32_t     cache_slot;           /* literal cache slot */
+        uint32_t     lineno;               /* line number (for ast nodes) */
+        uint32_t     num_args;             /* arguments number for EX(This) */
+        uint32_t     fe_pos;               /* foreach position */
+        uint32_t     fe_iter_idx;          /* foreach iterator index */
+        uint32_t     access_flags;         /* class constant access flags */
+        uint32_t     property_guard;       /* single property guard */
+        uint32_t     extra;                /* not further specified */
+    } u2;
+};
+</code></pre><p>分为三个部分， zend_value, u1, u2 三个联合体。<br>跟踪 zend_value 看看, </p>
+<pre><code>typedef union _zend_value {
+    zend_long         lval;                /* long value */
+    double            dval;                /* double value */
+    zend_refcounted  *counted;
+    zend_string      *str;
+    zend_array       *arr;
+    zend_object      *obj;
+    zend_resource    *res;
+    zend_reference   *ref;
+    zend_ast_ref     *ast;
+    zval             *zv;
+    void             *ptr;
+    zend_class_entry *ce;
+    zend_function    *func;
+    struct {
+        uint32_t w1;
+        uint32_t w2;
+    } ww;
+} zend_value;
+</code></pre><p>跋山涉水， zend_value 这个联合体可以存放所有可能的 php 数据类型数据。 数值分: 长整型或者双精度浮点型。 剩下的基本是指针值。有计数器指针，字符串指针，数组指针，对象指针，资源指针，引用指针, 空指针， 类指针，函数指针。 </p>
 <p>而 u1 里面又是啥东东？ ZEND_ENDIAN_LOHI_4()这个东西, </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#ifdef WORDS_BIGENDIAN</span><br><span class="line"># define ZEND_ENDIAN_LOHI(lo, hi)          hi; lo;</span><br><span class="line"># define ZEND_ENDIAN_LOHI_3(lo, mi, hi)    hi; mi; lo;</span><br><span class="line"># define ZEND_ENDIAN_LOHI_4(a, b, c, d)    d; c; b; a;</span><br><span class="line"># define ZEND_ENDIAN_LOHI_C(lo, hi)        hi, lo</span><br><span class="line"># define ZEND_ENDIAN_LOHI_C_3(lo, mi, hi)  hi, mi, lo,</span><br><span class="line"># define ZEND_ENDIAN_LOHI_C_4(a, b, c, d)  d, c, b, a</span><br><span class="line">#else</span><br><span class="line"># define ZEND_ENDIAN_LOHI(lo, hi)          lo; hi;</span><br><span class="line"># define ZEND_ENDIAN_LOHI_3(lo, mi, hi)    lo; mi; hi;</span><br><span class="line"># define ZEND_ENDIAN_LOHI_4(a, b, c, d)    a; b; c; d;</span><br><span class="line"># define ZEND_ENDIAN_LOHI_C(lo, hi)        lo, hi</span><br><span class="line"># define ZEND_ENDIAN_LOHI_C_3(lo, mi, hi)  lo, mi, hi,</span><br><span class="line"># define ZEND_ENDIAN_LOHI_C_4(a, b, c, d)  a, b, c, d</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
-<p>这些 哆瑞咪发嗦啦奇多, 暂时不知道做什么。不过 type, type_flags, const_flags, reserved 按照字面意思应该包含激活的类型，类型标志，常量标记，保留值。所以 u1 其实是存的类型相关的信息值。</p>
+<pre><code>#ifdef WORDS_BIGENDIAN
+# define ZEND_ENDIAN_LOHI(lo, hi)          hi; lo;
+# define ZEND_ENDIAN_LOHI_3(lo, mi, hi)    hi; mi; lo;
+# define ZEND_ENDIAN_LOHI_4(a, b, c, d)    d; c; b; a;
+# define ZEND_ENDIAN_LOHI_C(lo, hi)        hi, lo
+# define ZEND_ENDIAN_LOHI_C_3(lo, mi, hi)  hi, mi, lo,
+# define ZEND_ENDIAN_LOHI_C_4(a, b, c, d)  d, c, b, a
+#else
+# define ZEND_ENDIAN_LOHI(lo, hi)          lo; hi;
+# define ZEND_ENDIAN_LOHI_3(lo, mi, hi)    lo; mi; hi;
+# define ZEND_ENDIAN_LOHI_4(a, b, c, d)    a; b; c; d;
+# define ZEND_ENDIAN_LOHI_C(lo, hi)        lo, hi
+# define ZEND_ENDIAN_LOHI_C_3(lo, mi, hi)  lo, mi, hi,
+# define ZEND_ENDIAN_LOHI_C_4(a, b, c, d)  a, b, c, d
+#endif
+</code></pre><p>这些 哆瑞咪发嗦啦奇多, 暂时不知道做什么。不过 type, type_flags, const_flags, reserved 按照字面意思应该包含激活的类型，类型标志，常量标记，保留值。所以 u1 其实是存的类型相关的信息值。</p>
 <p>u2 里面是存放一个额外的数据, 有介绍说是一般情况下用不到？这个<a href="http://nikic.github.io/" target="_blank" rel="noopener">博客</a>说的。</p>
 <p>这里面有几个疑问仍未确定: </p>
 <ol>
@@ -157,150 +391,374 @@
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>PHP 底层没有看起来的那么简单。有些构造可能是巧妙的，但是目前还领会不到。</p>
 <!--more-->
 
+      
+    </div>
     
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/php/" rel="tag"># php</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018-05-01-tools/" rel="next" title="源码">
+                <i class="fa fa-chevron-left"></i> 源码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018-05-19-arch/" rel="prev" title="从 ubuntu 到 arch">
+                从 ubuntu 到 arch <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
-</article>
+
+          </div>
+          
 
 
-   
+          
 
-   
-  <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2018-05-01-tools/">
-        <i class="icon icon-angle-left"></i>
-    </a>
-    <a class="show pull-right" href="/2018-05-01-php-source-code-appreciation/">
-        <i class="icon icon-angle-right"></i>
-    </a>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
   </div>
 
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Gitvim</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#zend-基础类型-宏"><span class="nav-number">1.</span> <span class="nav-text">zend 基础类型- 宏</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#zval"><span class="nav-number">1.1.</span> <span class="nav-text">zval</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">2.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
 
 
+        
+      </div>
+    </main>
 
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Gitvim</span>
+
+  
 </div>
 
 
-  <a id="backTop" class="back-top">
-    <i class="icon-angle-up"></i>
-  </a>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
 
 
 
-  <div class="modal" id="modal">
-  <span id="cover" class="cover hide"></span>
-  <div id="modal-dialog" class="modal-dialog hide-dialog">
-    <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
-    </div>
-    <hr>
-    <div class="modal-body">
-      <ul class="list-toolbox">
         
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/archives/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              博客
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/tag/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              标签
-            </a>
-          </li>
-        
-      </ul>
 
-    </div>
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
   </div>
-</div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
 
 
 
   
-      <div class="fexo-comments comments-post">
-    
-
-    
-
-    
-    
-
-    
-
-    
-    
-
-    
-
-<!-- Gitalk评论插件通用代码 -->
-<div id="gitalk-container"></div>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
-<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
-<script>
-const gitalk = new Gitalk({
-  clientID: '1f4a4b05d59a33d8767f',
-  clientSecret: 'b111970400d0b17cc47cb290520052a9d95706d7',
-  repo: 'chenyangguang.github.io',
-  owner: 'chenyangguang',
-  // 在这里设置一下截取前50个字符串, 这是因为 github 对 label 的长度有了要求, 如果超过
-  // 50个字符串则会报错.
-  id: location.pathname.split('/').pop().substring(0, 49),
-  admin: ['chenyangguang'],
-  // facebook-like distraction free mode
-  distractionFreeMode: false
-})
-gitalk.render('gitalk-container')
-</script>
-<!-- Gitalk代码结束 -->
 
 
 
-  </div>
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
 
   
 
-  <script type="text/javascript">
-  function loadScript(url, callback) {
-    var script = document.createElement('script')
-    script.type = 'text/javascript';
 
-    if (script.readyState) { //IE
-      script.onreadystatechange = function() {
-        if (script.readyState == 'loaded' ||
-          script.readyState == 'complete') {
-          script.onreadystatechange = null;
-          callback();
-        }
-      };
-    } else { //Others
-      script.onload = function() {
-        callback();
-      };
-    }
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
 
-    script.src = url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
 
-  window.onload = function() {
-    loadScript('/js/bundle.js?235683', function() {
-      // load success
-    });
-  }
-</script>
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
 
 </body>
 </html>
