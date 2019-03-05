@@ -322,42 +322,7 @@
 <li>提高类的复用度。</li>
 <li>灵活。</li>
 </ul>
-<h2 id="php实现"><a href="#php实现" class="headerlink" title="php实现"></a>php实现</h2><pre><code class="php">&lt;?php
-interface Target {
-    public function job();
-}
-
-class ConcreteTarget implements Target {
-    public function job() {
-        echo &#39;220 v 电流可以正常使用&#39; . PHP_EOL;
-    }
-}
-
-class Adaptee {
-    public function doSth() {
-        echo &#39;25000 V高压电流也能用&#39; . PHP_EOL;
-    }
-}
-
-class Adapter extends Adaptee implements Target {
-    public function job() {
-        parent::doSth();
-    }
-}
-
-class Client {
-    public static function main() {
-        $target  = new ConcreteTarget();
-        $target-&gt;job();
-        $target2 = new Adapter();
-        $target2-&gt;job();
-    }
-}
-(new Client())::main();
-// 220 v 电流可以正常使用
-// 25000 V高压电流也能用
-
-</code></pre>
+<h2 id="php实现"><a href="#php实现" class="headerlink" title="php实现"></a>php实现</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Target</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">job</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteTarget</span> <span class="keyword">implements</span> <span class="title">Target</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">job</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'220 v 电流可以正常使用'</span> . PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Adaptee</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">doSth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'25000 V高压电流也能用'</span> . PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Adapter</span> <span class="keyword">extends</span> <span class="title">Adaptee</span> <span class="keyword">implements</span> <span class="title">Target</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">job</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">parent</span>::doSth();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $target  = <span class="keyword">new</span> ConcreteTarget();</span><br><span class="line">        $target-&gt;job();</span><br><span class="line">        $target2 = <span class="keyword">new</span> Adapter();</span><br><span class="line">        $target2-&gt;job();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">(<span class="keyword">new</span> Client())::main();</span><br><span class="line"><span class="comment">// 220 v 电流可以正常使用</span></span><br><span class="line"><span class="comment">// 25000 V高压电流也能用</span></span><br></pre></td></tr></table></figure>
 <h1 id="0x01-小结"><a href="#0x01-小结" class="headerlink" title="0x01 小结"></a>0x01 小结</h1><!--more-->
 
       
@@ -478,7 +443,7 @@ class Client {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

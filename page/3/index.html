@@ -238,6 +238,126 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018-04-24-update-ubuntu2LTS18.04/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gitvim">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="重剑无锋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018-04-24-update-ubuntu2LTS18.04/" itemprop="url">update ubuntu16.04 to ubuntu18.04</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-24T09:50:57+08:00">
+                2018-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="builtin-name">get</span> update</span><br><span class="line">sudo apt-<span class="builtin-name">get</span> upgrade</span><br><span class="line">sudo apt-<span class="builtin-name">get</span> install update-manager-core</span><br><span class="line">sudo do-release-upgrade -d --devel-release</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018-03-01-TheWayToGoLang/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -710,75 +830,8 @@
 <li>子系统相对独立.</li>
 <li>预防低水平人员带来的风险扩散．</li>
 </ul>
-<h2 id="php实现"><a href="#php实现" class="headerlink" title="php实现"></a>php实现</h2><pre><code>&lt;?php
-
-// 子系统
-class SubsystemOne {
-    public function dosthFir()
-    {
-        echo &#39;subsystem class one.&#39;;
-    }
-}
-class SubsystemTwo {
-    public function dosthSec()
-    {
-        echo &#39;subsystem class two.&#39;;
-    }
-}
-class SubsystemThr {
-    public function dosthThr()
-    {
-        echo &#39;subsystem class three.&#39;;
-    }
-}
-
-// 门面类
-class Facade {
-    private $objOne;
-    private $objTwo;
-    private $objThree;
-    private $context;
-
-    public function __construct()
-    {
-        $this-&gt;objOne = new SubsystemOne();
-        $this-&gt;objTwo = new SubsystemTwo();
-        $this-&gt;objThr = new SubsystemThr();
-        $this-&gt;context = new Context();
-    }
-
-    public function jobFir()
-    {
-        $this-&gt;objOne-&gt;dosthFir();
-    }
-    public function jobSec()
-    {
-        $this-&gt;objTwo-&gt;dosthSec();
-    }
-    public function jobThr()
-    {
-        $this-&gt;context-&gt;combineJob();
-    }
-}
-
-// 封装类, 不要直接参与子系统内的业务逻辑
-class Context {
-    private $objOne;
-    private $objThr;
-
-    public function __construct()
-    {
-        $this-&gt;objOne = new SubsystemOne();
-        $this-&gt;objThr = new SubsystemThr();
-    }
-
-    public function combineJob()
-    {
-        $this-&gt;objOne-&gt;doSthFir();
-        $this-&gt;objThr-&gt;doSthThr();
-    }
-}
-</code></pre><h1 id="0x01-小结"><a href="#0x01-小结" class="headerlink" title="0x01 小结"></a>0x01 小结</h1><p>门面不参与子系统内的业务逻辑．Laravel 框架就用了不少 Facade.</p>
+<h2 id="php实现"><a href="#php实现" class="headerlink" title="php实现"></a>php实现</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子系统</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubsystemOne</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">dosthFir</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'subsystem class one.'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubsystemTwo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">dosthSec</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'subsystem class two.'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubsystemThr</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">dosthThr</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'subsystem class three.'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 门面类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Facade</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $objOne;</span><br><span class="line">    <span class="keyword">private</span> $objTwo;</span><br><span class="line">    <span class="keyword">private</span> $objThree;</span><br><span class="line">    <span class="keyword">private</span> $context;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;objOne = <span class="keyword">new</span> SubsystemOne();</span><br><span class="line">        <span class="keyword">$this</span>-&gt;objTwo = <span class="keyword">new</span> SubsystemTwo();</span><br><span class="line">        <span class="keyword">$this</span>-&gt;objThr = <span class="keyword">new</span> SubsystemThr();</span><br><span class="line">        <span class="keyword">$this</span>-&gt;context = <span class="keyword">new</span> Context();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">jobFir</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;objOne-&gt;dosthFir();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">jobSec</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;objTwo-&gt;dosthSec();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">jobThr</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;context-&gt;combineJob();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 封装类, 不要直接参与子系统内的业务逻辑</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Context</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $objOne;</span><br><span class="line">    <span class="keyword">private</span> $objThr;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;objOne = <span class="keyword">new</span> SubsystemOne();</span><br><span class="line">        <span class="keyword">$this</span>-&gt;objThr = <span class="keyword">new</span> SubsystemThr();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">combineJob</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;objOne-&gt;doSthFir();</span><br><span class="line">        <span class="keyword">$this</span>-&gt;objThr-&gt;doSthThr();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="0x01-小结"><a href="#0x01-小结" class="headerlink" title="0x01 小结"></a>0x01 小结</h1><p>门面不参与子系统内的业务逻辑．Laravel 框架就用了不少 Facade.</p>
 
           
         
@@ -1039,57 +1092,8 @@ class Context {
 <li>维护和展示”部分-整体”关系的场景，诸如树形菜单，文件和文件夹管理．</li>
 <li>从一个整体中能够独立出部分模块或功能的场景．</li>
 </ul>
-<h2 id="php实现"><a href="#php实现" class="headerlink" title="php实现"></a>php实现</h2><pre><code>&lt;?php
-
-// 抽象构件
-abstract class Component {
-    public function doSth() {}
-}
-
-// 树枝构件
-class Composite extends Component {
-    private $compArr = [];
-    public function add(Component $_component)
-    {
-        array_push($this-&gt;compArr, $_component);
-    }
-
-    public function remove(Component $_component)
-    {
-        $key = array_search($_component, $this-&gt;compArr);
-        if (!$key !== false) {
-            array_splice($this-&gt;compArr, $key, 1);
-        }
-    }
-
-    public function getChildren()
-    {
-        return $this-&gt;compArr;
-    }
-}
-
-// 叶子构件
-class Leaf extends Component {
-    public function doSth()
-    {}
-}
-
-class Client {
-    public static function main()
-    {
-        $root = new Composite();
-        $root-&gt;doSth();
-        $branch = new Composite();
-        $root-&gt;add($branch);
-        $leaf = new Leaf();
-        $branch-&gt;add($leaf);
-    }
-    public static function showTree(Composite $root)
-    {
-    }
-}
-
-</code></pre><h1 id="0x-小结"><a href="#0x-小结" class="headerlink" title="0x 小结"></a>0x 小结</h1><p>不管你在不在, 设计方式就在那里……</p>
+<h2 id="php实现"><a href="#php实现" class="headerlink" title="php实现"></a>php实现</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 抽象构件</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">doSth</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 树枝构件</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Composite</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $compArr = [];</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">(Component $_component)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        array_push(<span class="keyword">$this</span>-&gt;compArr, $_component);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remove</span><span class="params">(Component $_component)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $key = array_search($_component, <span class="keyword">$this</span>-&gt;compArr);</span><br><span class="line">        <span class="keyword">if</span> (!$key !== <span class="keyword">false</span>) &#123;</span><br><span class="line">            array_splice(<span class="keyword">$this</span>-&gt;compArr, $key, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getChildren</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;compArr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 叶子构件</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Leaf</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">doSth</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $root = <span class="keyword">new</span> Composite();</span><br><span class="line">        $root-&gt;doSth();</span><br><span class="line">        $branch = <span class="keyword">new</span> Composite();</span><br><span class="line">        $root-&gt;add($branch);</span><br><span class="line">        $leaf = <span class="keyword">new</span> Leaf();</span><br><span class="line">        $branch-&gt;add($leaf);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">showTree</span><span class="params">(Composite $root)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="0x-小结"><a href="#0x-小结" class="headerlink" title="0x 小结"></a>0x 小结</h1><p>不管你在不在, 设计方式就在那里……</p>
 
           
         
@@ -1500,130 +1504,6 @@ class Client {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2017-11-23-decorator/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Gitvim">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="重剑无锋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017-11-23-decorator/" itemprop="url">设计模式-装饰者模式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-23T17:03:43+08:00">
-                2017-11-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="0x00-装饰者模式"><a href="#0x00-装饰者模式" class="headerlink" title="0x00 装饰者模式"></a>0x00 装饰者模式</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>Attach additional responsibilities to an object dynamically keeping the same interface. Decorators provide a flexible alternative to subclassing for extending functionality.(动态地给一个对象添加一些额外的职责。就增加功能来说，装饰模式相比生成子类更为灵活。) </strong></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017-11-23-decorator/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1674,7 +1554,7 @@ class Client {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

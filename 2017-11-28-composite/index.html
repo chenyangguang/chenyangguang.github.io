@@ -324,57 +324,8 @@
 <li>维护和展示”部分-整体”关系的场景，诸如树形菜单，文件和文件夹管理．</li>
 <li>从一个整体中能够独立出部分模块或功能的场景．</li>
 </ul>
-<h2 id="php实现"><a href="#php实现" class="headerlink" title="php实现"></a>php实现</h2><pre><code>&lt;?php
-
-// 抽象构件
-abstract class Component {
-    public function doSth() {}
-}
-
-// 树枝构件
-class Composite extends Component {
-    private $compArr = [];
-    public function add(Component $_component)
-    {
-        array_push($this-&gt;compArr, $_component);
-    }
-
-    public function remove(Component $_component)
-    {
-        $key = array_search($_component, $this-&gt;compArr);
-        if (!$key !== false) {
-            array_splice($this-&gt;compArr, $key, 1);
-        }
-    }
-
-    public function getChildren()
-    {
-        return $this-&gt;compArr;
-    }
-}
-
-// 叶子构件
-class Leaf extends Component {
-    public function doSth()
-    {}
-}
-
-class Client {
-    public static function main()
-    {
-        $root = new Composite();
-        $root-&gt;doSth();
-        $branch = new Composite();
-        $root-&gt;add($branch);
-        $leaf = new Leaf();
-        $branch-&gt;add($leaf);
-    }
-    public static function showTree(Composite $root)
-    {
-    }
-}
-
-</code></pre><h1 id="0x-小结"><a href="#0x-小结" class="headerlink" title="0x 小结"></a>0x 小结</h1><p>不管你在不在, 设计方式就在那里……</p>
+<h2 id="php实现"><a href="#php实现" class="headerlink" title="php实现"></a>php实现</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 抽象构件</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">doSth</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 树枝构件</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Composite</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $compArr = [];</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">(Component $_component)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        array_push(<span class="keyword">$this</span>-&gt;compArr, $_component);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remove</span><span class="params">(Component $_component)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $key = array_search($_component, <span class="keyword">$this</span>-&gt;compArr);</span><br><span class="line">        <span class="keyword">if</span> (!$key !== <span class="keyword">false</span>) &#123;</span><br><span class="line">            array_splice(<span class="keyword">$this</span>-&gt;compArr, $key, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getChildren</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;compArr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 叶子构件</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Leaf</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">doSth</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $root = <span class="keyword">new</span> Composite();</span><br><span class="line">        $root-&gt;doSth();</span><br><span class="line">        $branch = <span class="keyword">new</span> Composite();</span><br><span class="line">        $root-&gt;add($branch);</span><br><span class="line">        $leaf = <span class="keyword">new</span> Leaf();</span><br><span class="line">        $branch-&gt;add($leaf);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">showTree</span><span class="params">(Composite $root)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="0x-小结"><a href="#0x-小结" class="headerlink" title="0x 小结"></a>0x 小结</h1><p>不管你在不在, 设计方式就在那里……</p>
 
       
     </div>
@@ -494,7 +445,7 @@ class Client {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

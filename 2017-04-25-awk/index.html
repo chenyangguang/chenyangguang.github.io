@@ -310,279 +310,82 @@
       
         <h3 id="awk-起源之美女选男朋友"><a href="#awk-起源之美女选男朋友" class="headerlink" title="awk 起源之美女选男朋友"></a>awk 起源之美女选男朋友</h3><p>说起瑞士军刀，可能很多人都听腻了。 有说 Emacs 是瑞士军刀的， 有说 Vim 也是瑞士军刀， 有说 Python 是瑞士军刀的。但是让我们暂时抛开对瑞士军刀的兴趣, 来拨弄一下一页小小的瑞士军刀片– awk。这个小家伙是一门小巧玲珑的特殊的编程语言。<br><a id="more"></a></p>
 <p>不可我， 总结了一个最好的认识新事物的方法: 迎面冲上去。<br>看下面这组相亲数据 gfs.data : </p>
-<pre><code>Li 65 177 10000
-Wang 77 180 8000
-Niu 60 199  20000
-Chen 64.5 168 5000
-Ouyang 80 200 12000
-Liu 72.5 182 9999
-</code></pre><p>这片小数据里面包含几个字段， 人名，体重，身高, 月收入的数据。 比如美女需要从这里挑选男朋友标准，怎么选出这里面身高 177 以上的高富帅呢？ </p>
-<pre><code>➜  tmp awk &#39; $3 &gt; 177 { print $1,$3}&#39; gfs.data 
-Wang 180
-Niu 199
-Ouyang 200
-Liu 182
-</code></pre><p> tmp 是临时目录，这个是 zsh 里面的一个短路径，略过。 awk 程序的结构是 <em>pattern { action }</em> 的结构。<br>它会默认将字段看作非空白字符组成的序列。（所以你看那些中间的安安静静的空格，被当成是空气了。）剩下的，第一个字段姓名，就是 <em>$1</em>, 第二个体重是 <em>$2</em>, 177， 180, 199, 168, 200,182这些身高值就是 <em>$3</em>了, 依次类推下去。 整个一行是 $0。每个人的颜值，身家是可能不一样的, 也就是说 <em>$n</em> 的值长度是不一定一致的。</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Li <span class="number">65</span> <span class="number">177</span> <span class="number">10000</span></span><br><span class="line">Wang <span class="number">77</span> <span class="number">180</span> <span class="number">8000</span></span><br><span class="line">Niu <span class="number">60</span> <span class="number">199</span>  <span class="number">20000</span></span><br><span class="line">Chen <span class="number">64.5</span> <span class="number">168</span> <span class="number">5000</span></span><br><span class="line">Ouyang <span class="number">80</span> <span class="number">200</span> <span class="number">12000</span></span><br><span class="line">Liu <span class="number">72.5</span> <span class="number">182</span> <span class="number">9999</span></span><br></pre></td></tr></table></figure>
+<p>这片小数据里面包含几个字段， 人名，体重，身高, 月收入的数据。 比如美女需要从这里挑选男朋友标准，怎么选出这里面身高 177 以上的高富帅呢？ </p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk ' $<span class="number">3</span> &gt; <span class="number">177</span> &#123; print $<span class="number">1</span>,$<span class="number">3</span>&#125;' gfs.data </span><br><span class="line">Wang <span class="number">180</span></span><br><span class="line">Niu <span class="number">199</span></span><br><span class="line">Ouyang <span class="number">200</span></span><br><span class="line">Liu <span class="number">182</span></span><br></pre></td></tr></table></figure>
+<p> tmp 是临时目录，这个是 zsh 里面的一个短路径，略过。 awk 程序的结构是 <em>pattern { action }</em> 的结构。<br>它会默认将字段看作非空白字符组成的序列。（所以你看那些中间的安安静静的空格，被当成是空气了。）剩下的，第一个字段姓名，就是 <em>$1</em>, 第二个体重是 <em>$2</em>, 177， 180, 199, 168, 200,182这些身高值就是 <em>$3</em>了, 依次类推下去。 整个一行是 $0。每个人的颜值，身家是可能不一样的, 也就是说 <em>$n</em> 的值长度是不一定一致的。</p>
 <p> 单引号包起来的 <em>$3 &gt; 177</em> 是对每行扫描匹配的条件。当扫到 Wang 时， 很明显这家伙 180 超出预期值，需要多瞄几眼，看是否是 “八字” 合的来的真名天子，被挑出来了。按照这个模式一直搜到最后行， Liu 这个哥儿们也中彩了。<br>如果这位美女眼光比较高，她找男朋友的条件比较多，比如，收入要高，体重要匀称，智商要高等， 这样的话，最好是将她的条件给写到一个文件里面去， 名值曰: conditions.data。一次给她选中得意郎君。</p>
-<pre><code>awk -f conditions.data gfs.data
-</code></pre><p><em>-f</em> 表示从文件中提取程序，这个标准可以给多个姑娘参考, 选, 不中？不要， 中？ 要得！ 选…..选…..海选!</p>
-<pre><code>awk -f progfile optionnal list of files
-</code></pre><p>那么选择的条件一多了， 不想一条条罗列了，怎么给婚介所一个范围？ 用到字段的数量 <em>NF</em> 了。 <em>NF</em> 是 <em>Awk</em> 计算当前行的字段数量并存储的内建的变量。</p>
-<pre><code>➜  tmp awk  &#39;{ print NF, $1, $NF }&#39; gfs.data 
-4 Li 10000
-4 Wang 8000
-4 Niu 20000
-4 Chen 5000
-4 Ouyang 12000
-4 Liu 9999
-</code></pre><p>这就打出每一个 boy 的 考察的条件数量，姓名，月收入了。直接拿这条件去撒网了。</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">awk</span> -f conditions.<span class="class"><span class="keyword">data</span> gfs.<span class="keyword">data</span></span></span><br></pre></td></tr></table></figure>
+<p><em>-f</em> 表示从文件中提取程序，这个标准可以给多个姑娘参考, 选, 不中？不要， 中？ 要得！ 选…..选…..海选!</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -f progfile optionnal <span class="built_in">list</span> <span class="keyword">of</span> files</span><br></pre></td></tr></table></figure>
+<p>那么选择的条件一多了， 不想一条条罗列了，怎么给婚介所一个范围？ 用到字段的数量 <em>NF</em> 了。 <em>NF</em> 是 <em>Awk</em> 计算当前行的字段数量并存储的内建的变量。</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk  '&#123; print NF, $<span class="number">1</span>, $NF &#125;' gfs.data </span><br><span class="line"><span class="number">4</span> Li <span class="number">10000</span></span><br><span class="line"><span class="number">4</span> Wang <span class="number">8000</span></span><br><span class="line"><span class="number">4</span> Niu <span class="number">20000</span></span><br><span class="line"><span class="number">4</span> Chen <span class="number">5000</span></span><br><span class="line"><span class="number">4</span> Ouyang <span class="number">12000</span></span><br><span class="line"><span class="number">4</span> Liu <span class="number">9999</span></span><br></pre></td></tr></table></figure>
+<p>这就打出每一个 boy 的 考察的条件数量，姓名，月收入了。直接拿这条件去撒网了。</p>
 <p>打印真名天子所在的相亲次序 <em>NR</em>, 也是一个内建变量，是计算到目前为止，读取到的行的数量, 这里就是相亲的次数（假设这妹子每次相亲都换人）。</p>
-<pre><code>➜  tmp awk &#39;{print NR, $0}&#39;  gfs.data
-1 Li 65 177 10000
-2 Wang 77 180 8000
-3 Niu 60 199  20000
-4 Chen 64.5 168 5000
-5 Ouyang 80 200 12000
-6 Liu 72.5 182 9999
-
-</code></pre><p>这几个的条件呢？ </p>
-<pre><code>➜  tmp awk &#39;$4 &gt; 10000 {print &quot;很有钱的人:&quot;, $1, &quot; 月收入:&quot;, $4 }&#39; gfs.data  
-很有钱的人: Niu  月收入: 20000
-很有钱的人: Ouyang  月收入: 12000
-</code></pre><p>人太多了，薪资位数不好比较，毕竟 0 太多了嘛! 筛选一下并格式化一下， 怎么搞？ printf(format, val_1, val_2, val_3, …, val_n), </p>
-<pre><code>➜  tmp awk &#39;{printf(&quot;%-8s 的月薪是 ￥%10.2f\n&quot;, $1,$4)}&#39; gfs.data
-Li       的月薪是 ￥  10000.00
-Wang     的月薪是 ￥   8000.00
-Niu      的月薪是 ￥  20000.00
-Chen     的月薪是 ￥   5000.00
-Ouyang   的月薪是 ￥  12000.00
-Liu      的月薪是 ￥   9999.00
-
-</code></pre><p>哎呀，还是看不清谁是优质男嘛，来，排下他们的薪资高低。 薪水往地处走，人往高处挑呀！ 用管道命令 <em>sort</em> 。</p>
-<pre><code>➜  tmp awk &#39;{printf(&quot; %10.2f %s\n&quot;, $4, $0)}&#39; gfs.data | sort -n
-    5000.00 Chen 64.5 168 5000
-    8000.00 Wang 77 180 8000
-    9999.00 Liu 72.5 182 9999
-   10000.00 Li 65 177 10000
-   12000.00 Ouyang 80 200 12000
-   20000.00 Niu 60 199  20000
-</code></pre><p>原来牛哥是这里边最有 “钱途” 的！ 既然有三个是万元薪资的了，就先锁定他们了。毕竟谁会跟钱过不去？但是不能光看工资啊，要是这人是武大郎怎么办或者√2怎么办？ 不行，还是慎重一点，高开低走，190以上的，能过眼。长大了能像郎平和朱婷一样打排球，或者弄个小姚明？ 再加点条件吧： AND, OR 和 NOT, 用 &amp;&amp;, || 和 !</p>
-<pre><code>➜  tmp awk &#39;$4 &gt;=10000 &amp;&amp; $3 &gt; 190 { print $0}&#39; gfs.data
-Niu 60 199  20000
-Ouyang 80 200 12000
-</code></pre><p>这个输出少了一个醒目的标题, 说不定有妹子错将体重看成是腰围呢？为避免不必要的误解发生，还是加个头吧。</p>
-<pre><code>➜  tmp awk &#39;BEGIN {print &quot;姓名 体重 身高 薪水&quot;; print &quot;&quot;}{print($0)}&#39; gfs.data        
-姓名 体重 身高 薪水
-
-Li 65 177 10000
-Wang 77 180 8000
-Niu 60 199  20000
-Chen 64.5 168 5000
-Ouyang 80 200 12000
-Liu 72.5 182 9999
-
-</code></pre><p>哎呀，提前到约会地点了，闲着没事干，要么比较一下这些人的平均工资？</p>
-<pre><code>➜  tmp awk &#39;{salary = salary + $4} END {print NR, &quot;个人&quot;;  print &quot;总共月薪：&quot;, salary; print &quot;平均月 薪:&quot;, salary/NR}&#39; gfs.data        
-6 个人
-总共月薪： 64999
-平均月薪: 10833.2
-</code></pre><p>还不错嘛！人还没来，将所有相亲的人名品起来能组成一首诗么？ </p>
-<pre><code>➜  tmp awk &#39;{names = names $1 &quot; &quot;} END {print names }&#39;  gfs.data
-Li Wang Niu Chen Ouyang Liu 
-</code></pre><p>好吧，并没有。这些人名有多少笔画?啊不，是有几个字母组成？ </p>
-<pre><code>➜  tmp awk &#39; {print $1, length($1) } &#39; gfs.data
-Li 2
-Wang 4
-Niu 3
-Chen 4
-Ouyang 6
-Liu 3
-</code></pre><h3 id="军刀的流程"><a href="#军刀的流程" class="headerlink" title="军刀的流程"></a>军刀的流程</h3><p>if-else 筛筛 </p>
-<pre><code>➜  tmp awk &#39;$4 &gt; 10000 {n =  n + 1; salary = salary + $4 }{ if (n &gt; 0 &amp;&amp; $4 &gt; 10000)  print $1, &quot;你有戏哟&quot;; else {print $1, &quot;你被out了&quot;} }&#39; gfs.data
-Li 你被out了
-Wang 你被out了
-Niu 你有戏哟
-Chen 你被out了
-Ouyang 你有戏哟
-Liu 你被out了
-</code></pre><p>while 循环, 从头梳理一边</p>
-<pre><code>awk &#39;{ line[NR] = $0 } END { i = NR ;while (i&gt;0) { print line[i]; i = i - 1 }} &#39; gfs.data
-Liu 72.5 182 9999
-Ouyang 80 200 12000
-Chen 64.5 168 5000
-Niu 60 199  20000
-Wang 77 180 8000
-Li 65 177 10000
-</code></pre><p>for  九九归一</p>
-<pre><code>➜  tmp awk &#39;BEGIN {for (i=1; i &lt;=9; ++i) print i}&#39;                            
-1
-2
-3
-4
-5
-6
-7
-8
-9
-
-</code></pre><h3 id="实用“片刀式”"><a href="#实用“片刀式”" class="headerlink" title="实用“片刀式”"></a>实用“片刀式”</h3><p>输入行的总行数</p>
-<pre><code>➜  tmp awk &#39;END { print NR}&#39; gfs.data
-6
-</code></pre><p>打印第四行 </p>
-<pre><code>➜  tmp awk &#39; NR == 4 &#39; gfs.data
-Chen 64.5 168 5000
-</code></pre><p>输出每一行最后一个字段 </p>
-<pre><code>➜  tmp awk &#39; {print $NF}&#39; gfs.data
-10000
-8000
-20000
-5000
-12000
-9999
-</code></pre><p>打印最后一行的最后一个字段</p>
-<pre><code>➜  tmp awk &#39;{field = $NF} END { print field }&#39;  gfs.data
-9999
-</code></pre><p>打印字段数多于 3 个的输入行</p>
-<pre><code>➜  tmp awk &#39;NF&gt;3&#39; gfs.data
-Li 65 177 10000
-Wang 77 180 8000
-Niu 60 199  20000
-Chen 64.5 168 5000
-Ouyang 80 200 12000
-Liu 72.5 182 9999
-</code></pre><p>打印最后一个字段值大于10000的输入行</p>
-<pre><code>➜  tmp awk &#39;$NF &gt; 10000 &#39; gfs.data 
-Niu 60 199  20000
-Ouyang 80 200 12000
-
-</code></pre><p>打印所有输入行的字段数的总和</p>
-<pre><code>➜  tmp awk &#39; {nf = nf + NF} END {print nf} &#39; gfs.data
-24
-</code></pre><p>打印包含 /Niu/ 的行的数量</p>
-<pre><code>➜  tmp awk &#39; /Niu/ {nlines = nlines + 1} END {print nlines}&#39; gfs.data
-1
-
-</code></pre><p>打印具有最大值的第4个字段，以及包含它的行(假设 $1 总是正的)</p>
-<pre><code>➜  tmp awk &#39;$4 &gt; max { max=$4; maxline=$0 } END { print max, maxline }&#39; gfs.data 
-20000 Niu 60 199  20000
-</code></pre><p>打印至少包含一个字段的行</p>
-<pre><code>➜  tmp awk &#39;NF &gt; 0&#39; gfs.data
-Li 65 177 10000
-Wang 77 180 8000
-Niu 60 199  20000
-Chen 64.5 168 5000
-Ouyang 80 200 12000
-Liu 72.5 182 9999
-</code></pre><p>打印长度超过 20 个字符的行 </p>
-<pre><code>➜  tmp awk &#39;length($0) &gt; 16&#39; gfs.data
-Niu 60 199  20000
-Chen 64.5 168 5000
-Ouyang 80 200 12000
-Liu 72.5 182 9999
-</code></pre><p>每一行的前面加上它的字段数 </p>
-<pre><code>➜  tmp awk &#39;{print NF, $0}&#39;  gfs.data
-4 Li 65 177 10000
-4 Wang 77 180 8000
-4 Niu 60 199  20000
-4 Chen 64.5 168 5000
-4 Ouyang 80 200 12000
-4 Liu 72.5 182 9999
-</code></pre><p>打印每行第二，第一字段</p>
-<pre><code>➜  tmp awk &#39;{print $2, $1}&#39; gfs.data
-65 Li
-77 Wang
-60 Niu
-64.5 Chen
-80 Ouyang
-72.5 Liu
-</code></pre><p>交换一个字段并打印整行</p>
-<pre><code>➜  tmp awk &#39;{tmp = $1; $1 = $2; $2 = tmp; print}&#39; gfs.data
-65 Li 177 10000
-77 Wang 180 8000
-60 Niu 199 20000
-64.5 Chen 168 5000
-80 Ouyang 200 12000
-72.5 Liu 182 9999
-
-</code></pre><p>每行的第一个字段用行号代替</p>
-<pre><code>➜  tmp awk  &#39;{$1 = NR; print}&#39; gfs.data
-1 65 177 10000
-2 77 180 8000
-3 60 199 20000
-4 64.5 168 5000
-5 80 200 12000
-6 72.5 182 9999
-
-</code></pre><p>打印删除了第二个字段的行</p>
-<pre><code>➜  tmp awk &#39;{$2 == &quot;&quot;; print}&#39; gfs.data
-Li 65 177 10000
-Wang 77 180 8000
-Niu 60 199  20000
-Chen 64.5 168 5000
-Ouyang 80 200 12000
-Liu 72.5 182 9999
-</code></pre><p>每一行的字段按逆序打印</p>
-<pre><code>➜  tmp awk &#39;{ for (i=NF; i &gt; 0; i= i-1) {printf(&quot;%s &quot;, $i)} printf(&quot;\n&quot;)}&#39; gfs.data
-10000 177 65 Li 
-8000 180 77 Wang 
-20000 199 60 Niu 
-5000 168 64.5 Chen 
-12000 200 80 Ouyang 
-9999 182 72.5 Liu 
-
-</code></pre><p>打印每一行的所有字段值之和</p>
-<pre><code>➜  tmp awk &#39;{sum = 0; for (i=1; i &lt;=NF; i=i+1) {sum = sum + $i} print sum }&#39; gfs.data
-10242
-8257
-20259
-5232.5
-12280
-10253.5
-</code></pre><p>将所有行的所有字段值累加起来 </p>
-<pre><code>➜  tmp awk  &#39;{for (i=1; i&lt;=NF; ++i) sum += $i} END {print sum}&#39; gfs.data
-66524
-</code></pre><p>将所有行的所有字段值的绝对值 </p>
-<pre><code>➜  tmp awk  &#39;{for (i=1; i&lt;=NF; ++i) if ($i &lt; 0) {$i = -$i} print }&#39;                  
-Li -65 -177 18000 # 这里手动输入带负数的值
-Li 65 177 18000 # 返回
-</code></pre><h3 id="Awk-语言之萝卜白菜"><a href="#Awk-语言之萝卜白菜" class="headerlink" title="Awk 语言之萝卜白菜"></a>Awk 语言之萝卜白菜</h3><p>输入一个文件 就叫 <code>radish.data</code> 吧, 这个文件大体就是这样的, 这个小节就用这个萝卜白菜来拌炒鱼肉吧</p>
-<pre><code>➜  tmp awk &#39;BEGIN {print &quot;名称       重量 单价 分类\n&quot;} {printf(&quot;%-10s %6.2f %2.2f %-1s\n&quot;, $1, $2, $3, $4)}&#39; radish.data
-名称       重量 单价 分类
-
-Fish        30.00 8.50 Meat
-Radish      14.00 1.20 Vegetables
-Cabbage     24.00 1.50 Vegetables
-Apple      100.00 2.50 Fruit
-Onion        8.00 0.80 Vegetables
-Banana      50.00 1.40 Fruit
-Beef       120.00 22.00 Meat
-Rice        40.00 10.00 Staple
-</code></pre><p>首先需要明确的是 Awk 炒的模式，有这么几种, 看过awk 起源之美女选男朋友的话，应该有 <em>似曾相识燕归去</em>的感觉。<br><code>BEGIN {statements}</code><br>  在输入被读取之前， statements 执行一次 , 就是不管你是爆炒还是水煮， 甭管你是鱼还是肉，你给我先洗洗!准备好油盐酱醋碗, 跟你炒没关系！<br><code>END {statements}</code><br>当所有输入读取完毕之后， statements 执行一次, 还是老话，管你吃饱没吃饱，你给我付钱！<br><code>expression {statements}</code><br>每碰到一个判断 expression 为真的输入行， statements 就执行一遍做菜流程. expression 为真的是其值非零或非空, 就是检查一下你放盐了没，油是不是太多了? 七分熟还是八分熟？<br><code>/regular expression/ {statements}</code><br>当碰到正则匹配的输入行时， statements就执行: 输入行含有一段字符串，而该字符串可以被 regular expression 匹配。一句话，老老实实按照菜谱来，要是在菜里被找到有头发或者小强便便，你丫就死定了！<br><code>compound pattern {statements}</code><br>多种模式， &amp;&amp;(AND), ||(OR), !(NOT), 以及括号组合起来。 当 <code>compound pattern</code> 为真时，statements执行。就是你可以 翻炒+添醋， 或者烘烤， 但是别给我整半生不熟的。<br><code>pattern_1, pattern_2 {statements}</code><br>一个范围模式匹配多个输入行，从pattern1 开始， 到 pattern_2 结束（包括这两行）, 对其中每一行执行statements操作。 你能露几手的环节可能就是在生火后，起锅前, 这段时间段，是你的表演时刻啊。</p>
-<p>可以将你的七十二路炒菜法写下来， 放到 <code>cooking</code> 秘籍里, </p>
-<pre><code>BEGIN { 
-      printf(&quot;%-10s %s %s %s\n&quot;,
-          &quot;名称&quot;, &quot;重量&quot;, &quot;单价&quot;, &quot;分类&quot;)
-      }
-      { printf(&quot;%-10s %6.2f %6.2f %s\n&quot;, $1, $2, $3, $4)
-        weight = weight + $2
-        price  = price + $3*$2
-      }
-END   { printf(&quot;\n%10s %6.2f %6.2f\n&quot;, &quot;总共: &quot;, weight, price)
-      }%
-</code></pre><p>下次传给万中无一的练武奇才时， 直接调用 </p>
-<pre><code>➜  tmp awk -f cooking radish.data
-名称         重量 单价 分类
-Fish        30.00   8.50 Meat
-Radish      14.00   1.20 Vegetables
-Cabbage     24.00   1.50 Vegetables
-Apple      100.00   2.50 Fruit
-Onion        8.00   0.80 Vegetables
-Banana      50.00   1.40 Fruit
-Beef       120.00  22.00 Meat
-Rice        40.00  10.00 Staple
-
-      总共:  386.00 3674.20
-</code></pre><h3 id="刀片出鞘"><a href="#刀片出鞘" class="headerlink" title="刀片出鞘"></a>刀片出鞘</h3><p>一枝军刀片，千军万马削倒一遍!<br>欲知后事如何，且听不才我下回分解。。。。。。</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk '&#123;print NR, $<span class="number">0</span>&#125;'  gfs.data</span><br><span class="line"><span class="number">1</span> Li <span class="number">65</span> <span class="number">177</span> <span class="number">10000</span></span><br><span class="line"><span class="number">2</span> Wang <span class="number">77</span> <span class="number">180</span> <span class="number">8000</span></span><br><span class="line"><span class="number">3</span> Niu <span class="number">60</span> <span class="number">199</span>  <span class="number">20000</span></span><br><span class="line"><span class="number">4</span> Chen <span class="number">64.5</span> <span class="number">168</span> <span class="number">5000</span></span><br><span class="line"><span class="number">5</span> Ouyang <span class="number">80</span> <span class="number">200</span> <span class="number">12000</span></span><br><span class="line"><span class="number">6</span> Liu <span class="number">72.5</span> <span class="number">182</span> <span class="number">9999</span></span><br></pre></td></tr></table></figure>
+<p>这几个的条件呢？ </p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk '<span class="variable">$4</span> &gt; 10000 &#123;<span class="keyword">print</span> <span class="string">"很有钱的人:"</span>, <span class="variable">$1</span>, <span class="string">" 月收入:"</span>, <span class="variable">$4</span> &#125;' gfs.data  </span><br><span class="line">很有钱的人: Niu  月收入: 20000</span><br><span class="line">很有钱的人: Ouyang  月收入: 12000</span><br></pre></td></tr></table></figure>
+<p>人太多了，薪资位数不好比较，毕竟 0 太多了嘛! 筛选一下并格式化一下， 怎么搞？ printf(format, val_1, val_2, val_3, …, val_n), </p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk '&#123;printf(<span class="string">"%-8s 的月薪是 ￥%10.2f<span class="subst">\n</span>"</span>, $<span class="number">1</span>,$<span class="number">4</span>)&#125;' gfs.data</span><br><span class="line">Li       的月薪是 ￥  <span class="number">10000.00</span></span><br><span class="line">Wang     的月薪是 ￥   <span class="number">8000.00</span></span><br><span class="line">Niu      的月薪是 ￥  <span class="number">20000.00</span></span><br><span class="line">Chen     的月薪是 ￥   <span class="number">5000.00</span></span><br><span class="line">Ouyang   的月薪是 ￥  <span class="number">12000.00</span></span><br><span class="line">Liu      的月薪是 ￥   <span class="number">9999.00</span></span><br></pre></td></tr></table></figure>
+<p>哎呀，还是看不清谁是优质男嘛，来，排下他们的薪资高低。 薪水往地处走，人往高处挑呀！ 用管道命令 <em>sort</em> 。</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk '&#123;printf(<span class="string">" %10.2f %s<span class="subst">\n</span>"</span>, $<span class="number">4</span>, $<span class="number">0</span>)&#125;' gfs.data | sort -n</span><br><span class="line">    <span class="number">5000.00</span> Chen <span class="number">64.5</span> <span class="number">168</span> <span class="number">5000</span></span><br><span class="line">    <span class="number">8000.00</span> Wang <span class="number">77</span> <span class="number">180</span> <span class="number">8000</span></span><br><span class="line">    <span class="number">9999.00</span> Liu <span class="number">72.5</span> <span class="number">182</span> <span class="number">9999</span></span><br><span class="line">   <span class="number">10000.00</span> Li <span class="number">65</span> <span class="number">177</span> <span class="number">10000</span></span><br><span class="line">   <span class="number">12000.00</span> Ouyang <span class="number">80</span> <span class="number">200</span> <span class="number">12000</span></span><br><span class="line">   <span class="number">20000.00</span> Niu <span class="number">60</span> <span class="number">199</span>  <span class="number">20000</span></span><br></pre></td></tr></table></figure>
+<p>原来牛哥是这里边最有 “钱途” 的！ 既然有三个是万元薪资的了，就先锁定他们了。毕竟谁会跟钱过不去？但是不能光看工资啊，要是这人是武大郎怎么办或者√2怎么办？ 不行，还是慎重一点，高开低走，190以上的，能过眼。长大了能像郎平和朱婷一样打排球，或者弄个小姚明？ 再加点条件吧： AND, OR 和 NOT, 用 &amp;&amp;, || 和 !</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk '$<span class="number">4</span> &gt;=<span class="number">10000</span> &amp;&amp; $<span class="number">3</span> &gt; <span class="number">190</span> &#123; print $<span class="number">0</span>&#125;' gfs.data</span><br><span class="line">Niu <span class="number">60</span> <span class="number">199</span>  <span class="number">20000</span></span><br><span class="line">Ouyang <span class="number">80</span> <span class="number">200</span> <span class="number">12000</span></span><br></pre></td></tr></table></figure>
+<p>这个输出少了一个醒目的标题, 说不定有妹子错将体重看成是腰围呢？为避免不必要的误解发生，还是加个头吧。<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk 'BEGIN &#123;print <span class="string">"姓名 体重 身高 薪水"</span>; print <span class="string">""</span>&#125;&#123;print($<span class="number">0</span>)&#125;' gfs.data        </span><br><span class="line">姓名 体重 身高 薪水</span><br><span class="line"></span><br><span class="line">Li <span class="number">65</span> <span class="number">177</span> <span class="number">10000</span></span><br><span class="line">Wang <span class="number">77</span> <span class="number">180</span> <span class="number">8000</span></span><br><span class="line">Niu <span class="number">60</span> <span class="number">199</span>  <span class="number">20000</span></span><br><span class="line">Chen <span class="number">64.5</span> <span class="number">168</span> <span class="number">5000</span></span><br><span class="line">Ouyang <span class="number">80</span> <span class="number">200</span> <span class="number">12000</span></span><br><span class="line">Liu <span class="number">72.5</span> <span class="number">182</span> <span class="number">9999</span></span><br></pre></td></tr></table></figure></p>
+<p>哎呀，提前到约会地点了，闲着没事干，要么比较一下这些人的平均工资？</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk '&#123;salary = salary + $<span class="number">4</span>&#125; <span class="keyword">END</span> &#123;<span class="keyword">print</span> NR, <span class="string">"个人"</span>;  <span class="keyword">print</span> <span class="string">"总共月薪："</span>, salary; <span class="keyword">print</span> <span class="string">"平均月 薪:"</span>, salary/NR&#125;' gfs.data        </span><br><span class="line"><span class="number">6</span> 个人</span><br><span class="line">总共月薪： <span class="number">64999</span></span><br><span class="line">平均月薪: <span class="number">10833.2</span></span><br></pre></td></tr></table></figure>
+<p>还不错嘛！人还没来，将所有相亲的人名品起来能组成一首诗么？ </p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk '&#123;names = names <span class="variable">$1</span> <span class="string">" "</span>&#125; END &#123;<span class="keyword">print</span> names &#125;'  gfs.data</span><br><span class="line"><span class="keyword">Li</span> Wang Niu Chen Ouyang Liu</span><br></pre></td></tr></table></figure>
+<p>好吧，并没有。这些人名有多少笔画?啊不，是有几个字母组成？ </p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk ' &#123;print $<span class="number">1</span>, length($<span class="number">1</span>) &#125; ' gfs.data</span><br><span class="line">Li <span class="number">2</span></span><br><span class="line">Wang <span class="number">4</span></span><br><span class="line">Niu <span class="number">3</span></span><br><span class="line">Chen <span class="number">4</span></span><br><span class="line">Ouyang <span class="number">6</span></span><br><span class="line">Liu <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h3 id="军刀的流程"><a href="#军刀的流程" class="headerlink" title="军刀的流程"></a>军刀的流程</h3><p>if-else 筛筛 </p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk '<span class="variable">$4</span> &gt; 10000 &#123;<span class="keyword">n</span> =  <span class="keyword">n</span> + 1; salary = salary + <span class="variable">$4</span> &#125;&#123; <span class="keyword">if</span> (<span class="keyword">n</span> &gt; 0 &amp;&amp; <span class="variable">$4</span> &gt; 10000)  <span class="keyword">print</span> <span class="variable">$1</span>, <span class="string">"你有戏哟"</span>; <span class="keyword">else</span> &#123;<span class="keyword">print</span> <span class="variable">$1</span>, <span class="string">"你被out了"</span>&#125; &#125;' gfs.data</span><br><span class="line"><span class="keyword">Li</span> 你被<span class="keyword">out</span>了</span><br><span class="line">Wang 你被<span class="keyword">out</span>了</span><br><span class="line">Niu 你有戏哟</span><br><span class="line">Chen 你被<span class="keyword">out</span>了</span><br><span class="line">Ouyang 你有戏哟</span><br><span class="line">Liu 你被<span class="keyword">out</span>了</span><br></pre></td></tr></table></figure>
+<p>while 循环, 从头梳理一边<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">awk '&#123; line[NR] = $<span class="number">0</span> &#125; END &#123; i = NR ;while (i&gt;<span class="number">0</span>) &#123; print line[i]; i = i - <span class="number">1</span> &#125;&#125; ' gfs.data</span><br><span class="line">Liu <span class="number">72.5</span> <span class="number">182</span> <span class="number">9999</span></span><br><span class="line">Ouyang <span class="number">80</span> <span class="number">200</span> <span class="number">12000</span></span><br><span class="line">Chen <span class="number">64.5</span> <span class="number">168</span> <span class="number">5000</span></span><br><span class="line">Niu <span class="number">60</span> <span class="number">199</span>  <span class="number">20000</span></span><br><span class="line">Wang <span class="number">77</span> <span class="number">180</span> <span class="number">8000</span></span><br><span class="line">Li <span class="number">65</span> <span class="number">177</span> <span class="number">10000</span></span><br></pre></td></tr></table></figure></p>
+<p>for  九九归一<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk 'BEGIN &#123;for (i=<span class="number">1</span>; i &lt;=<span class="number">9</span>; ++i) print i&#125;'                            </span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">9</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="实用“片刀式”"><a href="#实用“片刀式”" class="headerlink" title="实用“片刀式”"></a>实用“片刀式”</h3><p>输入行的总行数</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk <span class="string">'END &#123; print NR&#125;'</span> gfs.data</span><br><span class="line"><span class="number">6</span></span><br></pre></td></tr></table></figure>
+<p>打印第四行 </p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk ' NR == <span class="number">4</span> ' gfs.data</span><br><span class="line">Chen <span class="number">64.5</span> <span class="number">168</span> <span class="number">5000</span></span><br></pre></td></tr></table></figure>
+<p>输出每一行最后一个字段 </p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk ' &#123;print $NF&#125;' gfs.data</span><br><span class="line"><span class="number">10000</span></span><br><span class="line"><span class="number">8000</span></span><br><span class="line"><span class="number">20000</span></span><br><span class="line"><span class="number">5000</span></span><br><span class="line"><span class="number">12000</span></span><br><span class="line"><span class="number">9999</span></span><br></pre></td></tr></table></figure>
+<p>打印最后一行的最后一个字段</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk <span class="string">'&#123;field = $NF&#125; END &#123; print field &#125;'</span>  gfs.data</span><br><span class="line"><span class="number">9999</span></span><br></pre></td></tr></table></figure>
+<p>打印字段数多于 3 个的输入行</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk 'NF&gt;<span class="number">3</span>' gfs.data</span><br><span class="line">Li <span class="number">65</span> <span class="number">177</span> <span class="number">10000</span></span><br><span class="line">Wang <span class="number">77</span> <span class="number">180</span> <span class="number">8000</span></span><br><span class="line">Niu <span class="number">60</span> <span class="number">199</span>  <span class="number">20000</span></span><br><span class="line">Chen <span class="number">64.5</span> <span class="number">168</span> <span class="number">5000</span></span><br><span class="line">Ouyang <span class="number">80</span> <span class="number">200</span> <span class="number">12000</span></span><br><span class="line">Liu <span class="number">72.5</span> <span class="number">182</span> <span class="number">9999</span></span><br></pre></td></tr></table></figure>
+<p>打印最后一个字段值大于10000的输入行</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk '$NF &gt; <span class="number">10000</span> ' gfs.data </span><br><span class="line">Niu <span class="number">60</span> <span class="number">199</span>  <span class="number">20000</span></span><br><span class="line">Ouyang <span class="number">80</span> <span class="number">200</span> <span class="number">12000</span></span><br></pre></td></tr></table></figure>
+<p>打印所有输入行的字段数的总和</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk <span class="string">' &#123;nf = nf + NF&#125; END &#123;print nf&#125; '</span> gfs.data</span><br><span class="line"><span class="number">24</span></span><br></pre></td></tr></table></figure>
+<p>打印包含 /Niu/ 的行的数量</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk <span class="string">' /Niu/ &#123;nlines = nlines + 1&#125; END &#123;print nlines&#125;'</span> gfs.data</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>打印具有最大值的第4个字段，以及包含它的行(假设 $1 总是正的)</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk '$<span class="number">4</span> &gt; max &#123; max=$<span class="number">4</span>; maxline=$<span class="number">0</span> &#125; END &#123; print max, maxline &#125;' gfs.data </span><br><span class="line"><span class="number">20000</span> Niu <span class="number">60</span> <span class="number">199</span>  <span class="number">20000</span></span><br></pre></td></tr></table></figure>
+<p>打印至少包含一个字段的行</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk 'NF &gt; <span class="number">0</span>' gfs.data</span><br><span class="line">Li <span class="number">65</span> <span class="number">177</span> <span class="number">10000</span></span><br><span class="line">Wang <span class="number">77</span> <span class="number">180</span> <span class="number">8000</span></span><br><span class="line">Niu <span class="number">60</span> <span class="number">199</span>  <span class="number">20000</span></span><br><span class="line">Chen <span class="number">64.5</span> <span class="number">168</span> <span class="number">5000</span></span><br><span class="line">Ouyang <span class="number">80</span> <span class="number">200</span> <span class="number">12000</span></span><br><span class="line">Liu <span class="number">72.5</span> <span class="number">182</span> <span class="number">9999</span></span><br></pre></td></tr></table></figure>
+<p>打印长度超过 20 个字符的行<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk 'length($<span class="number">0</span>) &gt; <span class="number">16</span>' gfs.data</span><br><span class="line">Niu <span class="number">60</span> <span class="number">199</span>  <span class="number">20000</span></span><br><span class="line">Chen <span class="number">64.5</span> <span class="number">168</span> <span class="number">5000</span></span><br><span class="line">Ouyang <span class="number">80</span> <span class="number">200</span> <span class="number">12000</span></span><br><span class="line">Liu <span class="number">72.5</span> <span class="number">182</span> <span class="number">9999</span></span><br></pre></td></tr></table></figure></p>
+<p>每一行的前面加上它的字段数<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk '&#123;print NF, $<span class="number">0</span>&#125;'  gfs.data</span><br><span class="line"><span class="number">4</span> Li <span class="number">65</span> <span class="number">177</span> <span class="number">10000</span></span><br><span class="line"><span class="number">4</span> Wang <span class="number">77</span> <span class="number">180</span> <span class="number">8000</span></span><br><span class="line"><span class="number">4</span> Niu <span class="number">60</span> <span class="number">199</span>  <span class="number">20000</span></span><br><span class="line"><span class="number">4</span> Chen <span class="number">64.5</span> <span class="number">168</span> <span class="number">5000</span></span><br><span class="line"><span class="number">4</span> Ouyang <span class="number">80</span> <span class="number">200</span> <span class="number">12000</span></span><br><span class="line"><span class="number">4</span> Liu <span class="number">72.5</span> <span class="number">182</span> <span class="number">9999</span></span><br></pre></td></tr></table></figure></p>
+<p>打印每行第二，第一字段</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk '&#123;print $<span class="number">2</span>, $<span class="number">1</span>&#125;' gfs.data</span><br><span class="line"><span class="number">65</span> Li</span><br><span class="line"><span class="number">77</span> Wang</span><br><span class="line"><span class="number">60</span> Niu</span><br><span class="line"><span class="number">64.5</span> Chen</span><br><span class="line"><span class="number">80</span> Ouyang</span><br><span class="line"><span class="number">72.5</span> Liu</span><br></pre></td></tr></table></figure>
+<p>交换一个字段并打印整行</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk '&#123;tmp = $<span class="number">1</span>; $<span class="number">1</span> = $<span class="number">2</span>; $<span class="number">2</span> = tmp; print&#125;' gfs.data</span><br><span class="line"><span class="number">65</span> Li <span class="number">177</span> <span class="number">10000</span></span><br><span class="line"><span class="number">77</span> Wang <span class="number">180</span> <span class="number">8000</span></span><br><span class="line"><span class="number">60</span> Niu <span class="number">199</span> <span class="number">20000</span></span><br><span class="line"><span class="number">64.5</span> Chen <span class="number">168</span> <span class="number">5000</span></span><br><span class="line"><span class="number">80</span> Ouyang <span class="number">200</span> <span class="number">12000</span></span><br><span class="line"><span class="number">72.5</span> Liu <span class="number">182</span> <span class="number">9999</span></span><br></pre></td></tr></table></figure>
+<p>每行的第一个字段用行号代替</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk  '&#123;$<span class="number">1</span> = NR; print&#125;' gfs.data</span><br><span class="line"><span class="number">1</span> <span class="number">65</span> <span class="number">177</span> <span class="number">10000</span></span><br><span class="line"><span class="number">2</span> <span class="number">77</span> <span class="number">180</span> <span class="number">8000</span></span><br><span class="line"><span class="number">3</span> <span class="number">60</span> <span class="number">199</span> <span class="number">20000</span></span><br><span class="line"><span class="number">4</span> <span class="number">64.5</span> <span class="number">168</span> <span class="number">5000</span></span><br><span class="line"><span class="number">5</span> <span class="number">80</span> <span class="number">200</span> <span class="number">12000</span></span><br><span class="line"><span class="number">6</span> <span class="number">72.5</span> <span class="number">182</span> <span class="number">9999</span></span><br></pre></td></tr></table></figure>
+<p>打印删除了第二个字段的行</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk '&#123;$<span class="number">2</span> == <span class="string">""</span>; print&#125;' gfs.data</span><br><span class="line">Li <span class="number">65</span> <span class="number">177</span> <span class="number">10000</span></span><br><span class="line">Wang <span class="number">77</span> <span class="number">180</span> <span class="number">8000</span></span><br><span class="line">Niu <span class="number">60</span> <span class="number">199</span>  <span class="number">20000</span></span><br><span class="line">Chen <span class="number">64.5</span> <span class="number">168</span> <span class="number">5000</span></span><br><span class="line">Ouyang <span class="number">80</span> <span class="number">200</span> <span class="number">12000</span></span><br><span class="line">Liu <span class="number">72.5</span> <span class="number">182</span> <span class="number">9999</span></span><br></pre></td></tr></table></figure>
+<p>每一行的字段按逆序打印</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk '&#123; for (i=NF; i &gt; <span class="number">0</span>; i= i<span class="number">-1</span>) &#123;printf(<span class="string">"%s "</span>, $i)&#125; printf(<span class="string">"<span class="subst">\n</span>"</span>)&#125;' gfs.data</span><br><span class="line"><span class="number">10000</span> <span class="number">177</span> <span class="number">65</span> Li </span><br><span class="line"><span class="number">8000</span> <span class="number">180</span> <span class="number">77</span> Wang </span><br><span class="line"><span class="number">20000</span> <span class="number">199</span> <span class="number">60</span> Niu </span><br><span class="line"><span class="number">5000</span> <span class="number">168</span> <span class="number">64.5</span> Chen </span><br><span class="line"><span class="number">12000</span> <span class="number">200</span> <span class="number">80</span> Ouyang </span><br><span class="line"><span class="number">9999</span> <span class="number">182</span> <span class="number">72.5</span> Liu</span><br></pre></td></tr></table></figure>
+<p>打印每一行的所有字段值之和</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk '&#123;sum = <span class="number">0</span>; for (i=<span class="number">1</span>; i &lt;=NF; i=i+<span class="number">1</span>) &#123;sum = sum + $i&#125; print sum &#125;' gfs.data</span><br><span class="line"><span class="number">10242</span></span><br><span class="line"><span class="number">8257</span></span><br><span class="line"><span class="number">20259</span></span><br><span class="line"><span class="number">5232.5</span></span><br><span class="line"><span class="number">12280</span></span><br><span class="line"><span class="number">10253.5</span></span><br></pre></td></tr></table></figure>
+<p>将所有行的所有字段值累加起来 </p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk  '&#123;<span class="keyword">for</span> (i=1; i&lt;=NF; ++i) <span class="keyword">sum</span> += <span class="variable">$i&#125;</span> END &#123;<span class="keyword">print</span> <span class="keyword">sum</span>&#125;' gfs.data</span><br><span class="line">66524</span><br></pre></td></tr></table></figure>
+<p>将所有行的所有字段值的绝对值 </p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk  '&#123;for (i=<span class="number">1</span>; i&lt;=NF; ++i) if ($i &lt; <span class="number">0</span>) &#123;$i = -$i&#125; print &#125;'                  </span><br><span class="line">Li <span class="number">-65</span> <span class="number">-177</span> <span class="number">18000</span> # 这里手动输入带负数的值</span><br><span class="line">Li <span class="number">65</span> <span class="number">177</span> <span class="number">18000</span> # 返回</span><br></pre></td></tr></table></figure>
+<h3 id="Awk-语言之萝卜白菜"><a href="#Awk-语言之萝卜白菜" class="headerlink" title="Awk 语言之萝卜白菜"></a>Awk 语言之萝卜白菜</h3><p>输入一个文件 就叫 <code>radish.data</code> 吧, 这个文件大体就是这样的, 这个小节就用这个萝卜白菜来拌炒鱼肉吧<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">➜  tmp awk 'BEGIN &#123;print <span class="string">"名称       重量 单价 分类<span class="subst">\n</span>"</span>&#125; &#123;printf(<span class="string">"%-10s %6.2f %2.2f %-1s<span class="subst">\n</span>"</span>, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>, $<span class="number">4</span>)&#125;' radish.data</span><br><span class="line">名称       重量 单价 分类</span><br><span class="line"></span><br><span class="line">Fish        <span class="number">30.00</span> <span class="number">8.50</span> Meat</span><br><span class="line">Radish      <span class="number">14.00</span> <span class="number">1.20</span> Vegetables</span><br><span class="line">Cabbage     <span class="number">24.00</span> <span class="number">1.50</span> Vegetables</span><br><span class="line">Apple      <span class="number">100.00</span> <span class="number">2.50</span> Fruit</span><br><span class="line">Onion        <span class="number">8.00</span> <span class="number">0.80</span> Vegetables</span><br><span class="line">Banana      <span class="number">50.00</span> <span class="number">1.40</span> Fruit</span><br><span class="line">Beef       <span class="number">120.00</span> <span class="number">22.00</span> Meat</span><br><span class="line">Rice        <span class="number">40.00</span> <span class="number">10.00</span> Staple</span><br></pre></td></tr></table></figure></p>
+<p>首先需要明确的是 Awk 炒的模式，有这么几种, 看过awk 起源之美女选男朋友的话，应该有 <em>似曾相识燕归去</em>的感觉。<br><code>BEGIN {statements}</code><br>  在输入被读取之前， statements 执行一次 , 就是不管你是爆炒还是水煮， 甭管你是鱼还是肉，你给我先洗洗!准备好油盐酱醋碗, 跟你炒没关系！<br><code>END {statements}</code><br>当所有输入读取完毕之后， statements 执行一次, 还是老话，管你吃饱没吃饱，你给我付钱！<br><code>expression {statements}</code><br>每碰到一个判断 expression 为真的输入行， statements 就执行一遍做菜流程. expression 为真的是其值非零或非空, 就是检查一下你放盐了没，油是不是太多了? 七分熟还是八分熟？<br><code>/regular expression/ {statements}</code><br>当碰到正则匹配的输入行时， statements就执行: 输入行含有一段字符串，而该字符串可以被 regular expression 匹配。一句话，老老实实按照菜谱来，要是在菜里被找到有头发或者小强便便，你丫就死定了！<br><code>compound pattern {statements}</code><br>多种模式， &amp;&amp;(AND), ||(OR), !(NOT), 以及括号组合起来。 当 <code>compound pattern</code> 为真时，statements执行。就是你可以 翻炒+添醋， 或者烘烤， 但是别给我整半生不熟的。<br><code>pattern_1, pattern_2 {statements}</code><br>一个范围模式匹配多个输入行，从pattern1 开始， 到 pattern_2 结束（包括这两行）, 对其中每一行执行statements操作。 你能露几手的环节可能就是在生火后，起锅前, 这段时间段，是你的表演时刻啊。</p>
+<p>可以将你的七十二路炒菜法写下来， 放到 <code>cooking</code> 秘籍里,<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">BEGIN &#123; </span><br><span class="line">      <span class="keyword">printf</span>(<span class="string">"%-10s %s %s %s\n"</span>,</span><br><span class="line">          <span class="string">"名称"</span>, <span class="string">"重量"</span>, <span class="string">"单价"</span>, <span class="string">"分类"</span>)</span><br><span class="line">      &#125;</span><br><span class="line">      &#123; <span class="keyword">printf</span>(<span class="string">"%-10s %6.2f %6.2f %s\n"</span>, $1, $2, $3, $4)</span><br><span class="line">        weight = weight + $2</span><br><span class="line">        price  = price + $3*$2</span><br><span class="line">      &#125;</span><br><span class="line">END   &#123; <span class="keyword">printf</span>(<span class="string">"\n%10s %6.2f %6.2f\n"</span>, <span class="string">"总共: "</span>, weight, price)</span><br><span class="line">      &#125;%</span><br></pre></td></tr></table></figure></p>
+<p>下次传给万中无一的练武奇才时， 直接调用 </p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">➜  <span class="selector-tag">tmp</span> <span class="selector-tag">awk</span> <span class="selector-tag">-f</span> <span class="selector-tag">cooking</span> <span class="selector-tag">radish</span><span class="selector-class">.data</span></span><br><span class="line">名称         重量 单价 分类</span><br><span class="line"><span class="selector-tag">Fish</span>        30<span class="selector-class">.00</span>   8<span class="selector-class">.50</span> <span class="selector-tag">Meat</span></span><br><span class="line"><span class="selector-tag">Radish</span>      14<span class="selector-class">.00</span>   1<span class="selector-class">.20</span> <span class="selector-tag">Vegetables</span></span><br><span class="line"><span class="selector-tag">Cabbage</span>     24<span class="selector-class">.00</span>   1<span class="selector-class">.50</span> <span class="selector-tag">Vegetables</span></span><br><span class="line"><span class="selector-tag">Apple</span>      100<span class="selector-class">.00</span>   2<span class="selector-class">.50</span> <span class="selector-tag">Fruit</span></span><br><span class="line"><span class="selector-tag">Onion</span>        8<span class="selector-class">.00</span>   0<span class="selector-class">.80</span> <span class="selector-tag">Vegetables</span></span><br><span class="line"><span class="selector-tag">Banana</span>      50<span class="selector-class">.00</span>   1<span class="selector-class">.40</span> <span class="selector-tag">Fruit</span></span><br><span class="line"><span class="selector-tag">Beef</span>       120<span class="selector-class">.00</span>  22<span class="selector-class">.00</span> <span class="selector-tag">Meat</span></span><br><span class="line"><span class="selector-tag">Rice</span>        40<span class="selector-class">.00</span>  10<span class="selector-class">.00</span> <span class="selector-tag">Staple</span></span><br><span class="line"></span><br><span class="line">      总共:  386<span class="selector-class">.00</span> 3674<span class="selector-class">.20</span></span><br></pre></td></tr></table></figure>
+<h3 id="刀片出鞘"><a href="#刀片出鞘" class="headerlink" title="刀片出鞘"></a>刀片出鞘</h3><p>一枝军刀片，千军万马削倒一遍!<br>欲知后事如何，且听不才我下回分解。。。。。。</p>
 <!--more-->
 
       
@@ -703,7 +506,7 @@ Rice        40.00  10.00 Staple
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

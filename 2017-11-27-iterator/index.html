@@ -316,102 +316,9 @@
 <li>Aggregate 抽象容器, 提供创建具体迭代器角色的接口．</li>
 <li>ConcreteAggregate 具体容器, 创建迭代器的对象．</li>
 </ul>
-<h2 id="php实现"><a href="#php实现" class="headerlink" title="php实现"></a>php实现</h2><pre><code class="php">&lt;?php
-/*
- * Iterator Pattern
- */
-interface IIterator {
-    public function next();
-    public function hasNext();
-    public function remove();
-}
-
-class ConcreteIterator implements IIterator {
-    private $arr = [];
-    public $cursor = 0;
-
-    public function __construct($_arr)
-    {
-        $this-&gt;arr = $_arr;
-    }
-
-    public function hasNext()
-    {
-        return $this-&gt;cursor == count($this-&gt;arr) ? false : true;
-    }
-
-    public function next()
-    {
-        $result = null;
-        if($this-&gt;hasNext()) {
-            return ($this-&gt;arr)[$this-&gt;cursor++];
-        }
-        return $result;
-    }
-
-    // 开发系统时，如果用到迭代器的删除方法，应该完成两个功能: 1. 删除当前元素, 2. 当前游标指向下一个元素．
-    public function remove()
-    {
-        $this-&gt;cursor = null;
-        return true;
-    }
-}
-
-interface Aggregate {
-    public function add($obj);
-    public function remove($obj);
-    public function iterator();
-}
-
-class ConcreteAggregate implements Aggregate {
-    private $arr = [];
-
-    public function add($obj)
-    {
-        $this-&gt;arr[] = $obj;
-    }
-
-    public function iterator()
-    {
-        return new ConcreteIterator($this-&gt;arr);
-    }
-
-    public function remove($obj)
-    {
-        $this-&gt;remove($obj);
-    }
-}
-
-class Client {
-    public static function main()
-    {
-        $agg = new ConcreteAggregate();
-        $agg-&gt;add(&#39;test&#39;);
-        $agg-&gt;add(&#39;hello&#39;);
-        $agg-&gt;add(&#39;world&#39;);
-        $iterator = $agg-&gt;iterator();
-        while ($iterator-&gt;hasNext()) {
-            echo $iterator-&gt;next(), PHP_EOL;
-        }
-    }
-}
-(new Client())::main();
-/*
-test
-hello
-world
-*/
-</code></pre>
+<h2 id="php实现"><a href="#php实现" class="headerlink" title="php实现"></a>php实现</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Iterator Pattern</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IIterator</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">next</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">hasNext</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remove</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteIterator</span> <span class="keyword">implements</span> <span class="title">IIterator</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $arr = [];</span><br><span class="line">    <span class="keyword">public</span> $cursor = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($_arr)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;arr = $_arr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">hasNext</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;cursor == count(<span class="keyword">$this</span>-&gt;arr) ? <span class="keyword">false</span> : <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">next</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $result = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;hasNext()) &#123;</span><br><span class="line">            <span class="keyword">return</span> (<span class="keyword">$this</span>-&gt;arr)[<span class="keyword">$this</span>-&gt;cursor++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> $result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 开发系统时，如果用到迭代器的删除方法，应该完成两个功能: 1. 删除当前元素, 2. 当前游标指向下一个元素．</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remove</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;cursor = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Aggregate</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">($obj)</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remove</span><span class="params">($obj)</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">iterator</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteAggregate</span> <span class="keyword">implements</span> <span class="title">Aggregate</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $arr = [];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">($obj)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;arr[] = $obj;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">iterator</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteIterator(<span class="keyword">$this</span>-&gt;arr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remove</span><span class="params">($obj)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;remove($obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $agg = <span class="keyword">new</span> ConcreteAggregate();</span><br><span class="line">        $agg-&gt;add(<span class="string">'test'</span>);</span><br><span class="line">        $agg-&gt;add(<span class="string">'hello'</span>);</span><br><span class="line">        $agg-&gt;add(<span class="string">'world'</span>);</span><br><span class="line">        $iterator = $agg-&gt;iterator();</span><br><span class="line">        <span class="keyword">while</span> ($iterator-&gt;hasNext()) &#123;</span><br><span class="line">            <span class="keyword">echo</span> $iterator-&gt;next(), PHP_EOL;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">(<span class="keyword">new</span> Client())::main();</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">test</span></span><br><span class="line"><span class="comment">hello</span></span><br><span class="line"><span class="comment">world</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
 <h2 id="php-中自有的-Iterator-接口"><a href="#php-中自有的-Iterator-接口" class="headerlink" title="php 中自有的 Iterator 接口"></a>php 中自有的 Iterator 接口</h2><p><a href="http://php.net/manual/en/spl.iterators.php" target="_blank" rel="noopener">php 原生迭代器</a>.</p>
-<pre><code class="php">Iterator extends Traversable {
-/* 方法 */
-abstract public mixed current ( void )
-abstract public scalar key ( void )
-abstract public void next ( void )
-abstract public void rewind ( void )
-abstract public boolean valid ( void )
-}
-</code></pre>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Iterator extends Traversable &#123;</span><br><span class="line"><span class="comment">/* 方法 */</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="keyword">public</span> mixed current ( void )</span><br><span class="line"><span class="keyword">abstract</span> <span class="keyword">public</span> scalar key ( void )</span><br><span class="line"><span class="keyword">abstract</span> <span class="keyword">public</span> void next ( void )</span><br><span class="line"><span class="keyword">abstract</span> <span class="keyword">public</span> void rewind ( void )</span><br><span class="line"><span class="keyword">abstract</span> <span class="keyword">public</span> boolean valid ( void )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>提供了好几个方法.</p>
 <h1 id="0x01-小结"><a href="#0x01-小结" class="headerlink" title="0x01 小结"></a>0x01 小结</h1><p>渐渐能摸着一些门道了．<br><!--more--></p>
 
@@ -533,7 +440,7 @@ abstract public boolean valid ( void )
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

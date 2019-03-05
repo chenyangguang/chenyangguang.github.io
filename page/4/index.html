@@ -238,6 +238,130 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2017-11-23-decorator/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gitvim">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="重剑无锋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017-11-23-decorator/" itemprop="url">设计模式-装饰者模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-23T17:03:43+08:00">
+                2017-11-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="0x00-装饰者模式"><a href="#0x00-装饰者模式" class="headerlink" title="0x00 装饰者模式"></a>0x00 装饰者模式</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>Attach additional responsibilities to an object dynamically keeping the same interface. Decorators provide a flexible alternative to subclassing for extending functionality.(动态地给一个对象添加一些额外的职责。就增加功能来说，装饰模式相比生成子类更为灵活。) </strong></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017-11-23-decorator/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2017-11-22-chainOfResponsibility/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -440,81 +564,8 @@
 <li>Command 命令角色, 声明需要执行的所有命令。</li>
 <li>Invoker 调用者角色, 接受到命令，并执行命令。</li>
 </ul>
-<h2 id="php-实现"><a href="#php-实现" class="headerlink" title="php 实现"></a>php 实现</h2><pre><code>&lt;?php
-/*
-  command pattern
- */
-
-// 通用的 Receiver 类
-abstract class Receiver {
-    abstract function dosth();
-}
-
-// 具体的 Receiver 类
-class ConcreteReceiver1 extends Receiver  {
-    public function doSth() {
-    }
-}
-
-class ConcreteReceiver2 extends Receiver {
-    public function doSth() {
-
-    }
-}
-
-// 抽象的Command 类
-abstract class Command {
-    abstract function execute();
-}
-
-// 具体 Command 类
-class ConcreteCommand1 extends Command {
-    private $receiver;
-
-    public function ConcreteCommand1(Receiver $_receiver) {
-        $this-&gt;receiver = $_receiver;
-    }
-
-    public function execute() {
-        $this-&gt;receiver-&gt;doSth();
-    }
-}
-
-class ConcreteCommand2 extends Command {
-    private $receiver;
-
-    public function ConcreteCommand2(Receiver $_receiver) {
-        $this-&gt;receiver = $_receiver;
-    }
-
-    public function execute() {
-        $this-&gt;receiver-&gt;doSth();
-    }
-}
-
-// 调用者 Invoker 类
-class Invoker {
-    private $command;
-
-    public function setCommand(Command $_command) {
-        $this-&gt;command = $_command;
-    }
-    public function act() {
-        $this-&gt;command-&gt;execute();
-    }
-}
-
-// 场景调用
-class client {
-    public static function main() {
-        $invoker = new Invoker();
-        $receiver = new ConcreteReceiver1();
-        $command = new ConcreteCommand1($receiver);
-        $invoker-&gt;setCommand($command);
-        $invoker-&gt;act();
-    }
-}
-</code></pre><h1 id="0x01-小结"><a href="#0x01-小结" class="headerlink" title="0x01 小结"></a>0x01 小结</h1><p>切勿好高骛远, 即使你的征途是星辰大海, 也要脚踏实地做好准备工作。</p>
+<h2 id="php-实现"><a href="#php-实现" class="headerlink" title="php 实现"></a>php 实现</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  command pattern</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 通用的 Receiver 类</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Receiver</span> </span>&#123;</span><br><span class="line">    <span class="keyword">abstract</span> <span class="function"><span class="keyword">function</span> <span class="title">dosth</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 具体的 Receiver 类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteReceiver1</span> <span class="keyword">extends</span> <span class="title">Receiver</span>  </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">doSth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteReceiver2</span> <span class="keyword">extends</span> <span class="title">Receiver</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">doSth</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 抽象的Command 类</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Command</span> </span>&#123;</span><br><span class="line">    <span class="keyword">abstract</span> <span class="function"><span class="keyword">function</span> <span class="title">execute</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 具体 Command 类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteCommand1</span> <span class="keyword">extends</span> <span class="title">Command</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $receiver;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">ConcreteCommand1</span><span class="params">(Receiver $_receiver)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;receiver = $_receiver;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">execute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;receiver-&gt;doSth();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteCommand2</span> <span class="keyword">extends</span> <span class="title">Command</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $receiver;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">ConcreteCommand2</span><span class="params">(Receiver $_receiver)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;receiver = $_receiver;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">execute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;receiver-&gt;doSth();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用者 Invoker 类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Invoker</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $command;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setCommand</span><span class="params">(Command $_command)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;command = $_command;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">act</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;command-&gt;execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 场景调用</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">client</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $invoker = <span class="keyword">new</span> Invoker();</span><br><span class="line">        $receiver = <span class="keyword">new</span> ConcreteReceiver1();</span><br><span class="line">        $command = <span class="keyword">new</span> ConcreteCommand1($receiver);</span><br><span class="line">        $invoker-&gt;setCommand($command);</span><br><span class="line">        $invoker-&gt;act();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="0x01-小结"><a href="#0x01-小结" class="headerlink" title="0x01 小结"></a>0x01 小结</h1><p>切勿好高骛远, 即使你的征途是星辰大海, 也要脚踏实地做好准备工作。</p>
 
           
         
@@ -648,53 +699,8 @@ class client {
 <h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>中介者模式减少了类之间的依赖，同事类只依赖于中介者, 将<strong>一对多</strong>的依赖变成<strong>一对一</strong>的依赖，减少依赖的同时也降低了类之间的耦合．</p>
 <h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>随着逻辑复杂度增加，原本 N　个对象直接的相互依赖关系转嫁给中介者和同事类的依赖关系，中介者的逻辑会逐渐复杂，并且变得越来越庞大臃肿．</p>
 <h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>多个对象之间<strong>紧密耦合</strong>(在类图中出现了蜘蛛网状结构)的情况下，用中介者是好的选择．<br>话说那些什么经纪人什么秘书的是不是中介者模式？</p>
-<h2 id="php-实现"><a href="#php-实现" class="headerlink" title="php 实现"></a>php 实现</h2><pre><code>&lt;?php
-
-// 通用抽象中介者
-abstract class Mediator {
-    protected  $colleague;
-
-    public function getColleague() {
-        return $this-&gt;colleague;
-    }
-
-    public function setColleague(ConcreteColleague $conColl) {
-        $this-&gt;colleague = $conColl;
-    }
-
-    abstract public function doSth();
-}
-
-// 通用中介者
-class ConcreteMediator extends  Mediator {
-    public function dosth() {}
-}
-
-// 抽象同事类
-abstract class Colleague {
-    protected $mediator;
-
-    public function Colleague(Mediator $_mediator) {
-        $this-&gt;mediator = $_mediator;
-    }
-}
-
-// 具体同事类
-class ConcreteColleague extends Colleague {
-    public function ConcreteColleague(Mediator $_mediator) {
-        parent::setColleague($_mediator);
-    }
-
-    // 自发行为
-    public function selfMethod() {}
-
-    // 依赖方法
-    public function relyMethod() {
-        parent::doSth(); // 委托中介处理
-    }
-}
-?&gt;
-</code></pre><h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>字面上中介和代理多少带着模糊的雷同，所以中介和代理的区别是？</p>
+<h2 id="php-实现"><a href="#php-实现" class="headerlink" title="php 实现"></a>php 实现</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?php</span></span></span><br><span class="line"><span class="php"></span></span><br><span class="line"><span class="php"><span class="comment">// 通用抽象中介者</span></span></span><br><span class="line"><span class="php"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Mediator</span> </span>&#123;</span></span><br><span class="line"><span class="php">    <span class="keyword">protected</span>  $colleague;</span></span><br><span class="line"><span class="php"></span></span><br><span class="line"><span class="php">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getColleague</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="php">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;colleague;</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"><span class="php"></span></span><br><span class="line"><span class="php">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setColleague</span><span class="params">(ConcreteColleague $conColl)</span> </span>&#123;</span></span><br><span class="line"><span class="php">        <span class="keyword">$this</span>-&gt;colleague = $conColl;</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"><span class="php"></span></span><br><span class="line"><span class="php">    <span class="keyword">abstract</span> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">doSth</span><span class="params">()</span></span>;</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"><span class="php"></span></span><br><span class="line"><span class="php"><span class="comment">// 通用中介者</span></span></span><br><span class="line"><span class="php"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteMediator</span> <span class="keyword">extends</span>  <span class="title">Mediator</span> </span>&#123;</span></span><br><span class="line"><span class="php">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">dosth</span><span class="params">()</span> </span>&#123;&#125;</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"><span class="php"></span></span><br><span class="line"><span class="php"><span class="comment">// 抽象同事类</span></span></span><br><span class="line"><span class="php"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Colleague</span> </span>&#123;</span></span><br><span class="line"><span class="php">    <span class="keyword">protected</span> $mediator;</span></span><br><span class="line"><span class="php"></span></span><br><span class="line"><span class="php">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">Colleague</span><span class="params">(Mediator $_mediator)</span> </span>&#123;</span></span><br><span class="line"><span class="php">        <span class="keyword">$this</span>-&gt;mediator = $_mediator;</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"><span class="php"></span></span><br><span class="line"><span class="php"><span class="comment">// 具体同事类</span></span></span><br><span class="line"><span class="php"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteColleague</span> <span class="keyword">extends</span> <span class="title">Colleague</span> </span>&#123;</span></span><br><span class="line"><span class="php">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">ConcreteColleague</span><span class="params">(Mediator $_mediator)</span> </span>&#123;</span></span><br><span class="line"><span class="php">        <span class="keyword">parent</span>::setColleague($_mediator);</span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"><span class="php"></span></span><br><span class="line"><span class="php">    <span class="comment">// 自发行为</span></span></span><br><span class="line"><span class="php">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">selfMethod</span><span class="params">()</span> </span>&#123;&#125;</span></span><br><span class="line"><span class="php"></span></span><br><span class="line"><span class="php">    <span class="comment">// 依赖方法</span></span></span><br><span class="line"><span class="php">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">relyMethod</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="php">        <span class="keyword">parent</span>::doSth(); <span class="comment">// 委托中介处理</span></span></span><br><span class="line"><span class="php">    &#125;</span></span><br><span class="line"><span class="php">&#125;</span></span><br><span class="line"><span class="php"><span class="meta">?&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>字面上中介和代理多少带着模糊的雷同，所以中介和代理的区别是？</p>
 
           
         
@@ -1482,131 +1488,6 @@ class ConcreteColleague extends Colleague {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2017-09-26-No_Special_People/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Gitvim">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="重剑无锋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017-09-26-No_Special_People/" itemprop="url">最没出息的9大根源</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-26T21:30:20+08:00">
-                2017-09-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="研究表明"><a href="#研究表明" class="headerlink" title="研究表明"></a>研究表明</h2><p>哈佛的一项研究表明: 一个人没有出息主要有以下九大根源。</p>
-<h3 id="犹豫不决"><a href="#犹豫不决" class="headerlink" title="犹豫不决"></a>犹豫不决</h3><p>“畏惧错误就是毁灭进步”。雷厉风行很容易出错，但是原地踏步什么也不做更糟糕。<br></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017-09-26-No_Special_People/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1657,7 +1538,7 @@ class ConcreteColleague extends Colleague {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

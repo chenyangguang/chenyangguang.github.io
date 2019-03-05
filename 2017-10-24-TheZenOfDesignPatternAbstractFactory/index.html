@@ -325,41 +325,7 @@
 </ul>
 <h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><p>产品族扩展非常困难。需要同时修改抽象类和实现类.</p>
 <h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><p>一个对象族都有相同的约束，就可以使用抽象工厂模式. 比如 php 在 linux 和 windows 下面的运行效果看上去一样，也就是相当于有一样的约束条件: 操作系统类型。那么就可以使用抽象工厂模式, 产生不同操作系统下的 php 安装途径。</p>
-<h4 id="PHP-实现"><a href="#PHP-实现" class="headerlink" title="PHP 实现"></a>PHP 实现</h4><pre><code class="php">&lt;?php
-
-abstract class population {}
-abstract class income {}
-
-class ShenzhenPopulation {}
-class ShenzhenIncome {}
-class BeijingPopulation {}
-class BeijingIncome {}
-
-interface NationalStatisticsAbstractFactory {
-    public function statisticsPopulation();
-    public function statisticsIncome();
-}
-
-class ShenzhenFactory implements NationalStatisticsAbstractFactory {
-    public function statisticsPopulation() {
-        return new ShenzhenPopulation();
-    }
-
-    public function statisticsIncome() {
-        return new ShenzhenIncome();
-    }
-}
-
-class BeijingFactory implements NationalStatisticsAbstractFactory {
-    public function statisticsPopulation (){
-        return new BeijingPopulation();
-    }
-
-    public function statisticsIncome () {
-        return new BeijingIncome();
-    }
-}
-</code></pre>
+<h4 id="PHP-实现"><a href="#PHP-实现" class="headerlink" title="PHP 实现"></a>PHP 实现</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">population</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">income</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ShenzhenPopulation</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ShenzhenIncome</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BeijingPopulation</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BeijingIncome</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">NationalStatisticsAbstractFactory</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">statisticsPopulation</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">statisticsIncome</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ShenzhenFactory</span> <span class="keyword">implements</span> <span class="title">NationalStatisticsAbstractFactory</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">statisticsPopulation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ShenzhenPopulation();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">statisticsIncome</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ShenzhenIncome();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BeijingFactory</span> <span class="keyword">implements</span> <span class="title">NationalStatisticsAbstractFactory</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">statisticsPopulation</span> <span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> BeijingPopulation();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">statisticsIncome</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> BeijingIncome();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>深圳工厂和北京的工厂类(ShenzhenFactory, BeijingFactory)都继承自 国家统计抽象接口(NationalStatisticsAbstractFactory), ShenzhenFactory 和 BeijingFactory 都分别包含统计收入(statisticsIncome)和统计人口(statisticsPopulation)的方法.</p>
 <h2 id="0x01-小结"><a href="#0x01-小结" class="headerlink" title="0x01 小结"></a>0x01 小结</h2><p>设计模式要细细品尝, 值得花时间研究.</p>
 <!--more-->
@@ -482,7 +448,7 @@ class BeijingFactory implements NationalStatisticsAbstractFactory {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

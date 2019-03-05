@@ -309,85 +309,16 @@
 
       
         <h2 id="zend-基础类型-宏"><a href="#zend-基础类型-宏" class="headerlink" title="zend 基础类型- 宏"></a>zend 基础类型- 宏</h2><p>zend 底层有相当多的宏, 特别是 php7 系列, 源码比 php 5 有不少结构方面的改变。所以不去研究 php5 的 zend 了, 直接往后研究的源码都主要看最新的 <strong>php-src</strong>。 zend 系列的宏主要分布在 zend_API.h, zend_types.h, zend_operators.h 里面。<br><a id="more"></a></p>
-<pre><code>typedef struct _zend_object_handlers zend_object_handlers;
-typedef struct _zend_class_entry     zend_class_entry;
-typedef union  _zend_function        zend_function;
-typedef struct _zend_execute_data    zend_execute_data;
-
-typedef struct _zval_struct     zval;
-
-typedef struct _zend_refcounted zend_refcounted;
-typedef struct _zend_string     zend_string;
-typedef struct _zend_array      zend_array;
-typedef struct _zend_object     zend_object;
-typedef struct _zend_resource   zend_resource;
-typedef struct _zend_reference  zend_reference;
-typedef struct _zend_ast_ref    zend_ast_ref;
-typedef struct _zend_ast        zend_ast;
-</code></pre><p>放眼望去，似曾相识燕归来！ </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">zend_object_handlers</span> <span class="title">zend_object_handlers</span>;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">zend_class_entry</span>     <span class="title">zend_class_entry</span>;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">union</span>  _zend_function        zend_function;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">zend_execute_data</span>    <span class="title">zend_execute_data</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">zval_struct</span>     <span class="title">zval</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">zend_refcounted</span> <span class="title">zend_refcounted</span>;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">zend_string</span>     <span class="title">zend_string</span>;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">zend_array</span>      <span class="title">zend_array</span>;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">zend_object</span>     <span class="title">zend_object</span>;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">zend_resource</span>   <span class="title">zend_resource</span>;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">zend_reference</span>  <span class="title">zend_reference</span>;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">zend_ast_ref</span>    <span class="title">zend_ast_ref</span>;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">zend_ast</span>        <span class="title">zend_ast</span>;</span></span><br></pre></td></tr></table></figure>
+<p>放眼望去，似曾相识燕归来！ </p>
 <h3 id="zval"><a href="#zval" class="headerlink" title="zval"></a>zval</h3><p>zval 不就是大名鼎鼎的 php 变量容器么！源码内使用频率相当高。一搜 php-src，超过 9999 次现身!<br>可想而知， zval 肯定是灰常重要的。<br>解开这个结构体，发现是这个模样:</p>
-<pre><code>struct _zval_struct {
-    zend_value        value;            /* value */
-    union {
-        struct {
-            ZEND_ENDIAN_LOHI_4(
-                zend_uchar    type,            /* active type */
-                zend_uchar    type_flags,
-                zend_uchar    const_flags,
-                zend_uchar    reserved)        /* call info for EX(This) */
-        } v;
-        uint32_t type_info;
-    } u1;
-    union {
-        uint32_t     next;                 /* hash collision chain */
-        uint32_t     cache_slot;           /* literal cache slot */
-        uint32_t     lineno;               /* line number (for ast nodes) */
-        uint32_t     num_args;             /* arguments number for EX(This) */
-        uint32_t     fe_pos;               /* foreach position */
-        uint32_t     fe_iter_idx;          /* foreach iterator index */
-        uint32_t     access_flags;         /* class constant access flags */
-        uint32_t     property_guard;       /* single property guard */
-        uint32_t     extra;                /* not further specified */
-    } u2;
-};
-</code></pre><p>分为三个部分， zend_value, u1, u2 三个联合体。<br>跟踪 zend_value 看看, </p>
-<pre><code>typedef union _zend_value {
-    zend_long         lval;                /* long value */
-    double            dval;                /* double value */
-    zend_refcounted  *counted;
-    zend_string      *str;
-    zend_array       *arr;
-    zend_object      *obj;
-    zend_resource    *res;
-    zend_reference   *ref;
-    zend_ast_ref     *ast;
-    zval             *zv;
-    void             *ptr;
-    zend_class_entry *ce;
-    zend_function    *func;
-    struct {
-        uint32_t w1;
-        uint32_t w2;
-    } ww;
-} zend_value;
-</code></pre><p>跋山涉水， zend_value 这个联合体可以存放所有可能的 php 数据类型数据。 数值分: 长整型或者双精度浮点型。 剩下的基本是指针值。有计数器指针，字符串指针，数组指针，对象指针，资源指针，引用指针, 空指针， 类指针，函数指针。 </p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">_zval_struct</span> &#123;</span></span><br><span class="line">	zend_value        value;			<span class="regexp">/* value */</span></span><br><span class="line">	<span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">			ZEND_ENDIAN_LOHI_4(</span><br><span class="line">				zend_uchar    <span class="keyword">type</span>,			<span class="regexp">/* active type */</span></span><br><span class="line">				zend_uchar    type_flags,</span><br><span class="line">				zend_uchar    const_flags,</span><br><span class="line">				zend_uchar    reserved)	    /* call info <span class="keyword">for</span> EX(This) *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">		&#125; v;</span></span><br><span class="line"><span class="regexp">		uint32_t type_info;</span></span><br><span class="line"><span class="regexp">	&#125; u1;</span></span><br><span class="line"><span class="regexp">	union &#123;</span></span><br><span class="line"><span class="regexp">		uint32_t     next;                 /</span>* hash collision chain *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">		uint32_t     cache_slot;           /</span>* literal cache slot *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">		uint32_t     lineno;               /</span>* line number (<span class="keyword">for</span> ast nodes) *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">		uint32_t     num_args;             /</span>* arguments number <span class="keyword">for</span> EX(This) *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">		uint32_t     fe_pos;               /</span>* foreach position *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">		uint32_t     fe_iter_idx;          /</span>* foreach iterator index *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">		uint32_t     access_flags;         /</span>* <span class="class"><span class="keyword">class</span> <span class="title">constant</span> <span class="title">access</span> <span class="title">flags</span> */</span></span><br><span class="line">		uint32_t     property_guard;       <span class="regexp">/* single property guard */</span></span><br><span class="line">		uint32_t     extra;                <span class="regexp">/* not further specified */</span></span><br><span class="line">	&#125; u2;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>分为三个部分， zend_value, u1, u2 三个联合体。<br>跟踪 zend_value 看看, </p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">typedef union _zend_value &#123;</span><br><span class="line">	zend_long         lval<span class="comment">;				/* long value */</span></span><br><span class="line">	double            dval<span class="comment">;				/* double value */</span></span><br><span class="line">	zend_refcounted  *counted<span class="comment">;</span></span><br><span class="line">	zend_string      *str<span class="comment">;</span></span><br><span class="line">	zend_array       *arr<span class="comment">;</span></span><br><span class="line">	zend_object      *obj<span class="comment">;</span></span><br><span class="line">	zend_resource    *res<span class="comment">;</span></span><br><span class="line">	zend_reference   *ref<span class="comment">;</span></span><br><span class="line">	zend_ast_ref     *ast<span class="comment">;</span></span><br><span class="line">	zval             *zv<span class="comment">;</span></span><br><span class="line">	void             *ptr<span class="comment">;</span></span><br><span class="line">	zend_class_entry *ce<span class="comment">;</span></span><br><span class="line">	zend_function    *func<span class="comment">;</span></span><br><span class="line">	struct &#123;</span><br><span class="line">		uint32_t w1<span class="comment">;</span></span><br><span class="line">		uint32_t w2<span class="comment">;</span></span><br><span class="line">	&#125; ww<span class="comment">;</span></span><br><span class="line">&#125; zend_value<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>跋山涉水， zend_value 这个联合体可以存放所有可能的 php 数据类型数据。 数值分: 长整型或者双精度浮点型。 剩下的基本是指针值。有计数器指针，字符串指针，数组指针，对象指针，资源指针，引用指针, 空指针， 类指针，函数指针。 </p>
 <p>而 u1 里面又是啥东东？ ZEND_ENDIAN_LOHI_4()这个东西, </p>
-<pre><code>#ifdef WORDS_BIGENDIAN
-# define ZEND_ENDIAN_LOHI(lo, hi)          hi; lo;
-# define ZEND_ENDIAN_LOHI_3(lo, mi, hi)    hi; mi; lo;
-# define ZEND_ENDIAN_LOHI_4(a, b, c, d)    d; c; b; a;
-# define ZEND_ENDIAN_LOHI_C(lo, hi)        hi, lo
-# define ZEND_ENDIAN_LOHI_C_3(lo, mi, hi)  hi, mi, lo,
-# define ZEND_ENDIAN_LOHI_C_4(a, b, c, d)  d, c, b, a
-#else
-# define ZEND_ENDIAN_LOHI(lo, hi)          lo; hi;
-# define ZEND_ENDIAN_LOHI_3(lo, mi, hi)    lo; mi; hi;
-# define ZEND_ENDIAN_LOHI_4(a, b, c, d)    a; b; c; d;
-# define ZEND_ENDIAN_LOHI_C(lo, hi)        lo, hi
-# define ZEND_ENDIAN_LOHI_C_3(lo, mi, hi)  lo, mi, hi,
-# define ZEND_ENDIAN_LOHI_C_4(a, b, c, d)  a, b, c, d
-#endif
-</code></pre><p>这些 哆瑞咪发嗦啦奇多, 暂时不知道做什么。不过 type, type_flags, const_flags, reserved 按照字面意思应该包含激活的类型，类型标志，常量标记，保留值。所以 u1 其实是存的类型相关的信息值。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">ifdef WORDS_BIGENDIAN</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> define ZEND_ENDIAN_LOHI(lo, hi)          hi; lo;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> define ZEND_ENDIAN_LOHI_3(lo, mi, hi)    hi; mi; lo;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> define ZEND_ENDIAN_LOHI_4(a, b, c, d)    d; c; b; a;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> define ZEND_ENDIAN_LOHI_C(lo, hi)        hi, lo</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> define ZEND_ENDIAN_LOHI_C_3(lo, mi, hi)  hi, mi, lo,</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> define ZEND_ENDIAN_LOHI_C_4(a, b, c, d)  d, c, b, a</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> define ZEND_ENDIAN_LOHI(lo, hi)          lo; hi;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> define ZEND_ENDIAN_LOHI_3(lo, mi, hi)    lo; mi; hi;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> define ZEND_ENDIAN_LOHI_4(a, b, c, d)    a; b; c; d;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> define ZEND_ENDIAN_LOHI_C(lo, hi)        lo, hi</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> define ZEND_ENDIAN_LOHI_C_3(lo, mi, hi)  lo, mi, hi,</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> define ZEND_ENDIAN_LOHI_C_4(a, b, c, d)  a, b, c, d</span></span><br><span class="line"><span class="meta">#</span><span class="bash">endif</span></span><br></pre></td></tr></table></figure>
+<p>这些 哆瑞咪发嗦啦奇多, 暂时不知道做什么。不过 type, type_flags, const_flags, reserved 按照字面意思应该包含激活的类型，类型标志，常量标记，保留值。所以 u1 其实是存的类型相关的信息值。</p>
 <p>u2 里面是存放一个额外的数据, 有介绍说是一般情况下用不到？这个<a href="http://nikic.github.io/" target="_blank" rel="noopener">博客</a>说的。</p>
 <p>这里面有几个疑问仍未确定: </p>
 <ol>
@@ -428,8 +359,8 @@ typedef struct _zend_ast        zend_ast;
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018-05-01-tools/" rel="next" title="源码">
-                <i class="fa fa-chevron-left"></i> 源码
+              <a href="/2018-05-01-php-source-code-appreciation/" rel="next" title="php 源码 (string)">
+                <i class="fa fa-chevron-left"></i> php 源码 (string)
               </a>
             
           </div>
@@ -517,7 +448,7 @@ typedef struct _zend_ast        zend_ast;
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

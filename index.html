@@ -238,6 +238,126 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2019-03-05-buy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gitvim">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="重剑无锋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019-03-05-buy/" itemprop="url">buy</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-05T22:06:37+08:00">
+                2019-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="现代的买卖"><a href="#现代的买卖" class="headerlink" title="现代的买卖"></a>现代的买卖</h1><p>买卖初始的方式是各取所需，等价交换，按需交易。现如今，买卖变成了是一场场战争，没有底线地刺激人的欲望和需求。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018-12-09-how-economy-running/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -597,14 +717,11 @@
 <ol start="0">
 <li>无关的代码注释，多余的 log 打印去掉。</li>
 <li>合并前端代码，提交版本库。 因为需要拉 node_module 目录，所以提前准备好前端代码镜像。</li>
-<li>合并后端go代码，提交版本库待发布分支。<pre><code>git checkout master 
-git fetch 
-git checkout dev-feature
-git rebase  master -i 
-# 然后保留一个功能点的 commint ,其他的 commit 修改为 squash 
-# 这样可以保证主干分支 master 的干净, 相当于本次 100 个 commit 汇成了一个 commit
-</code></pre></li>
-<li>再次细化上线文档。 <ul>
+<li><p>合并后端go代码，提交版本库待发布分支。</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git checkout <span class="keyword">master</span> <span class="title"></span></span><br><span class="line"><span class="title">git</span> fetch </span><br><span class="line">git checkout dev-feature</span><br><span class="line">git rebase  <span class="keyword">master</span> <span class="title">-i</span> </span><br><span class="line"><span class="comment"># 然后保留一个功能点的 commint ,其他的 commit 修改为 squash </span></span><br><span class="line"><span class="comment"># 这样可以保证主干分支 master 的干净, 相当于本次 100 个 commit 汇成了一个 commit</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>再次细化上线文档。 </p>
+<ul>
 <li>将数据库表变更操作每条将要执行的 sql 按照执行顺序, 按照四个功能块列出来。细化到每一条 sql, 包含变更前的查询和变更后的确认 sql 全补上。 </li>
 <li>初始将修改的功能点 1-7 罗列出来。上线前给架构师再过一遍。架构师确认无误。</li>
 <li>加上接入监控部分详细描述。</li>
@@ -614,22 +731,13 @@ git rebase  master -i
 <li>提前配置好配置服务器的相关域名，开放端口，各项敏感参数，签名。</li>
 <li>配置线上开放的 API . 发布，申请审核通过之后，进行对应的业务线授权。</li>
 </ol>
-<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>开始所有的数据库操作之前，都先备份。</p>
-<pre><code>mysqldump -uroot -p dbname table_name &gt; table_xxx_20181201.sql
-</code></pre><p><em>16:00</em> 千呼万唤始出来，终于等来了初始化数据。我依次按照我的文档。执行了初始化。一开始收到初始化文件时，想着用 <strong>rsync</strong> 去上传文件的。但是行不通。改为 <strong>rz</strong> 同步初始化数据文件到服务器。然后打算从终端直接导入。</p>
-<pre><code>mysqldump -uroot -p db_name &lt; change.sql 
-</code></pre><p>结果不行。又改登陆数据库先进去， 然后</p>
-<pre><code>source /dirpath/change.sql
-</code></pre><p>这下导入了。之后开始加字段, </p>
-<pre><code>ALTER TABLE X ADD COLUMN xxx VARCHAR(50) NOT NULL COMMENT &#39;XXX&#39;;
-UPDATE TABLE ...
-ALTER TABLE ADD INDEX (`YYY`);
-...
-# 还有一顿的操作, 按流程文档走。
-</code></pre><p>初始化历时 30 分钟左右。<br>此时已经 <em>16:30</em> 左右了! 根据上线次序，必须其他三个部门全部上线完，我才能上线。但是其中的一个部门还在初始化。<br>然后继续等。结果，等到了晚上快 20:00 点，才等来了消息: 其他部门初始化完成了，这下我才可上线。在这中间，我又把本次接入的出入的接口加上监控项目。这样，代码一上线，我就可以开始变看日志，边看监控发现存在的问题了。</p>
-<h3 id="上线"><a href="#上线" class="headerlink" title="上线"></a>上线</h3><p>于是我用了 7 秒就把后端所有的镜像部署上去了。为啥？因为我在等待其他部门操作期间，把所有的镜像都准备好了。万事俱备，只欠灭霸的一个响指了。哦，好像哪里不对啊。<br>紧接着又上线前端的容器。<br>看日志，发现有一个错误级别的。反馈是数据库有一个字段找不到！这个字段是第八版本中修改的！赶紧加上。这回后续时间内那个错误级别日志消失了。<br>然后联合线上回归。又发现几个问题。马上跟进！<br>原来其中有一个问题是我这边的，有一个表的有关时间字段设置的 int(11) 没有 UNSIGNED ! 长度不够。所以我改了一下这个字段长度。</p>
-<pre><code>ALTER TABLE table_name CHANGE `x_column` `x_column` int(11)  UNSIGNED  NOT NULL DEFAULT 0 COMMENT &#39;过期时间&#39;;
-</code></pre><p>然后再验，还是不够。原来另一个接口返回的时间戳是精确到毫秒级的时间戳， 从 2147483647 扩大到 4294967295还是不够。所以我改为 bigint 之后才行。<br>其他问题，协助他们验证的线上的 bug 进行日志跟进。依次都化解了。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>开始所有的数据库操作之前，都先备份。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -uroot -<span class="selector-tag">p</span> dbname table_name &gt; table_xxx_20181201.sql</span><br></pre></td></tr></table></figure></p>
+<p><em>16:00</em> 千呼万唤始出来，终于等来了初始化数据。我依次按照我的文档。执行了初始化。一开始收到初始化文件时，想着用 <strong>rsync</strong> 去上传文件的。但是行不通。改为 <strong>rz</strong> 同步初始化数据文件到服务器。然后打算从终端直接导入。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -uroot -<span class="selector-tag">p</span> db_name &lt; change.sql</span><br></pre></td></tr></table></figure></p>
+<p>结果不行。又改登陆数据库先进去， 然后<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">source</span> <span class="regexp">/dirpath/</span>change.sql</span><br></pre></td></tr></table></figure></p>
+<p>这下导入了。之后开始加字段,<br><figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ALTER <span class="keyword">TABLE</span> X <span class="comment">ADD COLUMN xxx VARCHAR(50) NOT NULL COMMENT</span> <span class="comment">'XXX'</span>;</span><br><span class="line">UPDATE <span class="keyword">TABLE</span> ...</span><br><span class="line">ALTER <span class="keyword">TABLE</span> ADD <span class="comment">INDEX (</span>`<span class="comment">YYY</span>`<span class="comment">)</span>;</span><br><span class="line">...</span><br><span class="line"># 还有一顿的操作, 按流程文档走。</span><br></pre></td></tr></table></figure></p>
+<p>初始化历时 30 分钟左右。<br>此时已经 <em>16:30</em> 左右了! 根据上线次序，必须其他三个部门全部上线完，我才能上线。但是其中的一个部门还在初始化。<br>然后继续等。结果，等到了晚上快 20:00 点，才等来了消息: 其他部门初始化完成了，这下我才可上线。在这中间，我又把本次接入的出入的接口加上监控项目。这样，代码一上线，我就可以开始变看日志，边看监控发现存在的问题了。</p>
+<h3 id="上线"><a href="#上线" class="headerlink" title="上线"></a>上线</h3><p>于是我用了 7 秒就把后端所有的镜像部署上去了。为啥？因为我在等待其他部门操作期间，把所有的镜像都准备好了。万事俱备，只欠灭霸的一个响指了。哦，好像哪里不对啊。<br>紧接着又上线前端的容器。<br>看日志，发现有一个错误级别的。反馈是数据库有一个字段找不到！这个字段是第八版本中修改的！赶紧加上。这回后续时间内那个错误级别日志消失了。<br>然后联合线上回归。又发现几个问题。马上跟进！<br>原来其中有一个问题是我这边的，有一个表的有关时间字段设置的 int(11) 没有 UNSIGNED ! 长度不够。所以我改了一下这个字段长度。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name <span class="keyword">CHANGE</span> <span class="string">`x_column`</span> <span class="string">`x_column`</span> <span class="built_in">int</span>(<span class="number">11</span>)  <span class="keyword">UNSIGNED</span>  <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">0</span> <span class="keyword">COMMENT</span> <span class="string">'过期时间'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>然后再验，还是不够。原来另一个接口返回的时间戳是精确到毫秒级的时间戳， 从 2147483647 扩大到 4294967295还是不够。所以我改为 bigint 之后才行。<br>其他问题，协助他们验证的线上的 bug 进行日志跟进。依次都化解了。</p>
 <p>验证完，都已经 22:00 了。<br>然后就坐地铁回家了!</p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ol>
 <li>永远准备好应对任何来自生产环境的异常问题。生产环境和测试环境不可能完全一致, 只能无限逼近。 </li>
@@ -759,38 +867,12 @@ ALTER TABLE ADD INDEX (`YYY`);
           
             <p>闲来没事，看了下 <a href="https://github.com/gocolly/colly" title="colly" target="_blank" rel="noopener">gocolly</a>，练手搞一个爬虫，搂了一遍最新的腾讯官网的招聘信息。<br>这种不需要登陆的网站是最容易爬到的。<br>很简单，还是给自己小结过一下。</p>
 <p>因为无须登陆，所以这条虫子几乎是官网的基础的例子<br>使用 Chrome 浏览器打开<a href="https://hr.tencent.com" title="tx" target="_blank" rel="noopener">腾讯招聘官网</a>,  <em>F12</em>, 随便在搜索框里面输入一点比如 go, 就进入一个分页的搜索结果列表页。定位到招聘的职位那几栏，发现是用的 table 框起来的。找官网的基本例子依样画葫芦。</p>
-<pre><code>    c.OnHTML(&quot;#position tbody tr&quot;, func(e *colly.HTMLElement) {
-        writer.Write([]string{
-            e.ChildText(&quot;td:nth-child(1)&quot;),
-            e.ChildText(&quot;td:nth-child(2)&quot;),
-            e.ChildText(&quot;td:nth-child(3)&quot;),
-            e.ChildText(&quot;td:nth-child(4)&quot;),
-            e.ChildText(&quot;td:nth-child(5)&quot;),
-            e.ChildAttr(&quot;a&quot;, &quot;href&quot;),
-        })
-    })
-</code></pre><p>结果爬取的结果除了想要的那些 tr 行之外，表头和地步的分页的数据也给弄进去了。<br>这不是我想要的，决定过滤一下。于是改进一下小版本的只搂需要的选项。</p>
-<pre><code>    c.OnHTML(&quot;#position tbody tr&quot;, func(e *colly.HTMLElement) {
-        itemClass := e.Attr(&quot;class&quot;)
-        if strings.EqualFold(itemClass, &quot;even&quot;) || strings.EqualFold(itemClass, &quot;odd&quot;) {
-            writer.Write([]string{
-                e.ChildText(&quot;td:nth-child(1)&quot;),
-                e.ChildText(&quot;td:nth-child(2)&quot;),
-                e.ChildText(&quot;td:nth-child(3)&quot;),
-                e.ChildText(&quot;td:nth-child(4)&quot;),
-                e.ChildText(&quot;td:nth-child(5)&quot;),
-                e.ChildAttr(&quot;a&quot;, &quot;href&quot;),
-            })
-        }
-    })
-</code></pre><p>只爬一页不够啊，我需要全部的招聘信息，然后再加一下获取下一页的链接。让它爬完一页之后接着下一页，直到爬完所有的招聘。</p>
-<pre><code>    c.OnHTML(&quot;#next&quot;, func(h *colly.HTMLElement) {
-        t := donain + h.Attr(&quot;href&quot;)
-        log.Printf(t)
-        c.Visit(t)
-    })
-
-</code></pre><p>这样一来就拿到腾讯官网全量的数据了。<br>还是向 shawjia 学习，多提交一些自己的开源项目, 哪怕是最基本的练手的项目。<br>今天是个开始，这顿 <a href="https://github.com/chenyangguang/hundun" title="馄炖" target="_blank" rel="noopener">馄炖</a> 就是个见证。(一直不知道开始的项目应该叫啥名，索性就处在混沌之中吧。) </p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">c</span><span class="selector-class">.OnHTML</span>(<span class="string">"#position tbody tr"</span>, func(e *colly.HTMLElement) &#123;</span><br><span class="line">       <span class="selector-tag">writer</span><span class="selector-class">.Write</span>([]string&#123;</span><br><span class="line">           <span class="selector-tag">e</span><span class="selector-class">.ChildText</span>(<span class="string">"td:nth-child(1)"</span>),</span><br><span class="line">           <span class="selector-tag">e</span><span class="selector-class">.ChildText</span>(<span class="string">"td:nth-child(2)"</span>),</span><br><span class="line">           <span class="selector-tag">e</span><span class="selector-class">.ChildText</span>(<span class="string">"td:nth-child(3)"</span>),</span><br><span class="line">           <span class="selector-tag">e</span><span class="selector-class">.ChildText</span>(<span class="string">"td:nth-child(4)"</span>),</span><br><span class="line">           <span class="selector-tag">e</span><span class="selector-class">.ChildText</span>(<span class="string">"td:nth-child(5)"</span>),</span><br><span class="line">           <span class="selector-tag">e</span><span class="selector-class">.ChildAttr</span>(<span class="string">"a"</span>, <span class="string">"href"</span>),</span><br><span class="line">       &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>结果爬取的结果除了想要的那些 tr 行之外，表头和地步的分页的数据也给弄进去了。<br>这不是我想要的，决定过滤一下。于是改进一下小版本的只搂需要的选项。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">c</span><span class="selector-class">.OnHTML</span>("<span class="selector-id">#position</span> <span class="selector-tag">tbody</span> <span class="selector-tag">tr</span>", <span class="selector-tag">func</span>(<span class="selector-tag">e</span> *<span class="selector-tag">colly</span><span class="selector-class">.HTMLElement</span>) &#123;</span><br><span class="line">	<span class="attribute">itemClass </span>:= e.<span class="built_in">Attr</span>(<span class="string">"class"</span>)</span><br><span class="line">	if strings.<span class="built_in">EqualFold</span>(itemClass, <span class="string">"even"</span>) || strings.<span class="built_in">EqualFold</span>(itemClass, <span class="string">"odd"</span>) &#123;</span><br><span class="line">		writer.<span class="built_in">Write</span>([]string&#123;</span><br><span class="line">			e.ChildText(<span class="string">"td:nth-child(1)"</span>),</span><br><span class="line">			e.<span class="built_in">ChildText</span>(<span class="string">"td:nth-child(2)"</span>),</span><br><span class="line">			e.<span class="built_in">ChildText</span>(<span class="string">"td:nth-child(3)"</span>),</span><br><span class="line">			e.<span class="built_in">ChildText</span>(<span class="string">"td:nth-child(4)"</span>),</span><br><span class="line">			e.<span class="built_in">ChildText</span>(<span class="string">"td:nth-child(5)"</span>),</span><br><span class="line">			e.<span class="built_in">ChildAttr</span>(<span class="string">"a"</span>, <span class="string">"href"</span>),</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>只爬一页不够啊，我需要全部的招聘信息，然后再加一下获取下一页的链接。让它爬完一页之后接着下一页，直到爬完所有的招聘。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">c</span><span class="selector-class">.OnHTML</span>("<span class="selector-id">#next</span>", <span class="selector-tag">func</span>(<span class="selector-tag">h</span> *<span class="selector-tag">colly</span><span class="selector-class">.HTMLElement</span>) &#123;</span><br><span class="line">	<span class="attribute">t </span>:= donain + h.<span class="built_in">Attr</span>(<span class="string">"href"</span>)</span><br><span class="line">	log.<span class="built_in">Printf</span>(t)</span><br><span class="line">	c.<span class="built_in">Visit</span>(t)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>这样一来就拿到腾讯官网全量的数据了。<br>还是向 shawjia 学习，多提交一些自己的开源项目, 哪怕是最基本的练手的项目。<br>今天是个开始，这顿 <a href="https://github.com/chenyangguang/hundun" title="馄炖" target="_blank" rel="noopener">馄炖</a> 就是个见证。(一直不知道开始的项目应该叫啥名，索性就处在混沌之中吧。) </p>
 
           
         
@@ -1466,135 +1548,6 @@ ALTER TABLE ADD INDEX (`YYY`);
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018-08-27-taishan/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Gitvim">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="重剑无锋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018-08-27-taishan/" itemprop="url">泰山观日出</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-27T23:15:21+08:00">
-                2018-08-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="出发"><a href="#出发" class="headerlink" title="出发"></a>出发</h1><p>我愿追随自己年轻时的血气方刚，再来几次出发，远行。</p>
-<h2 id="半夜闹钟"><a href="#半夜闹钟" class="headerlink" title="半夜闹钟"></a>半夜闹钟</h2><p>上周六2018-08-25，怕半夜赶不上车，弄了3:00,3:30，4:00的闹钟。好在及时在第一波闹钟的提醒里起来。赶在4:20到了机场。</p>
-<h2 id="飞机"><a href="#飞机" class="headerlink" title="飞机"></a>飞机</h2><p>在这个城市四年了，我是第一次到这个机场。一开始我以为自己时间还是挺多的。但是只是好奇了几下这里候机的来来往往的人，心里暗暗感叹了一会机场的穹顶，一路从安检走到登机口，感觉绕过过了两个操场。<br>早上6:10的飞机。<br>头一次总飞机。那个心情真的是, 好爽啊。特别是一面忐忑着，一面又极其激动地坐着飞机，轰隆隆地在跑道上奔着，地面的草向后面越来越快的划退，奔着奔着，后背一靠，前头拔高，脚底感觉有一股厚实的板顶着，飞起来了！要上天了！</p>
-<h2 id="济南的夏天"><a href="#济南的夏天" class="headerlink" title="济南的夏天"></a>济南的夏天</h2><p>热。</p>
-<h2 id="泰安的小饭馆"><a href="#泰安的小饭馆" class="headerlink" title="泰安的小饭馆"></a>泰安的小饭馆</h2><p>香，实惠的小菜。</p>
-<h1 id="泰山"><a href="#泰山" class="headerlink" title="泰山"></a>泰山</h1><p>泰山北斗，可不是比衡山难爬嘛! 十八盘。。。。。。， 给我多来几盘。</p>
-<h2 id="日出"><a href="#日出" class="headerlink" title="日出"></a>日出</h2><p>山顶扎一小帐篷，租一军大衣。本以为可以好好地在石板地上睡到第二天至少4点吧。。。。。。, 谁知道凌晨1点之后，陆续地帐篷周边热闹起来，压根睡不着觉。打游戏的，聊天的，嬉戏的，吃东西的，喊冷的，哼小曲的，小孩哭闹的。。。。。。许多观日出的人不远万里的，赶来等日出的好日子。4点起来，想找个位置，附近的所有能站人的石头面，都被人占着了。。。。。。后来绕树丛里，钻爬到一处人少的稍险的高台上。占着。<br>5点半左右，出来了!<br>日出时，天际的云海光影和初生的圆盘, 真的是不可阻挡, 那种透射出来的光芒柔韧而坚实。三个山头的人禁不住齐齐呐喊一阵。各种手机姿势抬着，留下在泰山上的非凡的金色映像中。</p>
-<h2 id="趵突泉"><a href="#趵突泉" class="headerlink" title="趵突泉"></a>趵突泉</h2><p>三个大泉眼。</p>
-<h2 id="老舍纪念馆"><a href="#老舍纪念馆" class="headerlink" title="老舍纪念馆"></a>老舍纪念馆</h2><p>那个老舍的房子好封闭！”济南的冬天”就是在这样的院子里写出来的吗？好怀念那个时代的人对天地人的感受。</p>
-<h1 id="在路上"><a href="#在路上" class="headerlink" title="在路上"></a>在路上</h1><p>不断行走，在路上。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1645,7 +1598,7 @@ ALTER TABLE ADD INDEX (`YYY`);
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

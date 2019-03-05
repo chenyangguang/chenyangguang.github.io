@@ -330,132 +330,8 @@
 <li>为了防止恶意的操作, 一般模板方法都加上final关键字, 不允许被覆写。</li>
 <li>抽象模板中的基本方法尽量设计为protected类型, 符合迪米特法则, 不需要暴露的属性或方法尽量设置为protected类型。 实现类若非必要, 尽量不要扩大父类中的访问<br>权限</li>
 </ul>
-<h4 id="php-实例"><a href="#php-实例" class="headerlink" title="php 实例"></a>php 实例</h4><pre><code>&lt;?php
-// 独孤九剑
-abstract class Dugujiujian {
-    // protected 将独孤九剑剑法的招式秘密都保护起来，宁可烂在华山也不轻易传给华山弟子
-    protected abstract function zongjueStyle();
-    protected abstract function pojianStyle();
-    protected abstract function podaoStyle();
-    protected abstract function pozhangStyle();
-    protected abstract function poqiStyle();
-
-    // final 关键字限定，不能随便改剑谱要诀
-    final public function useDujiujian ()
-    {
-        $this-&gt;zongjueStyle();
-        $this-&gt;pojianStyle();
-        $this-&gt;podaoStyle();
-        $this-&gt;pozhangStyle();
-
-        // 如果功力深厚的，再教学破气式
-        if(!$this-&gt;isGonglishenhou()) {
-            echo( &#39;功力不济, 江湖上历练几十年再领会破气式!&#39; . PHP_EOL );
-        } else {
-            $this-&gt;poqiStyle();
-        }
-    }
-
-    // 钩子方法
-    protected function isGonglishenhou()
-    {
-        return true;
-    }
-}
-
-class Fengqingyang extends Dugujiujian {
-    protected $deepNeili = true;
-    protected function zongjueStyle() {
-        echo(&#39;风清杨在教 总决式&#39; . PHP_EOL);
-    }
-
-    protected function pojianStyle() {
-        echo(&#39;风清杨在教 破剑式&#39; . PHP_EOL);
-    }
-
-    protected function podaoStyle() {
-        echo(&#39;风清杨在教 破刀式&#39; . PHP_EOL);
-    }
-
-    protected function pozhangStyle() {
-        echo(&#39;风清杨在教 破掌式&#39; . PHP_EOL);
-    }
-
-    protected function poqiStyle() {
-        echo(&#39;风清杨在教 破气式&#39; . PHP_EOL);
-    }
-
-    protected function isGonglishenhou () {
-        return $this-&gt;deepNeili;
-    }
-
-    // 能不能教学破气式是由内力决定的
-    public function checkGongli($deepNeili) {
-        return $this-&gt;deepNeili = (bool) $deepNeili;
-    }
-}
-
-class linghuchong extends Dugujiujian {
-    protected function zongjueStyle()
-    {
-        echo(&#39;令狐冲在学 总决式&#39; . PHP_EOL);
-    }
-
-    protected function pojianStyle()
-    {
-        echo(&#39;令狐冲在学 破剑式&#39; . PHP_EOL);
-    }
-
-    protected function podaoStyle()
-    {
-        echo(&#39;令狐冲在学 破刀式&#39; . PHP_EOL);
-    }
-
-    protected function pozhangStyle()
-    {
-        echo(&#39;令狐冲在学 破掌式&#39; . PHP_EOL);
-    }
-
-    protected function poqiStyle()
-    {
-        echo(&#39;令狐冲在学 破气式&#39; . PHP_EOL);
-    }
-
-    protected function isGonglishenhou()
-    {
-        return false;
-    }
-}
-
-class chuanshouDugujiujian {
-    public static function main ()
-    {
-        $fengqingyang = new Fengqingyang();
-        $deepNeili = 1;
-        if(!$deepNeili) {
-            $fengqingyang-&gt;checkGongli($deepNeili);
-        }
-        $fengqingyang-&gt;useDujiujian();
-
-        $deepNeili = 0;
-        $linghuchong = new Linghuchong();
-        $linghuchong-&gt;useDujiujian();
-    }
-}
-
-chuanshouDugujiujian::main();
-
-    // 风清杨在教 总决式
-    // 风清杨在教 破剑式
-    // 风清杨在教 破刀式
-    // 风清杨在教 破掌式
-    // 风清杨在教 破气式
-    // 令狐冲在学 总决式
-    // 令狐冲在学 破剑式
-    // 令狐冲在学 破刀式
-    // 令狐冲在学 破掌式
-    // 功力不济, 江湖上历练几十年再领会破气式!
-</code></pre><h2 id="0x01-小结"><a href="#0x01-小结" class="headerlink" title="0x01 小结"></a>0x01 小结</h2><p>使用风清杨教令狐冲独孤九剑的一段经历模拟了一下模板方法模式, 虽然有些生硬，但也是自己对模板方法模式的一个理解吧。反正都要自己去实现一遍, 慢慢消化吸收。哪怕就着芥末吃，也先咽下去。<br><!--more--></p>
+<h4 id="php-实例"><a href="#php-实例" class="headerlink" title="php 实例"></a>php 实例</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 独孤九剑</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Dugujiujian</span> </span>&#123;</span><br><span class="line">    <span class="comment">// protected 将独孤九剑剑法的招式秘密都保护起来，宁可烂在华山也不轻易传给华山弟子</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="function"><span class="keyword">function</span> <span class="title">zongjueStyle</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="function"><span class="keyword">function</span> <span class="title">pojianStyle</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="function"><span class="keyword">function</span> <span class="title">podaoStyle</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="function"><span class="keyword">function</span> <span class="title">pozhangStyle</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="function"><span class="keyword">function</span> <span class="title">poqiStyle</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// final 关键字限定，不能随便改剑谱要诀</span></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">useDujiujian</span> <span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;zongjueStyle();</span><br><span class="line">        <span class="keyword">$this</span>-&gt;pojianStyle();</span><br><span class="line">        <span class="keyword">$this</span>-&gt;podaoStyle();</span><br><span class="line">        <span class="keyword">$this</span>-&gt;pozhangStyle();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如果功力深厚的，再教学破气式</span></span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">$this</span>-&gt;isGonglishenhou()) &#123;</span><br><span class="line">            <span class="keyword">echo</span>( <span class="string">'功力不济, 江湖上历练几十年再领会破气式!'</span> . PHP_EOL );</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;poqiStyle();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 钩子方法</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">isGonglishenhou</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fengqingyang</span> <span class="keyword">extends</span> <span class="title">Dugujiujian</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $deepNeili = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">zongjueStyle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span>(<span class="string">'风清杨在教 总决式'</span> . PHP_EOL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">pojianStyle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span>(<span class="string">'风清杨在教 破剑式'</span> . PHP_EOL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">podaoStyle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span>(<span class="string">'风清杨在教 破刀式'</span> . PHP_EOL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">pozhangStyle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span>(<span class="string">'风清杨在教 破掌式'</span> . PHP_EOL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">poqiStyle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span>(<span class="string">'风清杨在教 破气式'</span> . PHP_EOL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">isGonglishenhou</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;deepNeili;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 能不能教学破气式是由内力决定的</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">checkGongli</span><span class="params">($deepNeili)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;deepNeili = (bool) $deepNeili;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">linghuchong</span> <span class="keyword">extends</span> <span class="title">Dugujiujian</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">zongjueStyle</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span>(<span class="string">'令狐冲在学 总决式'</span> . PHP_EOL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">pojianStyle</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span>(<span class="string">'令狐冲在学 破剑式'</span> . PHP_EOL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">podaoStyle</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span>(<span class="string">'令狐冲在学 破刀式'</span> . PHP_EOL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">pozhangStyle</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span>(<span class="string">'令狐冲在学 破掌式'</span> . PHP_EOL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">poqiStyle</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span>(<span class="string">'令狐冲在学 破气式'</span> . PHP_EOL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">isGonglishenhou</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">chuanshouDugujiujian</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">main</span> <span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $fengqingyang = <span class="keyword">new</span> Fengqingyang();</span><br><span class="line">        $deepNeili = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(!$deepNeili) &#123;</span><br><span class="line">            $fengqingyang-&gt;checkGongli($deepNeili);</span><br><span class="line">        &#125;</span><br><span class="line">        $fengqingyang-&gt;useDujiujian();</span><br><span class="line"></span><br><span class="line">        $deepNeili = <span class="number">0</span>;</span><br><span class="line">        $linghuchong = <span class="keyword">new</span> Linghuchong();</span><br><span class="line">        $linghuchong-&gt;useDujiujian();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">chuanshouDugujiujian::main();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 风清杨在教 总决式</span></span><br><span class="line">    <span class="comment">// 风清杨在教 破剑式</span></span><br><span class="line">    <span class="comment">// 风清杨在教 破刀式</span></span><br><span class="line">    <span class="comment">// 风清杨在教 破掌式</span></span><br><span class="line">    <span class="comment">// 风清杨在教 破气式</span></span><br><span class="line">    <span class="comment">// 令狐冲在学 总决式</span></span><br><span class="line">    <span class="comment">// 令狐冲在学 破剑式</span></span><br><span class="line">    <span class="comment">// 令狐冲在学 破刀式</span></span><br><span class="line">    <span class="comment">// 令狐冲在学 破掌式</span></span><br><span class="line">    <span class="comment">// 功力不济, 江湖上历练几十年再领会破气式!</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x01-小结"><a href="#0x01-小结" class="headerlink" title="0x01 小结"></a>0x01 小结</h2><p>使用风清杨教令狐冲独孤九剑的一段经历模拟了一下模板方法模式, 虽然有些生硬，但也是自己对模板方法模式的一个理解吧。反正都要自己去实现一遍, 慢慢消化吸收。哪怕就着芥末吃，也先咽下去。<br><!--more--></p>
 
       
     </div>
@@ -575,7 +451,7 @@ chuanshouDugujiujian::main();
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

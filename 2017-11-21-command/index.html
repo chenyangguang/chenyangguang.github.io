@@ -315,81 +315,8 @@
 <li>Command 命令角色, 声明需要执行的所有命令。</li>
 <li>Invoker 调用者角色, 接受到命令，并执行命令。</li>
 </ul>
-<h2 id="php-实现"><a href="#php-实现" class="headerlink" title="php 实现"></a>php 实现</h2><pre><code>&lt;?php
-/*
-  command pattern
- */
-
-// 通用的 Receiver 类
-abstract class Receiver {
-    abstract function dosth();
-}
-
-// 具体的 Receiver 类
-class ConcreteReceiver1 extends Receiver  {
-    public function doSth() {
-    }
-}
-
-class ConcreteReceiver2 extends Receiver {
-    public function doSth() {
-
-    }
-}
-
-// 抽象的Command 类
-abstract class Command {
-    abstract function execute();
-}
-
-// 具体 Command 类
-class ConcreteCommand1 extends Command {
-    private $receiver;
-
-    public function ConcreteCommand1(Receiver $_receiver) {
-        $this-&gt;receiver = $_receiver;
-    }
-
-    public function execute() {
-        $this-&gt;receiver-&gt;doSth();
-    }
-}
-
-class ConcreteCommand2 extends Command {
-    private $receiver;
-
-    public function ConcreteCommand2(Receiver $_receiver) {
-        $this-&gt;receiver = $_receiver;
-    }
-
-    public function execute() {
-        $this-&gt;receiver-&gt;doSth();
-    }
-}
-
-// 调用者 Invoker 类
-class Invoker {
-    private $command;
-
-    public function setCommand(Command $_command) {
-        $this-&gt;command = $_command;
-    }
-    public function act() {
-        $this-&gt;command-&gt;execute();
-    }
-}
-
-// 场景调用
-class client {
-    public static function main() {
-        $invoker = new Invoker();
-        $receiver = new ConcreteReceiver1();
-        $command = new ConcreteCommand1($receiver);
-        $invoker-&gt;setCommand($command);
-        $invoker-&gt;act();
-    }
-}
-</code></pre><h1 id="0x01-小结"><a href="#0x01-小结" class="headerlink" title="0x01 小结"></a>0x01 小结</h1><p>切勿好高骛远, 即使你的征途是星辰大海, 也要脚踏实地做好准备工作。</p>
+<h2 id="php-实现"><a href="#php-实现" class="headerlink" title="php 实现"></a>php 实现</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  command pattern</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 通用的 Receiver 类</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Receiver</span> </span>&#123;</span><br><span class="line">    <span class="keyword">abstract</span> <span class="function"><span class="keyword">function</span> <span class="title">dosth</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 具体的 Receiver 类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteReceiver1</span> <span class="keyword">extends</span> <span class="title">Receiver</span>  </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">doSth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteReceiver2</span> <span class="keyword">extends</span> <span class="title">Receiver</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">doSth</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 抽象的Command 类</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Command</span> </span>&#123;</span><br><span class="line">    <span class="keyword">abstract</span> <span class="function"><span class="keyword">function</span> <span class="title">execute</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 具体 Command 类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteCommand1</span> <span class="keyword">extends</span> <span class="title">Command</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $receiver;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">ConcreteCommand1</span><span class="params">(Receiver $_receiver)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;receiver = $_receiver;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">execute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;receiver-&gt;doSth();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteCommand2</span> <span class="keyword">extends</span> <span class="title">Command</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $receiver;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">ConcreteCommand2</span><span class="params">(Receiver $_receiver)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;receiver = $_receiver;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">execute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;receiver-&gt;doSth();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用者 Invoker 类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Invoker</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $command;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setCommand</span><span class="params">(Command $_command)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;command = $_command;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">act</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;command-&gt;execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 场景调用</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">client</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $invoker = <span class="keyword">new</span> Invoker();</span><br><span class="line">        $receiver = <span class="keyword">new</span> ConcreteReceiver1();</span><br><span class="line">        $command = <span class="keyword">new</span> ConcreteCommand1($receiver);</span><br><span class="line">        $invoker-&gt;setCommand($command);</span><br><span class="line">        $invoker-&gt;act();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="0x01-小结"><a href="#0x01-小结" class="headerlink" title="0x01 小结"></a>0x01 小结</h1><p>切勿好高骛远, 即使你的征途是星辰大海, 也要脚踏实地做好准备工作。</p>
 
       
     </div>
@@ -509,7 +436,7 @@ class client {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

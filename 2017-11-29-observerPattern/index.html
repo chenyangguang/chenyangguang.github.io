@@ -321,69 +321,8 @@
 <li>建立一套触发机制．</li>
 </ul>
 <h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>多级触发时，效率变差．</p>
-<h2 id="php-实现"><a href="#php-实现" class="headerlink" title="php 实现"></a>php 实现</h2><pre><code>&lt;?php
-/*
- * observer pattern
- */
-
-//被观察者
-abstract class Subject {
-    private $observers = [];
-    public function addObserver(Observer $_observer)
-    {
-        array_push($this-&gt;observers, $_observer);
-    }
-
-    public function delObserver(Observer $_observer)
-    {
-        $key = array_search($this-&gt;observers, $_observer);
-        if ($key !== false) {
-            array_splice($this-&gt;observers, $key, 1);
-        }
-    }
-
-    // 通知所有观察者
-    public function notifyObservers()
-    {
-        foreach($this-&gt;observers as $observer) {
-            $observer-&gt;update();
-        }
-    }
-}
-
-
-// 具体被观察者
-class ConcreteSubjects extends Subject {
-    public function doSth()
-    {
-        parent::notifyObservers();
-    }
-}
-
-// 观察者接口
-interface Observer {
-    public function update();
-}
-
-
-class ConcreteObserver implements Observer {
-    public function update()
-    {
-        echo &quot;Get it!Yes!Sir!&quot;;
-    }
-}
-
-class Client {
-    public static function main()
-    {
-        $subject = new ConcreteSubjects();
-        $observers = new ConcreteObserver();
-        $subject-&gt;addObserver($observers);
-        $subject-&gt;doSth();
-    }
-}
-(new Client())::main();
-</code></pre><h2 id="用武之地"><a href="#用武之地" class="headerlink" title="用武之地"></a>用武之地</h2><ul>
+<h2 id="php-实现"><a href="#php-实现" class="headerlink" title="php 实现"></a>php 实现</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * observer pattern</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//被观察者</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Subject</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $observers = [];</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">addObserver</span><span class="params">(Observer $_observer)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        array_push(<span class="keyword">$this</span>-&gt;observers, $_observer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">delObserver</span><span class="params">(Observer $_observer)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $key = array_search(<span class="keyword">$this</span>-&gt;observers, $_observer);</span><br><span class="line">        <span class="keyword">if</span> ($key !== <span class="keyword">false</span>) &#123;</span><br><span class="line">            array_splice(<span class="keyword">$this</span>-&gt;observers, $key, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通知所有观察者</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">notifyObservers</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">foreach</span>(<span class="keyword">$this</span>-&gt;observers <span class="keyword">as</span> $observer) &#123;</span><br><span class="line">            $observer-&gt;update();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 具体被观察者</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteSubjects</span> <span class="keyword">extends</span> <span class="title">Subject</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">doSth</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">parent</span>::notifyObservers();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 观察者接口</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">update</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteObserver</span> <span class="keyword">implements</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">update</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"Get it!Yes!Sir!"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $subject = <span class="keyword">new</span> ConcreteSubjects();</span><br><span class="line">        $observers = <span class="keyword">new</span> ConcreteObserver();</span><br><span class="line">        $subject-&gt;addObserver($observers);</span><br><span class="line">        $subject-&gt;doSth();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">(<span class="keyword">new</span> Client())::main();</span><br></pre></td></tr></table></figure>
+<h2 id="用武之地"><a href="#用武之地" class="headerlink" title="用武之地"></a>用武之地</h2><ul>
 <li>可拆分的非组合的关联行为场景.</li>
 <li>事件多级出发场景．</li>
 <li>跨系统的消息交换场景，如消息队列的处理机制．</li>
@@ -513,7 +452,7 @@ class Client {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
