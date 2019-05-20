@@ -238,6 +238,169 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2019-05-20-sed/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gitvim">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="重剑无锋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019-05-20-sed/" itemprop="url">灵犀指 之 sed 妙用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-20T21:19:18+08:00">
+                2019-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前奏"><a href="#前奏" class="headerlink" title="前奏"></a>前奏</h2><p>今天又来了一个比之前更有意思的一个需求。</p>
+<p>需要提取两项数据，1. 包含两层目录下面的不带后缀的文件名；2. 这些文件的修改时间。<br>然后将这两个关联的数据插入一个表中，供后续和其他表关联查询使用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">find . -name <span class="string">"*.zip"</span> -<span class="built_in">print</span>  | xargs ls --full-time | head -n 3</span><br><span class="line">-rw------- 1 root root   4792 2019-02-18 09:27:47.113037320 +0800 ./5/0/02ef1fefebcef1fddf.zip</span><br><span class="line">-rw------- 1 root root  11794 2019-03-19 10:04:15.777575937 +0800 ./5/0/305c3eae0cac4fcfd0.zip</span><br><span class="line">-rw------- 1 root root   5813 2019-05-11 14:22:09.270733531 +0800 ./5/0/00640aa46bf544aacf.zip</span><br></pre></td></tr></table></figure>
+<p>如，把这三行的 2019-02-18 02ef1fefebcef1fddf 摘出来。</p>
+<p>然后创建数据库:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">'tmp_code'</span> (</span><br><span class="line">    <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> auto_increment,</span><br><span class="line">    <span class="string">`code`</span> <span class="built_in">char</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    <span class="string">`ctime`</span> <span class="built_in">char</span>(<span class="number">30</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>),</span><br><span class="line">    <span class="keyword">KEY</span> (<span class="string">`code`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span>  <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br></pre></td></tr></table></figure>
+<p>最后塞进去数据库。</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>我的第一反应是： 先使用命令把<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2019</span><span class="number">-02</span><span class="number">-18</span> <span class="number">02</span>ef1fefebcef1fddf </span><br><span class="line"><span class="number">2019</span><span class="number">-03</span><span class="number">-19</span> <span class="number">305</span>c3eae0cac4fcfd0</span><br><span class="line"><span class="number">2019</span><span class="number">-05</span><span class="number">-11</span> <span class="number">0640</span>aa46bf544aacfx</span><br></pre></td></tr></table></figure></p>
+<p>拿出来，然后使用我擅长的 vim 文本编辑器批量编辑。<br>确实也是可以实现。只需要使用 Ctrl + v 批量， 配合制作一两个宏。</p>
+<h2 id="vim-宏拼接sql-技巧"><a href="#vim-宏拼接sql-技巧" class="headerlink" title="vim 宏拼接sql 技巧"></a>vim 宏拼接sql 技巧</h2><p>比如录制宏部分可以使用, 比如单独插入一个字段</p>
+<h3 id="分别转化成单条插入sql-思路一"><a href="#分别转化成单条插入sql-思路一" class="headerlink" title="分别转化成单条插入sql(思路一)"></a>分别转化成单条插入sql(思路一)</h3><p>第一行单独处理, 然后我们从第二行开始制作宏<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">qij</span><br><span class="line">IINSERT INTO tmp_tb (code) <span class="built_in">values</span> (<span class="string">'</span></span><br><span class="line"><span class="string">Ctrl+[ </span></span><br><span class="line">A');</span><br><span class="line">Ctrl+[</span><br><span class="line">q    </span><br><span class="line">-- 查看总行数n, 移动光标在第一行时,普通模式下执行(n-<span class="number">2</span>)次回放宏：如 n = <span class="number">100</span>, 则执行时是 <span class="number">98</span>@i</span><br><span class="line">n-<span class="number">2</span>@i</span><br></pre></td></tr></table></figure></p>
+<h3 id="或者vim批量编辑拼接成-insert-sql-思路2"><a href="#或者vim批量编辑拼接成-insert-sql-思路2" class="headerlink" title="或者vim批量编辑拼接成 insert sql (思路2)"></a>或者vim批量编辑拼接成 insert sql (思路2)</h3><p>  录制宏: </p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">q</span><br><span class="line">ijI<span class="string">' </span></span><br><span class="line"><span class="string">Ctrl+[ </span></span><br><span class="line"><span class="string">A'</span>,</span><br><span class="line">Ctrl+[</span><br><span class="line">q</span><br></pre></td></tr></table></figure>
+<p>  查看总行数n, 移动光标在第一行时,普通模式下执行(n-1)次回放宏：如 n = 100, 则执行时是 99@i</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n-<span class="number">1</span>@i</span><br></pre></td></tr></table></figure>
+<p>  首行 输入 </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> into tmp_tb code <span class="built_in">values</span> (</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>  然后把结尾的 ); 放到最后一行</p>
+<h2 id="得高人指点-awk-和-sed-精要"><a href="#得高人指点-awk-和-sed-精要" class="headerlink" title="得高人指点 awk 和 sed 精要"></a>得高人指点 awk 和 sed 精要</h2><p>这里转而使用  awk 和 sed 实现一行搞定, 具体可以这样:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -name <span class="string">"*.zip"</span> -<span class="built_in">print</span>  | xargs ls --full-time | awk <span class="string">'&#123;print $6,$9&#125;'</span> | sed -r <span class="string">'s#.*([0-9]&#123;4&#125;-[0-9]&#123;2&#125;-[0-9]&#123;2&#125;).*/(\S+)\.zip$#INSERT\ INTO\ tmp_tb\ \(ctime,code\)\ values\ (\1 \2)#'</span> &gt;&gt; tmp_code.sql</span><br></pre></td></tr></table></figure>
+<ol>
+<li>逐一备注解释一下： </li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -name <span class="string">"*.zip"</span> -<span class="built_in">print</span></span><br></pre></td></tr></table></figure>
+<p>是为了 找到当前目录及子目录中所有的 .zip 结尾的文件。</p>
+<ol start="2">
+<li>“|” 是管道命令。 </li>
+<li>紧接着将文件的更改时间打印出来  <em>xargs ls –full-time</em>  。 </li>
+<li>然后，使用 <a href="https://chenyangguang.github.io/2017-04-25-awk/" title="awk" target="_blank" rel="noopener">awk</a> <a href="https://chenyangguang.github.io/2017-04-25-awk/" title="awk瑞士军刀片" target="_blank" rel="noopener">awk中介绍过</a> 的 awk 命令，默认空格作为分割符，将文本分离出来, $6, $9分别是空格分割的这么多列里，第六，第九列分别就是时间和文件信息的字符串。此时，时间已经拿到年月日，但是第九列却是带路径带后缀  <em>./5/0/02ef1fefebcef1fddf.zip</em> 这样的字符串。</li>
+<li>然后就到 sed 粉墨登场: </li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -r <span class="string">'s#.*([0-9]&#123;4&#125;-[0-9]&#123;2&#125;-[0-9]&#123;2&#125;).*/(\S+)\.zip$#INSERT\ INTO\ tmp_tb\ \(ctime,code\)\ values\ (\1 \2)#'</span></span><br></pre></td></tr></table></figure>
+<p>sed 有一个绝妙的地方，就是可以使用像 (匹配模式) 这样的模式，匹配起来, 然后 使用 \1 , \2 这样拿到前面的匹配模式里原文的匹配的字符串，可以理解为一个变量。 单条 sed 一共可使用 9 个这样的匹配模式。</p>
+<p>于是就可以完成这个需求了。 对于成千上万，特别是超过 vim 能承受的打开速度和编辑的文件来说，awk 和 sed 配合 其他比如 find, grep, xargs  等命令，简直是犹如神助!</p>
+<ol start="6">
+<li>最后用 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; tmp_code.sql</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>把终端的标准输出都导入一个 tmp_code.sql 文件里面去。</p>
+<ol start="7">
+<li>数据库 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> tmp_code.sql</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>入库。收工。<br>人呀，只要你给机会，他什么事情都能干得出来。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2019-05-19-zhaimen/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1396,130 +1559,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018-11-25-i-do-not-know/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Gitvim">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="重剑无锋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018-11-25-i-do-not-know/" itemprop="url">使用org-mode管理自己的日常计划目标</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-25T20:50:51+08:00">
-                2018-11-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="org-mode杂事"><a href="#org-mode杂事" class="headerlink" title="org-mode杂事"></a>org-mode杂事</h2><p>使用org-mode有些时日了。整理一下最简单的日常使用方式。</p>
-<h3 id="自助服务"><a href="#自助服务" class="headerlink" title="自助服务"></a>自助服务</h3><p>因为我是用的是 <a href="http://spacemacs.org/" title="spacemacs" target="_blank" rel="noopener">spacemacs</a>, 所以如果是 <strong>org-mode</strong> 相关的指令，是可以直接使用 <strong>Alt+X</strong> 调起这些命令去执行的。或者直接 <strong>Ctrl+h org</strong> 看下帮助文档。<br><img src="/2018-11-25-i-do-not-know/org.png" alt="org-help" title="org-help"></p>
-<h3 id="GTD"><a href="#GTD" class="headerlink" title="GTD"></a>GTD</h3><p>GTD就是Getting Things Done。以目标为导向去完成计划。可以配合番茄闹钟工作，更有疗效。</p>
-<h3 id="我的org-mode在干什么"><a href="#我的org-mode在干什么" class="headerlink" title="我的org-mode在干什么"></a>我的org-mode在干什么</h3><p>我每天的计划是每天做三件值得做的事，外加一个小结。其中每件事按照A、B、C分三个由高到低的轻重缓急层级，并且设置开始做的时间点和截止时间点，完成时会补录结束之间。Like this:<br><img src="/2018-11-25-i-do-not-know/my-org.png" alt="my-org" title="my-org-png"></p>
-<h3 id="keys"><a href="#keys" class="headerlink" title="keys"></a>keys</h3><p><a href="https://lucaseo.github.io/2018/02/20/howtodo-20180220-1/" title="here" target="_blank" rel="noopener">Here</a> 有一篇文章教怎么在 <em>Hero</em> 的博客的 <strong>source/_post/对应文章路径</strong> 中 弄进来一张自定义的图片。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1570,7 +1609,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-count">53</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
