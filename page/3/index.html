@@ -238,7 +238,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018-05-01-php-source-code-appreciation/">
+    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018-05-19-arch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Gitvim">
@@ -257,7 +257,147 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018-05-01-php-source-code-appreciation/" itemprop="url">php 源码 (string)</a></h1>
+                <a class="post-title-link" href="/2018-05-19-arch/" itemprop="url">从 ubuntu 到 arch</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-19T21:48:54+08:00">
+                2018-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="逃离-ubuntu-转投-arch"><a href="#逃离-ubuntu-转投-arch" class="headerlink" title="逃离 ubuntu 转投 arch"></a>逃离 ubuntu 转投 arch</h2><p>起因先是 ubuntu16.04 升级到 ubuntu18.04, 结果每次开机直接进入了一个grub的　shell 界面, 系统无法启动了。第二次装了ubuntu18.04, 然后后面装了不少开发软件，再升级时，又挂了！有点来气，花了两天时间重装系统。不过，这次是换成了 arch。为啥，因为 arch 官网上介绍说它的定制性更高（更需要折腾），而且是滚动更新(What are you 弄啥咧?)。</p>
+<h2 id="arch-系统的-u-盘安装"><a href="#arch-系统的-u-盘安装" class="headerlink" title="arch 系统的 ｕ 盘安装"></a>arch 系统的 ｕ 盘安装</h2><p>记录一下，头一天的时候，我的安装方式是按照知乎某个人的推荐装的，结果好几个地方卡死了。比如联网，比如挂载。后来证明，只要熟读 arch 官网　wiki 上面的文档(武功秘籍)，基本上是不会整出一些”奇门遁甲”的啥”幺蛾子”的。前提是，一定要通读。</p>
+<h2 id="切到-arch-的感受"><a href="#切到-arch-的感受" class="headerlink" title="切到 arch 的感受"></a>切到 arch 的感受</h2><ul>
+<li>速度比 ubuntu 快。天下武功，唯快不破。不知道是否因为 arch 的二进制包的安装方式，还是 安装的无关的依赖很少的缘故，在 arch 下面上网几乎不卡。即使看 youtube 视频也是非常流畅!</li>
+<li>安装效率高。arch 下面 <strong>sudo pacman -S smartgit</strong>, 需要安装的依赖，直接选数字然后回车就好了。安装好快。而 ubuntu 下面安装 smartgit 的需要好几个步骤，比如你安装了 smartgit包，好需要相同的命令去找缺失的依赖包(javaxxxxxx)。还得说下使用 “yaourt” 去安装 <strong>AUR</strong> 类型的软件真的是很便利。比如 安装个 <strong>nmap</strong> 扫描一下主机ip和端口:</li>
+</ul>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">➜  blog git:(master) ✗ yaourt nmap</span><br><span class="line">1 extra/nmap 7.70-2 [installed]</span><br><span class="line">    Utility <span class="keyword">for</span><span class="built_in"> network discovery </span><span class="keyword">and</span> security auditing</span><br><span class="line">2 community/vulscan 2.0-2</span><br><span class="line">    A module which enhances nmap <span class="keyword">to</span> a vulnerability scanner</span><br><span class="line">3 blackarch/autonse 20.82a6e18-1 (blackarch blackarch-automation)</span><br><span class="line">    Massive NSE (Nmap Scripting Engine) AutoSploit <span class="keyword">and</span> AutoScanner.</span><br><span class="line">4 blackarch/brutespray 116.bd65d69-2 (blackarch blackarch-automation blackarch-cracker)</span><br><span class="line"><span class="built_in">..</span>.</span><br><span class="line">32 aur/umit 1.0-1 (67) (0.20)</span><br><span class="line">    A powerful nmap frontend.</span><br><span class="line">==&gt; Enter n° of packages <span class="keyword">to</span> be installed (e.g., 1 2 3 <span class="keyword">or</span> 1-3)</span><br><span class="line">==&gt; ---------------------------------------------------------</span><br><span class="line">==&gt; (这里选数字然后回车就可以了)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>几乎所有需要的比较新的软件和开发工具都有了。而且都是命令行三两下就安装好了。比如 docker, vim，emacs, docker, git, smartgit, nodejs, npm, nvm, python(系统自带了), php, nginx, apache, mysql, mariadb, postgresql， virtualbox, tmux, zsh(这个好像是自带了), shadowsocks(这个好极了,就下个package, 再命令行启动一下，浏览器加个 proxy 扩展就直接翻出去了!)等, 而且这些软件几乎都是主流中非常新的版本！这个比较和我心意。</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ol>
+<li>通过 ubuntu 迁移到 arch 的过程，中间加深了对挂载，分区，以及搭建系统的很多命令的认知。</li>
+<li>选一个就近的源，比如清华的。</li>
+<li>没有什么是不能用一条命令解决不了的，如果不行就用两条! </li>
+<li>安装过程中，有犯错，比如一开始略过官方 wiki 直接参照网上某个人的推荐，东看一点，细看一点，结果这个装了一半，那个流程也是一半，都出现了一些一时令人懊恼的问题。还好最后回归官网 wiki 通读，针对具体的章节细读，才顺利解决了。</li>
+<li>安装 arch 一定要联网。最简单是直接通过命令行的 <code>wifi-menu</code> 调出无线 wifi　的列表，选择自己知道密码的那个 wifi, 然后输入密码。</li>
+<li>选一个图形界面桌面，比如 xfce, 安装。</li>
+<li>在联网的基础上，第一要务是先翻出去。道理不用多说。其他都是水到渠成了。</li>
+<li>从 arch 系统中 安装 blackarch 非常方便。blackarch 包含大概 1900 多个黑客武器! 强大而丰富的武器库！我去扒了一下，貌似 blackarch 还是 kali 系统的那个团队搞的!</li>
+<li>然后，能用命令行快速解决的，就不要多花时间去选个图标了。比如一开视频，发现，播放没有声音! 装个 alsamixer　即可, 命令行里面直接调起 alsamixer, 控制音量啥的，都在里面了。弄张图吧。<br><img src="/images/full.jpg" alt=""></li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018-05-01-php-source-code-basic-string/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gitvim">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="重剑无锋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018-05-01-php-source-code-basic-string/" itemprop="url">php 源码 (宏)</a></h1>
         
 
         <div class="post-meta">
@@ -308,10 +448,10 @@
 
       
         
-          <h1 id="PHP-源码赏析-第一套广播体操-string-篇"><a href="#PHP-源码赏析-第一套广播体操-string-篇" class="headerlink" title="PHP 源码赏析 ~ 第一套广播体操(string 篇)"></a>PHP 源码赏析 ~ 第一套广播体操(string 篇)</h1><h2 id="寻根究底"><a href="#寻根究底" class="headerlink" title="寻根究底"></a>寻根究底</h2><p>最近看到一些 php 的函数时，一直在想，它背后是怎么实现的呢？不仔细的挖一遍它的底细，压根就是经常会用错。而且感觉用的是一个黑箱子。指不定里面啥时候窜出一条蛇来。所以，找来源码，推敲一下底层的实现逻辑。<br></p>
+          <h2 id="zend-基础类型-宏"><a href="#zend-基础类型-宏" class="headerlink" title="zend 基础类型- 宏"></a>zend 基础类型- 宏</h2><p>zend 底层有相当多的宏, 特别是 php7 系列, 源码比 php 5 有不少结构方面的改变。所以不去研究 php5 的 zend 了, 直接往后研究的源码都主要看最新的 <strong>php-src</strong>。 zend 系列的宏主要分布在 zend_API.h, zend_types.h, zend_operators.h 里面。<br></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018-05-01-php-source-code-appreciation/#more" rel="contents">
+            <a class="btn" href="/2018-05-01-php-source-code-basic-string/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -482,7 +622,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018-05-01-php-source-code-basic-string/">
+    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018-05-01-php-source-code-appreciation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Gitvim">
@@ -501,7 +641,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018-05-01-php-source-code-basic-string/" itemprop="url">php 源码 (宏)</a></h1>
+                <a class="post-title-link" href="/2018-05-01-php-source-code-appreciation/" itemprop="url">php 源码 (string)</a></h1>
         
 
         <div class="post-meta">
@@ -552,10 +692,10 @@
 
       
         
-          <h2 id="zend-基础类型-宏"><a href="#zend-基础类型-宏" class="headerlink" title="zend 基础类型- 宏"></a>zend 基础类型- 宏</h2><p>zend 底层有相当多的宏, 特别是 php7 系列, 源码比 php 5 有不少结构方面的改变。所以不去研究 php5 的 zend 了, 直接往后研究的源码都主要看最新的 <strong>php-src</strong>。 zend 系列的宏主要分布在 zend_API.h, zend_types.h, zend_operators.h 里面。<br></p>
+          <h1 id="PHP-源码赏析-第一套广播体操-string-篇"><a href="#PHP-源码赏析-第一套广播体操-string-篇" class="headerlink" title="PHP 源码赏析 ~ 第一套广播体操(string 篇)"></a>PHP 源码赏析 ~ 第一套广播体操(string 篇)</h1><h2 id="寻根究底"><a href="#寻根究底" class="headerlink" title="寻根究底"></a>寻根究底</h2><p>最近看到一些 php 的函数时，一直在想，它背后是怎么实现的呢？不仔细的挖一遍它的底细，压根就是经常会用错。而且感觉用的是一个黑箱子。指不定里面啥时候窜出一条蛇来。所以，找来源码，推敲一下底层的实现逻辑。<br></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018-05-01-php-source-code-basic-string/#more" rel="contents">
+            <a class="btn" href="/2018-05-01-php-source-code-appreciation/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1421,131 +1561,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2017-11-29-observerPattern/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Gitvim">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="重剑无锋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017-11-29-observerPattern/" itemprop="url">设计模式-观察者模式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-29T09:12:26+08:00">
-                2017-11-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="0x00-观察者模式"><a href="#0x00-观察者模式" class="headerlink" title="0x00 观察者模式"></a>0x00 观察者模式</h1><p>也可称发布订阅模式(Publish/Subscribe).</p>
-<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>Define a one-to-many dependency between objets so that when one object changes state, all its dependents are notified and updated automatically.(定义对象间一对多的依赖关系，使得每当一个对象改变状态，则所有依赖于它的对象都会得到通知并自动更新．)</strong><br></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017-11-29-observerPattern/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1596,7 +1611,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">54</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1609,7 +1624,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>

@@ -238,6 +238,129 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2019-05-30-special-charater/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gitvim">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="重剑无锋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019-05-30-special-charater/" itemprop="url">special-charater</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-30T23:46:45+08:00">
+                2019-05-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>诡异的 202D 和 202C<br>你们看下面这两行有啥不一样?<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>(a.id) <span class="keyword">as</span> <span class="keyword">count</span> <span class="keyword">from</span>  a <span class="keyword">left</span> <span class="keyword">join</span>  b <span class="keyword">on</span> a.code = b.code <span class="keyword">left</span> <span class="keyword">join</span>  c <span class="keyword">on</span> a.id = c.id <span class="keyword">where</span> a.ctime &gt;= <span class="number">1559059200</span> <span class="keyword">and</span> a.ctime &lt; <span class="number">1559145600</span> <span class="keyword">and</span> a.phone = ‭<span class="number">15038135711</span>;‬</span><br></pre></td></tr></table></figure></p>
+<p>和</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>(a.id) <span class="keyword">as</span> <span class="keyword">count</span> <span class="keyword">from</span>  a <span class="keyword">left</span> <span class="keyword">join</span>  b <span class="keyword">on</span> a.code = b.code <span class="keyword">left</span> <span class="keyword">join</span>  c <span class="keyword">on</span> a.id = c.id <span class="keyword">where</span> a.ctime &gt;= <span class="number">1559059200</span> <span class="keyword">and</span> a.ctime &lt; <span class="number">1559145600</span> <span class="keyword">and</span> a.phone = <span class="number">15038135711</span>;有啥不一样两个？</span><br></pre></td></tr></table></figure>
+<p>看上去差不多吧？其实如果你真实运行，就会发现第一句末尾的15038135711会报错。<br>一般的IDE是傻傻分不清有啥不一样的。但是放在 vim 或者 Emacs 里面一眼就是别出来了。⚫️  哈哈。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2019-05-20-sed/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1437,128 +1560,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018-11-27-ide/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Gitvim">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="重剑无锋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018-11-27-ide/" itemprop="url">Emacs as golang IDE</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-27T23:43:40+08:00">
-                2018-11-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="IDE"><a href="#IDE" class="headerlink" title="IDE"></a>IDE</h2><p>据我观察，很多程序员们喜欢 IDE 的原因在于工程化全局查询，函数定义, 复制粘贴， 其他的模块化插入代码块，是没有太多吸引力的。</p>
-<h2 id="作为-Go-开发-IDE"><a href="#作为-Go-开发-IDE" class="headerlink" title="作为 Go 开发 IDE"></a>作为 Go 开发 IDE</h2><p><a href="https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Blang/go" title="ide" target="_blank" rel="noopener">emacs as golang ide</a> 这里有基本的配置。<br><em>godef</em> 安装一下可以解决函数定义的出处查找问题。没事就来一下: <em>C-c C-j</em>, 立马追到底。包括 <em>go/src/</em> 目录也能追杀到底。<br>查找使用 Emacs 本身的查找 <em>find-grep</em> 命令快的不行, 老方式： <em>Alt+x find-grep 要查询的关键字</em> 。效果图如下：<br><img src="/2018-11-27-ide/emacs-command.png" alt="emacs-command" title="emacs-command"></p>
-<p>从上面的效果途中可以看到很多中查找方式，如果要在当前工程目录找，可以使用 <em>projectle-grep</em> 这个命令。<br>解决了这几个问题。Emacs 用来写代码不是一般的爽。有一种上瘾的感觉。特别是 spacemacs 兼顾了 VIM 与 Emacs 两者的长处。不多说了，先让代码飞一会儿!</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1609,7 +1610,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">54</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1622,7 +1623,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
