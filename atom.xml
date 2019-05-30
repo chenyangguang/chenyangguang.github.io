@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://chenyangguang.github.com/"/>
-  <updated>2019-05-30T16:02:04.216Z</updated>
+  <updated>2019-05-30T16:05:04.790Z</updated>
   <id>http://chenyangguang.github.com/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>special-charater</title>
+    <title>诡异的202d 和 202c</title>
     <link href="http://chenyangguang.github.com/2019-05-30-special-charater/"/>
     <id>http://chenyangguang.github.com/2019-05-30-special-charater/</id>
     <published>2019-05-30T15:46:45.000Z</published>
-    <updated>2019-05-30T16:02:04.216Z</updated>
+    <updated>2019-05-30T16:05:04.790Z</updated>
     
     <content type="html"><![CDATA[<p>诡异的 202D 和 202C<br>你们看下面这两行有啥不一样?<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>(a.id) <span class="keyword">as</span> <span class="keyword">count</span> <span class="keyword">from</span>  a <span class="keyword">left</span> <span class="keyword">join</span>  b <span class="keyword">on</span> a.code = b.code <span class="keyword">left</span> <span class="keyword">join</span>  c <span class="keyword">on</span> a.id = c.id <span class="keyword">where</span> a.ctime &gt;= <span class="number">1559059200</span> <span class="keyword">and</span> a.ctime &lt; <span class="number">1559145600</span> <span class="keyword">and</span> a.phone = ‭<span class="number">15038135711</span>;‬</span><br></pre></td></tr></table></figure></p><p>和</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>(a.id) <span class="keyword">as</span> <span class="keyword">count</span> <span class="keyword">from</span>  a <span class="keyword">left</span> <span class="keyword">join</span>  b <span class="keyword">on</span> a.code = b.code <span class="keyword">left</span> <span class="keyword">join</span>  c <span class="keyword">on</span> a.id = c.id <span class="keyword">where</span> a.ctime &gt;= <span class="number">1559059200</span> <span class="keyword">and</span> a.ctime &lt; <span class="number">1559145600</span> <span class="keyword">and</span> a.phone = <span class="number">15038135711</span>;有啥不一样两个？</span><br></pre></td></tr></table></figure><p>看上去差不多吧？其实如果你真实运行，就会发现第一句末尾的15038135711会报错。<br>一般的IDE是傻傻分不清有啥不一样的。但是放在 vim 或者 Emacs 里面一眼就是别出来了。⚫️  哈哈。</p>]]></content>
     
