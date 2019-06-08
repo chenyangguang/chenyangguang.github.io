@@ -238,6 +238,133 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018-11-28-hundun/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gitvim">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="重剑无锋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018-11-28-hundun/" itemprop="url">混沌？馄炖?</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-28T22:16:13+08:00">
+                2018-11-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>闲来没事，看了下 <a href="https://github.com/gocolly/colly" title="colly" target="_blank" rel="noopener">gocolly</a>，练手搞一个爬虫，搂了一遍最新的腾讯官网的招聘信息。<br>这种不需要登陆的网站是最容易爬到的。<br>很简单，还是给自己小结过一下。</p>
+<p>因为无须登陆，所以这条虫子几乎是官网的基础的例子<br>使用 Chrome 浏览器打开<a href="https://hr.tencent.com" title="tx" target="_blank" rel="noopener">腾讯招聘官网</a>,  <em>F12</em>, 随便在搜索框里面输入一点比如 go, 就进入一个分页的搜索结果列表页。定位到招聘的职位那几栏，发现是用的 table 框起来的。找官网的基本例子依样画葫芦。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">c</span><span class="selector-class">.OnHTML</span>(<span class="string">"#position tbody tr"</span>, func(e *colly.HTMLElement) &#123;</span><br><span class="line">       <span class="selector-tag">writer</span><span class="selector-class">.Write</span>([]string&#123;</span><br><span class="line">           <span class="selector-tag">e</span><span class="selector-class">.ChildText</span>(<span class="string">"td:nth-child(1)"</span>),</span><br><span class="line">           <span class="selector-tag">e</span><span class="selector-class">.ChildText</span>(<span class="string">"td:nth-child(2)"</span>),</span><br><span class="line">           <span class="selector-tag">e</span><span class="selector-class">.ChildText</span>(<span class="string">"td:nth-child(3)"</span>),</span><br><span class="line">           <span class="selector-tag">e</span><span class="selector-class">.ChildText</span>(<span class="string">"td:nth-child(4)"</span>),</span><br><span class="line">           <span class="selector-tag">e</span><span class="selector-class">.ChildText</span>(<span class="string">"td:nth-child(5)"</span>),</span><br><span class="line">           <span class="selector-tag">e</span><span class="selector-class">.ChildAttr</span>(<span class="string">"a"</span>, <span class="string">"href"</span>),</span><br><span class="line">       &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>结果爬取的结果除了想要的那些 tr 行之外，表头和地步的分页的数据也给弄进去了。<br>这不是我想要的，决定过滤一下。于是改进一下小版本的只搂需要的选项。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">c</span><span class="selector-class">.OnHTML</span>("<span class="selector-id">#position</span> <span class="selector-tag">tbody</span> <span class="selector-tag">tr</span>", <span class="selector-tag">func</span>(<span class="selector-tag">e</span> *<span class="selector-tag">colly</span><span class="selector-class">.HTMLElement</span>) &#123;</span><br><span class="line">	<span class="attribute">itemClass </span>:= e.<span class="built_in">Attr</span>(<span class="string">"class"</span>)</span><br><span class="line">	if strings.<span class="built_in">EqualFold</span>(itemClass, <span class="string">"even"</span>) || strings.<span class="built_in">EqualFold</span>(itemClass, <span class="string">"odd"</span>) &#123;</span><br><span class="line">		writer.<span class="built_in">Write</span>([]string&#123;</span><br><span class="line">			e.ChildText(<span class="string">"td:nth-child(1)"</span>),</span><br><span class="line">			e.<span class="built_in">ChildText</span>(<span class="string">"td:nth-child(2)"</span>),</span><br><span class="line">			e.<span class="built_in">ChildText</span>(<span class="string">"td:nth-child(3)"</span>),</span><br><span class="line">			e.<span class="built_in">ChildText</span>(<span class="string">"td:nth-child(4)"</span>),</span><br><span class="line">			e.<span class="built_in">ChildText</span>(<span class="string">"td:nth-child(5)"</span>),</span><br><span class="line">			e.<span class="built_in">ChildAttr</span>(<span class="string">"a"</span>, <span class="string">"href"</span>),</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>只爬一页不够啊，我需要全部的招聘信息，然后再加一下获取下一页的链接。让它爬完一页之后接着下一页，直到爬完所有的招聘。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">c</span><span class="selector-class">.OnHTML</span>("<span class="selector-id">#next</span>", <span class="selector-tag">func</span>(<span class="selector-tag">h</span> *<span class="selector-tag">colly</span><span class="selector-class">.HTMLElement</span>) &#123;</span><br><span class="line">	<span class="attribute">t </span>:= donain + h.<span class="built_in">Attr</span>(<span class="string">"href"</span>)</span><br><span class="line">	log.<span class="built_in">Printf</span>(t)</span><br><span class="line">	c.<span class="built_in">Visit</span>(t)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>这样一来就拿到腾讯官网全量的数据了。<br>还是向 shawjia 学习，多提交一些自己的开源项目, 哪怕是最基本的练手的项目。<br>今天是个开始，这顿 <a href="https://github.com/chenyangguang/hundun" title="馄炖" target="_blank" rel="noopener">馄炖</a> 就是个见证。(一直不知道开始的项目应该叫啥名，索性就处在混沌之中吧。) </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018-11-27-ide/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1365,129 +1492,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018-05-20-ball-lightning/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Gitvim">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="重剑无锋">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018-05-20-ball-lightning/" itemprop="url">ball-lightning</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-20T23:31:22+08:00">
-                2018-05-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="故事情节"><a href="#故事情节" class="headerlink" title="故事情节"></a>故事情节</h3><p>《球形闪电》是刘慈欣早年的科幻作品。以第一人称讲述了一个少年孩童时代，因一晚狂暴的雷雨之夜被球形闪电夺去父母性命的机缘下，从此迷上了球形闪电的科幻故事。</p>
-<h3 id="读感1"><a href="#读感1" class="headerlink" title="读感1"></a>读感1</h3><p>大学毕业之后已经很久没看过科幻小说了。现在看小说和以前有最大的不同就是快速浏览。不再像以前那样仔细咀嚼。而且都是不敢兴趣的章节往往直接跳过去。另外就是，会被中间的某些情景突然带到现实世界中，应该是”分神”。不是那种纯想象的情景。这或许是就是看到和接触到的现实的事物多了，想象力就慢慢的衰弱的感觉吧。一度还对个别场景下的描述觉得可疑，觉得那些不可能发生的。</p>
-<h3 id="读感２"><a href="#读感２" class="headerlink" title="读感２"></a>读感２</h3><p>可是，科幻小说真正的目标不就是联系现实，并且超越现实，思考和憧憬那些美好的未知事物吗？这些想象创造出那些过去和现在都不存在，在未来有可能存在的创造物和事件。比如古代的封神演义里面的千里眼，顺风耳等，现在都已经有了实际的对应事物。但是真正令我们着迷的永远是未知的事物, 比如黑洞，星际旅行。无论是宏观还是微观上的想象力，都是这个宇宙的美好。</p>
-<h3 id="收获共鸣"><a href="#收获共鸣" class="headerlink" title="收获共鸣"></a>收获共鸣</h3><p>我对其中的一句话特别有感触：“美妙人生的关键在于你能迷上什么”。这不就是我们一生在追求并为之努力的东西吗?</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1538,7 +1542,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-count">55</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
