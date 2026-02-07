@@ -20,22 +20,27 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"chenyangguang.github.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="重剑无锋">
-<meta property="og:url" content="http://chenyangguang.github.com/index.html">
+    <meta name="description" content="问题描述在使用 Unity Hub 时，可能会遇到登录失败、登录卡住或无法验证账户的问题。这些问题通常与网络环境、证书或配置有关。 解决方案方法一：清除 Unity Hub 缓存 关闭 Unity Hub 删除以下目录： Windows: %APPDATA%\UnityHub macOS: ~&#x2F;Library&#x2F;Application Support&#x2F;UnityHub Linux: ~&#x2F;.confi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity Hub 登录问题修复教程">
+<meta property="og:url" content="http://chenyangguang.github.com/2026/02/07/unity-hub-login-fix-tutorial/index.html">
 <meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="问题描述在使用 Unity Hub 时，可能会遇到登录失败、登录卡住或无法验证账户的问题。这些问题通常与网络环境、证书或配置有关。 解决方案方法一：清除 Unity Hub 缓存 关闭 Unity Hub 删除以下目录： Windows: %APPDATA%\UnityHub macOS: ~&#x2F;Library&#x2F;Application Support&#x2F;UnityHub Linux: ~&#x2F;.confi">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-02-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-07T12:09:13.971Z">
 <meta property="article:author" content="Gitvim">
+<meta property="article:tag" content="Unity">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://chenyangguang.github.com/">
+<link rel="canonical" href="http://chenyangguang.github.com/2026/02/07/unity-hub-login-fix-tutorial/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://chenyangguang.github.com/2026/02/07/unity-hub-login-fix-tutorial/","path":"2026/02/07/unity-hub-login-fix-tutorial/","title":"Unity Hub 登录问题修复教程"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>重剑无锋</title>
+<title>Unity Hub 登录问题修复教程 | 重剑无锋</title>
   
 
 
@@ -82,7 +87,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">重剑无锋</h1>
+      <p class="site-title">重剑无锋</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -104,7 +109,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -117,6 +122,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E6%B8%85%E9%99%A4-Unity-Hub-%E7%BC%93%E5%AD%98"><span class="nav-number">2.1.</span> <span class="nav-text">方法一：清除 Unity Hub 缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E4%BF%AE%E6%94%B9%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE"><span class="nav-number">2.2.</span> <span class="nav-text">方法二：修改证书配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%89%EF%BC%9A%E6%A3%80%E6%9F%A5%E7%BD%91%E7%BB%9C%E4%BB%A3%E7%90%86"><span class="nav-number">2.3.</span> <span class="nav-text">方法三：检查网络代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%9B%9B%EF%BC%9A%E9%87%8D%E7%BD%AE%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE"><span class="nav-number">2.4.</span> <span class="nav-text">方法四：重置网络设置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E4%BF%AE%E5%A4%8D"><span class="nav-number">3.</span> <span class="nav-text">验证修复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">4.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%BA%90"><span class="nav-number">5.</span> <span class="nav-text">参考资源</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -154,16 +160,17 @@
 
     </div>
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2026/02/07/unity-hub-login-fix-tutorial/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -177,13 +184,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | 重剑无锋">
+      <meta itemprop="name" content="Unity Hub 登录问题修复教程 | 重剑无锋">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/02/07/unity-hub-login-fix-tutorial/" class="post-title-link" itemprop="url">Unity Hub 登录问题修复教程</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          Unity Hub 登录问题修复教程
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -215,8 +222,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在使用 Unity Hub 时，可能会遇到登录失败、登录卡住或无法验证账户的问题。这些问题通常与网络环境、证书或配置有关。</p>
+    <div class="post-body" itemprop="articleBody"><h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在使用 Unity Hub 时，可能会遇到登录失败、登录卡住或无法验证账户的问题。这些问题通常与网络环境、证书或配置有关。</p>
 <h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="方法一：清除-Unity-Hub-缓存"><a href="#方法一：清除-Unity-Hub-缓存" class="headerlink" title="方法一：清除 Unity Hub 缓存"></a>方法一：清除 Unity Hub 缓存</h3><ol>
 <li>关闭 Unity Hub</li>
 <li>删除以下目录：<ul>
@@ -265,7 +271,6 @@
 <li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/UnityHubTroubleshooting.html">Unity Hub 故障排除</a></li>
 </ul>
 
-      
     </div>
 
     
@@ -273,11 +278,16 @@
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+          <div class="post-tags">
+              <a href="/tags/Unity/" rel="tag"># Unity</a>
+          </div>
+
+        
+
     </footer>
   </article>
 </div>
+
 
 
 
