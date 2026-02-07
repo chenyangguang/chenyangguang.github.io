@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chenyangguang.github.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="PHP 源码赏析 ~ 第一套广播体操(string 篇)寻根究底最近看到一些 php 的函数时，一直在想，它背后是怎么实现的呢？不仔细的挖一遍它的底细，压根就是经常会用错。而且感觉用的是一个黑箱子。指不定里面啥时候窜出一条蛇来。所以，找来源码，推敲一下底层的实现逻辑。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php 源码 (string)">
+<meta property="og:url" content="http://chenyangguang.github.com/2018/05/01/php-source-code-appreciation/index.html">
+<meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="PHP 源码赏析 ~ 第一套广播体操(string 篇)寻根究底最近看到一些 php 的函数时，一直在想，它背后是怎么实现的呢？不仔细的挖一遍它的底细，压根就是经常会用错。而且感觉用的是一个黑箱子。指不定里面啥时候窜出一条蛇来。所以，找来源码，推敲一下底层的实现逻辑。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-04-30T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-07T12:35:19.575Z">
+<meta property="article:author" content="Gitvim">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://chenyangguang.github.com/2018/05/01/php-source-code-appreciation/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://chenyangguang.github.com/2018/05/01/php-source-code-appreciation/","path":"2018/05/01/php-source-code-appreciation/","title":"php 源码 (string)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>php 源码 (string) | 重剑无锋</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">重剑无锋</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Gitvim</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018/05/01/php-source-code-appreciation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Gitvim">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="重剑无锋">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="php 源码 (string) | 重剑无锋">
+      <meta itemprop="description" content="PHP 源码赏析 ~ 第一套广播体操(string 篇)寻根究底最近看到一些 php 的函数时，一直在想，它背后是怎么实现的呢？不仔细的挖一遍它的底细，压根就是经常会用错。而且感觉用的是一个黑箱子。指不定里面啥时候窜出一条蛇来。所以，找来源码，推敲一下底层的实现逻辑。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          php 源码 (string)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-05-01 00:00:00" itemprop="dateCreated datePublished" datetime="2018-05-01T00:00:00+08:00">2018-05-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-02-07 20:35:19" itemprop="dateModified" datetime="2026-02-07T20:35:19+08:00">2026-02-07</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">PHP 源码赏析 ~ 第一套广播体操(string 篇)寻根究底最近看到一些 php 的函数时，一直在想，它背后是怎么实现的呢？不仔细的挖一遍它的底细，压根就是经常会用错。而且感觉用的是一个黑箱子。指不定里面啥时候窜出一条蛇来。所以，找来源码，推敲一下底层的实现逻辑。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><a href="#PHP-%E6%BA%90%E7%A0%81%E8%B5%8F%E6%9E%90-%E7%AC%AC%E4%B8%80%E5%A5%97%E5%B9%BF%E6%92%AD%E4%BD%93%E6%93%8D-string-%E7%AF%87"></a>PHP 源码赏析 ~ 第一套广播体操(string 篇)<a href="#%E5%AF%BB%E6%A0%B9%E7%A9%B6%E5%BA%95"></a>寻根究底<br>最近看到一些 php 的函数时，一直在想，它背后是怎么实现的呢？不仔细的挖一遍它的底细，压根就是经常会用错。而且感觉用的是一个黑箱子。指不定里面啥时候窜出一条蛇来。所以，找来源码，推敲一下底层的实现逻辑。</p>
+<p><a href="#%E7%AC%AC%E4%B8%80%E8%8A%82-%E4%BC%B8%E5%B1%95%E8%BF%90%E5%8A%A8-strpos"></a>第一节: 伸展运动 <a target="_blank" rel="noopener" href="https://github.com/php/php-src/blob/master/ext/standard/string.c">strpos</a><br>它的整个实现风貌先展现出来， 长的是貌美如花: </p>
+<p><a href="#strpos-%E6%BA%90%E7%A0%81"></a>strpos 源码1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45<br>46<br>47<br>48<br>49<br>50<br>51<br>PHP_FUNCTION(strpos)<br>{<br>    zval *needle;<br>    zend_string *haystack;<br>    char *found = NULL;<br>    char  needle_char[2];<br>    zend_long  offset = 0;</p>
+<pre><code>ZEND_PARSE_PARAMETERS_START(2, 3)
+    Z_PARAM_STR(haystack)
+    Z_PARAM_ZVAL(needle)
+    Z_PARAM_OPTIONAL
+    Z_PARAM_LONG(offset)
+ZEND_PARSE_PARAMETERS_END();
+
+if (offset &lt; 0) &#123;
+    offset += (zend_long)ZSTR_LEN(haystack);
+&#125;
+if (offset &lt; 0 || (size_t)offset &gt; ZSTR_LEN(haystack)) &#123;
+    php_error_docref(NULL, E_WARNING, &quot;Offset not contained in string&quot;);
+    RETURN_FALSE;
+&#125;
+
+if (Z_TYPE_P(needle) == IS_STRING) &#123;
+    if (!Z_STRLEN_P(needle)) &#123;
+        php_error_docref(NULL, E_WARNING, &quot;Empty needle&quot;);
+        RETURN_FALSE;
+    &#125;
+
+    found = (char*)php_memnstr(ZSTR_VAL(haystack) + offset,
+                        Z_STRVAL_P(needle),
+                        Z_STRLEN_P(needle),
+                        ZSTR_VAL(haystack) + ZSTR_LEN(haystack));
+&#125; else &#123;
+    if (php_needle_char(needle, needle_char) != SUCCESS) &#123;
+        RETURN_FALSE;
+    &#125;
+    needle_char[1] = 0;
+
+    found = (char*)php_memnstr(ZSTR_VAL(haystack) + offset,
+                        needle_char,
+                        1,
+                        ZSTR_VAL(haystack) + ZSTR_LEN(haystack));
+&#125;
+
+if (found) &#123;
+    RETURN_LONG(found - ZSTR_VAL(haystack));
+&#125; else &#123;
+    RETURN_FALSE;
+&#125;
+</code></pre>
+<p>}</p>
+<p><a href="#%E5%88%9D%E6%8E%A2"></a>初探<br>咋看，果然没有让我失望, 有点蒙: 这都啥啥啥? 第一眼只看懂了 if, else。 没系统的学习过 c 语言，阅读起来真的很费眼力劲, 呵呵。<br>那就先过一遍: </p>
+<p>1<br>2<br>3<br>4<br>5<br>zval *needle;<br>zend_string *haystack;<br>char *found = NULL;<br>char  needle_char[2];<br>zend_long  offset = 0;</p>
+<p>这一堆，是定义了一些变量。</p>
+<p>然后<br>1<br>2<br>3<br>4<br>5<br>6<br>ZEND_PARSE_PARAMETERS_START(2, 3)<br>    Z_PARAM_STR(haystack)<br>    Z_PARAM_ZVAL(needle)<br>    Z_PARAM_OPTIONAL<br>    Z_PARAM_LONG(offset)<br>ZEND_PARSE_PARAMETERS_END();</p>
+<p>没看懂，应该是初始化参数, (2, 3)说明是这个 <strong>strpos</strong> 函数的参数在 2 - 3 个之间。</p>
+<p>接着，进行至第三个参数 offset 的判断了。</p>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>if (offset &lt; 0) {<br>    offset += (zend_long)ZSTR_LEN(haystack);<br>}<br>if (offset &lt; 0 || (size_t)offset &gt; ZSTR_LEN(haystack)) {<br>    php_error_docref(NULL, E_WARNING, “Offset not contained in string”);<br>    RETURN_FALSE;<br>}</p>
+<p>猜测当第三个参数 offset 是负数的时候，是反向的查找的。如果负数太小了，比如反向查找 ‘test’ 中的 ‘s’ 来说， 就是 strpos(‘test’, ‘t’, -10), 就会报错了。 </p>
+<p>1<br>2<br>3<br>4<br>➜   php -r “echo strpos(‘test’, ‘s’, -10);”<br>PHP Warning:  strpos(): Offset not contained in string in Command line code on line 1</p>
+<p>Warning: strpos(): Offset not contained in string in Command line code on line 1</p>
+<p>果然。</p>
+<p>先不追究细节, 走着。</p>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>if (Z_TYPE_P(needle) == IS_STRING) {<br>    if (!Z_STRLEN_P(needle)) {<br>        php_error_docref(NULL, E_WARNING, “Empty needle”);<br>        RETURN_FALSE;<br>    }</p>
+<pre><code>found = (char*)php_memnstr(ZSTR_VAL(haystack) + offset,
+                    Z_STRVAL_P(needle),
+                    Z_STRLEN_P(needle),
+                    ZSTR_VAL(haystack) + ZSTR_LEN(haystack));
+</code></pre>
+<p>} else {<br>    if (php_needle_char(needle, needle_char) != SUCCESS) {<br>        RETURN_FALSE;<br>    }<br>    needle_char[1] = 0;</p>
+<pre><code>found = (char*)php_memnstr(ZSTR_VAL(haystack) + offset,
+                    needle_char,
+                    1,
+                    ZSTR_VAL(haystack) + ZSTR_LEN(haystack));
+</code></pre>
+<p>}</p>
+<p>一个 if(){} else{}, 哎呀，我滴亲娘啊，好像很简单啊，就判断一下要查找的参数 needle 是不是字符串类型, 然后如此如此, 最后返回一个 found。</p>
+<p>而 found 最核心的就是一个真正查找这个字符的位置的函数 <strong>php_memnstr</strong>, 这个函数的实体实际是 <strong>zend_memnstr</strong> 这个函数。</p>
+<p>继续追下去看看</p>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>static zend_always_inline const char *<br>zend_memnstr(const char *haystack, const char *needle, size_t needle_len, const char *end)<br>{<br>    const char *p = haystack;<br>    const char ne = needle[needle_len-1];<br>    ptrdiff_t off_p;<br>    size_t off_s;</p>
+<pre><code>if (needle_len == 1) &#123;
+    return (const char *)memchr(p, *needle, (end-p));
+&#125;
+
+off_p = end - haystack;
+off_s = (off_p &gt; 0) ? (size_t)off_p : 0;
+
+if (needle_len &gt; off_s) &#123;
+    return NULL;
+&#125;
+
+if (EXPECTED(off_s &lt; 1024 || needle_len &lt; 9)) &#123;    /* glibc memchr is faster when needle is too short */
+    end -= needle_len;
+
+    while (p &lt;= end) &#123;
+        if ((p = (const char *)memchr(p, *needle, (end-p+1))) &amp;&amp; ne == p[needle_len-1]) &#123;
+            if (!memcmp(needle, p, needle_len-1)) &#123;
+                return p;
+            &#125;
+        &#125;
+
+        if (p == NULL) &#123;
+            return NULL;
+        &#125;
+
+        p++;
+    &#125;
+
+    return NULL;
+&#125; else &#123;
+    return zend_memnstr_ex(haystack, needle, needle_len, end);
+&#125;
+</code></pre>
+<p>}</p>
+<p>这里 zend_memnstr() , 接收四个传进来的参数。 这里可以看到， 当判断出查找的字符串很短，查找的区间也很短时，(为啥是off_s &lt; 1024 或者 needle_len &lt; 9 这两个阀值， 不得而知) 调用的是 glibc 库，这个库是 linux 最底层的 api, 否则就跑去调用 <strong>zend_operators.h</strong> 文件下面的 <strong>ZEND_FASTCALL</strong> 类型的 <strong>zend_memnstr_ex</strong>, 注释里说 glibc 更快。</p>
+<p>ptrdiff_t  这个其实是一个 zend_long 在/intl/collator/collator_sort.c文件下面有这个定义。</p>
+<p>1<br>2<br>3<br>#if !defined(HAVE_PTRDIFF_T) &amp;&amp; !defined(_PTRDIFF_T_DEFINED)<br>typedef zend_long ptrdiff_t;<br>#endif</p>
+<p>又跳去搞事情了</p>
+<p>/ext/standard/file.c</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define FPUTCSV_FLD_CHK(<span class="name">c</span>) memchr(<span class="name">ZSTR_VAL</span>(<span class="name">field_str</span>), c, ZSTR_LEN(<span class="name">field_str</span>))</span><br></pre></td></tr></table></figure>
+
+<p>其他看不太明白。</p>
+<p>在非字符串类型搜索分支判断里面，还进行了详细的判断。总之: 要搜索的字符应该是字符串或者数值类型。</p>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>static int php_needle_char(zval *needle, char *target)<br>{<br>    switch (Z_TYPE_P(needle)) {<br>        case IS_LONG:<br>            *target = (char)Z_LVAL_P(needle);<br>            return SUCCESS;<br>        case IS_NULL:<br>        case IS_FALSE:<br>            *target = ‘\0’;<br>            return SUCCESS;<br>        case IS_TRUE:<br>            *target = ‘\1’;<br>            return SUCCESS;<br>        case IS_DOUBLE:<br>            *target = (char)(int)Z_DVAL_P(needle);<br>            return SUCCESS;<br>        case IS_OBJECT:<br>            *target = (char) zval_get_long(needle);<br>            return SUCCESS;<br>        default:<br>            php_error_docref(NULL, E_WARNING, “needle is not a string or an integer”);<br>            return FAILURE;<br>    }<br>}</p>
+<p>然后就看到世界的尽头： </p>
+<p>1<br>2<br>3<br>4<br>5<br>if (found) {<br>    RETURN_LONG(found - ZSTR_VAL(haystack));<br>} else {<br>    RETURN_FALSE;<br>}</p>
+<p>找到了, 就返回一个位置，没找到就返回 FALSE 了。<br>伸展运动就做完了。<br>现在回过头来看，好像没那么简单。好多个宏不知道是干啥用的， 还有几个方法。</p>
+<p><a href="#%E7%BB%86%E7%A9%B6"></a>细究<br>第一个需要搞明白的是 ZSTR_LEN(haystack) 这个宏是干啥用的。  在 zend_string.h 中找到了它的定义： </p>
+<p>1<br>2<br>3<br>4<br>#define ZSTR_VAL(zstr)  (zstr)-&gt;val<br>#define ZSTR_LEN(zstr)  (zstr)-&gt;len<br>#define ZSTR_H(zstr)    (zstr)-&gt;h<br>#define ZSTR_HASH(zstr) zend_string_hash_val(zstr)</p>
+<p>这个解释在一篇 PHP 字符扩展的<a target="_blank" rel="noopener" href="https://juejin.im/entry/583e8f36ac502e006c3605ee">文章</a>里面有写道：<br>“ <strong>ZSTR_</strong> 开头的宏方法是 <strong>zend_string</strong> 结构专属的方法 <strong>ZSTR_VAL</strong>, <strong>ZSTR_LEN</strong>, <strong>ZSTR_H</strong> 宏方法分别对应 ** zend_string** 结构的成员。<br><strong>ZSTR_HASH</strong> 是获取字符串的hash值，如果不存在，就调用 hash 函数生成一个”。</p>
+<p><a href="#strpos-%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"></a>strpos 的实现思路<a href="#%E5%B0%8F%E7%BB%93"></a>小结<br>头疼</p>
+<p><a href="#%E6%9C%89%E6%9C%A8%E6%9C%89%E5%90%AF%E5%8F%91"></a>有木有启发?<br>木有，感觉 底层写的很难懂。因为中间总是卡住。各种宏定义, 各种指针子子孙孙无穷尽也。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/05/01/php-source-code-basic-string/" rel="prev" title="php 源码 (宏)">
+                  <i class="fa fa-angle-left"></i> php 源码 (宏)
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/05/19/arch/" rel="next" title="从 ubuntu 到 arch">
+                  从 ubuntu 到 arch <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Gitvim</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

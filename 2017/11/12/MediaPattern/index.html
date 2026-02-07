@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chenyangguang.github.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="0x00 中介者模式现实生活中像神舟飞船的指挥中心, 机场的调度中心, MVC 框架中的 C(controller), 媒体网关, 房租中介等等, 都有着中介者的影子．中介者模式还叫 调停者模式 ． 定义Define an boject that encapsulates how a set of objects nteract. Mediator promotes loose coupling">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中介者模式">
+<meta property="og:url" content="http://chenyangguang.github.com/2017/11/12/MediaPattern/index.html">
+<meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="0x00 中介者模式现实生活中像神舟飞船的指挥中心, 机场的调度中心, MVC 框架中的 C(controller), 媒体网关, 房租中介等等, 都有着中介者的影子．中介者模式还叫 调停者模式 ． 定义Define an boject that encapsulates how a set of objects nteract. Mediator promotes loose coupling">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-11-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-07T12:35:19.544Z">
+<meta property="article:author" content="Gitvim">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://chenyangguang.github.com/2017/11/12/MediaPattern/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://chenyangguang.github.com/2017/11/12/MediaPattern/","path":"2017/11/12/MediaPattern/","title":"中介者模式"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>中介者模式 | 重剑无锋</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">重剑无锋</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Gitvim</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2017/11/12/MediaPattern/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Gitvim">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="重剑无锋">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="中介者模式 | 重剑无锋">
+      <meta itemprop="description" content="0x00 中介者模式现实生活中像神舟飞船的指挥中心, 机场的调度中心, MVC 框架中的 C(controller), 媒体网关, 房租中介等等, 都有着中介者的影子．中介者模式还叫 调停者模式 ． 定义Define an boject that encapsulates how a set of objects nteract. Mediator promotes loose coupling">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          中介者模式
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-11-12 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-12T00:00:00+08:00">2017-11-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-02-07 20:35:19" itemprop="dateModified" datetime="2026-02-07T20:35:19+08:00">2026-02-07</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">0x00 中介者模式现实生活中像神舟飞船的指挥中心, 机场的调度中心, MVC 框架中的 C(controller), 媒体网关, 房租中介等等, 都有着中介者的影子．中介者模式还叫 调停者模式 ． 定义Define an boject that encapsulates how a set of objects nteract. Mediator promotes loose coupling</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><a href="#0x00-%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F"></a>0x00 中介者模式<br>现实生活中像神舟飞船的指挥中心, 机场的调度中心, MVC 框架中的 C(controller), 媒体网关, 房租中介等等, 都有着中介者的影子．中介者模式还叫 <strong>调停者模式</strong> ．</p>
+<p><a href="#%E5%AE%9A%E4%B9%89"></a>定义<br>Define an boject that encapsulates how a set of objects nteract. Mediator promotes loose coupling by keeping objects from referring to each other explicitly, and it lets you vary their interaction independently.(用一个中介对象封装一系列的对象交互，中介者是各对象不需要显示地相互作用，从而使其耦合松散，而且可以独立地改变它们之间的交互．)</p>
+<p><a href="#%E6%9E%84%E6%88%90"></a>构成<br>Mediator 抽象中介者角色, 抽象中介者角色定义统一的接口，用于各同事角色之间的通信．<br>Concrete Mediator 具体中介者角色, 具体中介者角色通过协调各同事角色实现协作行为，因此它必须依赖于同事角色．<br>Colleague 同事角色, 每个同事角色与其他的同事角色的通信, 必须经过”和事老”<strong>中介者</strong>协作．每个同事类的行为分为两种:<br>自发行为: 同事本身的行为, 如改变对象自身的状态, 处理自己的行为等不需要依赖中介者的动作．<br>依赖方法: 依赖中介者才能完成的行为．</p>
+<p><a href="#%E4%BC%98%E7%82%B9"></a>优点<br>中介者模式减少了类之间的依赖，同事类只依赖于中介者, 将<strong>一对多</strong>的依赖变成<strong>一对一</strong>的依赖，减少依赖的同时也降低了类之间的耦合．</p>
+<p><a href="#%E7%BC%BA%E7%82%B9"></a>缺点<br>随着逻辑复杂度增加，原本 N　个对象直接的相互依赖关系转嫁给中介者和同事类的依赖关系，中介者的逻辑会逐渐复杂，并且变得越来越庞大臃肿．</p>
+<p><a href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"></a>使用场景<br>多个对象之间<strong>紧密耦合</strong>(在类图中出现了蜘蛛网状结构)的情况下，用中介者是好的选择．<br>话说那些什么经纪人什么秘书的是不是中介者模式？</p>
+<p><a href="#php-%E5%AE%9E%E7%8E%B0"></a>php 实现1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45<br>46<br>&lt;?php</p>
+<p>// 通用抽象中介者<br>abstract class Mediator {<br>    protected  $colleague;</p>
+<pre><code>public function getColleague() &#123;
+    return $this-&gt;colleague;
+&#125;
+
+public function setColleague(ConcreteColleague $conColl) &#123;
+    $this-&gt;colleague = $conColl;
+&#125;
+
+abstract public function doSth();
+</code></pre>
+<p>}</p>
+<p>// 通用中介者<br>class ConcreteMediator extends  Mediator {<br>    public function dosth() {}<br>}</p>
+<p>// 抽象同事类<br>abstract class Colleague {<br>    protected $mediator;</p>
+<pre><code>public function Colleague(Mediator $_mediator) &#123;
+    $this-&gt;mediator = $_mediator;
+&#125;
+</code></pre>
+<p>}</p>
+<p>// 具体同事类<br>class ConcreteColleague extends Colleague {<br>    public function ConcreteColleague(Mediator $_mediator) {<br>        parent::setColleague($_mediator);<br>    }</p>
+<pre><code>// 自发行为
+public function selfMethod() &#123;&#125;
+
+// 依赖方法
+public function relyMethod() &#123;
+    parent::doSth(); // 委托中介处理
+&#125;
+</code></pre>
+<p>}<br>?&gt;</p>
+<p><a href="#%E5%B0%8F%E7%BB%93"></a>小结<br>字面上中介和代理多少带着模糊的雷同，所以中介和代理的区别是？</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/11/08/secKill/" rel="prev" title="秒杀场景小结">
+                  <i class="fa fa-angle-left"></i> 秒杀场景小结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/11/21/command/" rel="next" title="设计模式-命令模式">
+                  设计模式-命令模式 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Gitvim</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
