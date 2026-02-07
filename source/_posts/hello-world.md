@@ -2,7 +2,7 @@
 title: Hexo blog begin
 date: 2017-05-01
 description: 'Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick'
-tags:
+tags: [点滴]
 categories:
 ---
 

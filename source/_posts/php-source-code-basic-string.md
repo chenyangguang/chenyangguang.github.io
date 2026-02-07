@@ -2,7 +2,7 @@
 title: php 源码 (宏)
 date: 2018-05-01
 description: 'zend 基础类型- 宏zend 底层有相当多的宏, 特别是 php7 系列, 源码比 php 5 有不少结构方面的改变。所以不去研究 php5 的 zend 了, 直接往后研究的源码都主要看最新的 php-src。 zend 系列的宏主要分布在 zend_API.h, zend_types.h, zend_operators.h 里面。'
-tags:
+tags: [php]
 categories:
 ---
 

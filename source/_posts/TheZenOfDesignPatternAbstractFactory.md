@@ -2,7 +2,7 @@
 title: 设计模式-抽象工厂模式
 date: 2017-10-24
 description: '0x00 抽象工厂模式定义 Provide an interface or creating families of related or dependent objects without specifying their concrete classes (为创建一组相关或相互依赖的对象提供一个接口, 而且无须指定它们的具体类。)  抽象工厂模式的通用类图\:'
-tags:
+tags: [设计模式]
 categories:
 ---
 

@@ -2,7 +2,7 @@
 title: 灵犀指 之 sed 妙用
 date: 2019-05-20
 description: '前奏今天又来了一个比之前更有意思的一个需求。 需要提取两项数据，1. 包含两层目录下面的不带后缀的文件名；2. 这些文件的修改时间。然后将这两个关联的数据插入一个表中，供后续和其他表关联查询使用。 1234find . -name &quot;*.zip&quot; -print  | xargs ls --full-time | head -n 3-rw------- 1 root root  ...'
-tags:
+tags: [灵犀指]
 categories:
 ---
 

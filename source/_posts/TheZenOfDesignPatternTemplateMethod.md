@@ -2,7 +2,7 @@
 title: 设计模式-模板方法模式
 date: 2017-10-25
 description: '设计模式第四式–模板方法模式。 0x00 工厂方法模式定义 Define the skeleton of an algorithm in an operation, deferring some step to subclasses. Template Method lets subclasses redefine certain steps of an algorithm without cha'
-tags:
+tags: [设计模式]
 categories:
 ---
 

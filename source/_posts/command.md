@@ -2,7 +2,7 @@
 title: 设计模式-命令模式
 date: 2017-11-21
 description: '0x00 命令模式定义命令模式是一个高内聚的模式，其定义为\: Encapsulate a request as an object, there by letting you parameterize clients with different requests, queue or log requests, and support undoable oerations.(将一个请求封装成一个对'
-tags:
+tags: [设计模式]
 categories:
 ---
 

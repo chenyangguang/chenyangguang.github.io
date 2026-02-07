@@ -2,7 +2,7 @@
 title: 设计模式-原型模式
 date: 2017-11-06
 description: '设计模式第七式–原型模式。 0x00 原型模式定义 Specify the kinds of objects to create using prototypical instance, and create new objects by copying this prototype. (用原型实例指定创建对象的种类, 并且通过拷贝这些原型创建新的对象。)'
-tags:
+tags: [设计模式]
 categories:
 ---
 

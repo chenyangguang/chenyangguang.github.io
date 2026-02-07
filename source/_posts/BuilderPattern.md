@@ -2,7 +2,7 @@
 title: 设计模式-建造者模式
 date: 2017-10-26
 description: '0x00 建造者模式定义Separate the construction of a complex object from its representation so that the sameconstruction process can create different representations.(将一个复杂对象的构建与它的表示分离, 使得同样的构建过程可以创建不同的表示。)'
-tags:
+tags: [设计模式]
 categories:
 ---
 

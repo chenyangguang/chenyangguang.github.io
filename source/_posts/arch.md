@@ -2,7 +2,7 @@
 title: 从 ubuntu 到 arch
 date: 2018-05-19
 description: '逃离 ubuntu 转投 arch起因先是 ubuntu16.04 升级到 ubuntu18.04, 结果每次开机直接进入了一个grub的　shell 界面, 系统无法启动了。第二次装了ubuntu18.04, 然后后面装了不少开发软件，再升级时，又挂了！有点来气，花了两天时间重装系统。不过，这次是换成了 arch。为啥，因为 arch 官网上介绍说它的定制性更高（更需要折腾），而且是滚动更新(W'
-tags:
+tags: [arch]
 categories:
 ---
 

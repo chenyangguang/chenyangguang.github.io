@@ -2,7 +2,7 @@
 title: 设计模式-责任链模式
 date: 2017-11-22
 description: '0x00 责任链模式定义Avoid coupling the sender of a request to its rceiver by giving more than one object a chance to handle the request. Chain the receiving objects and pass the request along the chain until'
-tags:
+tags: [设计模式]
 categories:
 ---
 

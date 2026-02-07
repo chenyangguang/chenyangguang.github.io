@@ -2,7 +2,7 @@
 title: 设计模式-策略模式
 date: 2017-11-24
 description: '0x00 策略模式策略模式，也叫政策模式, 使用的是面向对象的继承和多态机制。 定义 Define a amily of algorithms, encapsulate each one, and make them interchangeable. (定义一组算法，将每个算法都封装起来，并且使它们之间可以交换。)'
-tags:
+tags: [设计模式]
 categories:
 ---
 

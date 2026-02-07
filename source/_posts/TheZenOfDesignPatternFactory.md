@@ -2,7 +2,7 @@
 title: 设计模式-工厂方法模式
 date: 2017-10-23
 description: '设计模式第二式–工厂方法模式, 改模式使用的频率非常高。所以排在前面一点学。 0x00 工厂方法模式定义  Define an interface for crating an object, but let subclasses decide which class to instantiate. Factor Method lets a class defer instantiation to'
-tags:
+tags: [设计模式]
 categories:
 ---
 

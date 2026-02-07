@@ -2,7 +2,7 @@
 title: manjaro 中的 wifi 连接
 date: 2019-06-08
 description: 'manjaro 安装之后，首要任务是连接wifi, 不同于 arch Linux 的  1wifi-menu 命令, manjaro 版本的连接 wifi 命令是1nmtui 哈哈，出来哪个界面是蓝屏的，类似于 xp 死机的界面，哈哈哈。 不过整体上 manjaro 的一般桌面版都比较干净整洁。当然，最吸引人的莫过于和 arch 一样， 仓库里面的众多软件。 除了pacman 管理软件中外，还有'
-tags:
+tags: [灵犀指]
 categories:
 ---
 

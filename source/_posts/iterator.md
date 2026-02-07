@@ -2,7 +2,7 @@
 title: 设计模式-迭代器模式
 date: 2017-11-27
 description: '0x00 迭代器模式迭代器类似于一个数据库中(MySQL的游标是单向的)的游标，可以在一个容器内翻滚，遍历所有的查看的元素. 定义Provide a way to access the elements of an arrgegate object sequentially without exposing its underlying representation.(它提供一种方法访问容器对象中'
-tags:
+tags: [设计模式]
 categories:
 ---
 

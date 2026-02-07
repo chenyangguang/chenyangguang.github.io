@@ -2,7 +2,7 @@
 title: 设计模式-适配器模式
 date: 2017-11-26
 description: '0x00 适配器模式适配器模式，也叫变压器模式, 包装模式(Wrapper)。 装饰者模式也是包装模式的一种。电流传输过程中使用的高压电流，输送到千里之外的家家户户前，并不能直接使用，否则直接烧坏了电器。这就需要进行降压，使用适配器将高压电流转变成家用电器适用的 220v(中国) 电流。 定义Convert the interface of  a class into another interf'
-tags:
+tags: [设计模式]
 categories:
 ---
 

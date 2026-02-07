@@ -2,7 +2,7 @@
 title: 中介者模式
 date: 2017-11-12
 description: '0x00 中介者模式现实生活中像神舟飞船的指挥中心, 机场的调度中心, MVC 框架中的 C(controller), 媒体网关, 房租中介等等, 都有着中介者的影子．中介者模式还叫 调停者模式 ． 定义Define an boject that encapsulates how a set of objects nteract. Mediator promotes loose coupling'
-tags:
+tags: [设计模式]
 categories:
 ---
 

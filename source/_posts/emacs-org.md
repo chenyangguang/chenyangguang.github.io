@@ -2,7 +2,7 @@
 title: Emacs 漫步-- org-mode 二三事之 link
 date: 2017-08-15
 description: 'org-linkemacs 内使用 Alt + X 调起 helm 界面。 helm 界面可以在输入模式下直接调起。不像vim。 输入 org-link 可以看到各种有关 org-mode 下 link 相关的操作。helm 非常友好，只要输入相关关键字的命令名称，就给列出来所有包含这个关键字的命令了。而且输入这些关键字查询的时候, 可以不分次序! org-mode 下的 link 是这样款式的'
-tags:
+tags: [Emacs, 编辑器]
 categories:
 ---
 

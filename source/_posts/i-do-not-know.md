@@ -2,7 +2,7 @@
 title: 使用org-mode管理自己的日常计划目标
 date: 2018-11-25
 description: 'org-mode杂事使用org-mode有些时日了。整理一下最简单的日常使用方式。 自助服务因为我是用的是 spacemacs, 所以如果是 org-mode 相关的指令，是可以直接使用 Alt+X 调起这些命令去执行的。或者直接 Ctrl+h org 看下帮助文档。 GTDGTD就是Getting Things Done。以目标为导向去完成计划。可以配合番茄闹钟工作，更有疗效。 我的org-mo'
-tags:
+tags: [Emacs, 我不知道的事]
 categories:
 ---
 

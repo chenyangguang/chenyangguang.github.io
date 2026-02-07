@@ -2,7 +2,7 @@
 title: Emacs 漫步-- 快捷键入口
 date: 2017-07-21
 description: 'Space 系列空格键 space 开始的快捷键非常多, 查看方式，敲下 Space 键，瞬间出来第一层以 space 为绑定的快捷键。 之后，还有以关键字打头阵的第二层快捷键。 +f 系列 就是和文件相关的。需要直接在 emacs 内部使用 sudo 命令编辑的文件，可以使用 space + f + E 启动。 +p 系列是和项目有关联的，如 +p 进去，发现 space+p+t 就是查看根目录'
-tags:
+tags: [Emacs, 编辑器]
 categories:
 ---
 

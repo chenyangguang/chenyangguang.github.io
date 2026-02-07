@@ -2,7 +2,7 @@
 title: 设计模式-观察者模式
 date: 2017-11-29
 description: '0x00 观察者模式也可称发布订阅模式(Publish/Subscribe). 定义Define a one-to-many dependency between objets so that when one object changes state, all its dependents are notified and updated automatically.(定义对象间一对多的依赖关系'
-tags:
+tags: [设计模式]
 categories:
 ---
 

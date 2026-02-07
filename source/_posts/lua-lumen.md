@@ -2,7 +2,7 @@
 title: lua
 date: 2018-04-26
 description: 'Lua 入门最近想系统花几天时间学习 Lua 是因为在看 《redis 实战》的过程中发现 Lua 可与 redis 匹配产生叠加性能。nginx+Lua+redis 的联姻又可以再次增强 redis 的功力。 教程  Lua 是用标准 C 语言编写的强大的、开源、轻量级、嵌入式的脚本语言。提供面向过程, 面向对象, 面向函数式, 数据驱动的编程方式。 设计目的  嵌入到应用程序中, 为应用程序提'
-tags:
+tags: [lua]
 categories:
 ---
 

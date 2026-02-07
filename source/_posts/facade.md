@@ -2,7 +2,7 @@
 title: 门面模式
 date: 2017-11-30
 description: '0x00 门面模式外观模式. 定义 Provide a unified interface to a set of interface in a subsystem. Facade defines a higher-level interface that makes the subsystem easier to use.(要求一个子系统的外部与内部的通信必须通过一个统一的对象进行．) 角色 F'
-tags:
+tags: [设计模式]
 categories:
 ---
 

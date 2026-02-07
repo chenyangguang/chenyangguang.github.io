@@ -2,7 +2,7 @@
 title: 设计模式-装饰者模式
 date: 2017-11-23
 description: '0x00 装饰者模式定义Attach additional responsibilities to an object dynamically keeping the same interface. Decorators provide a flexible alternative to subclassing for extending functionality.(动态地给一个对象添加一些额外'
-tags:
+tags: [设计模式]
 categories:
 ---
 

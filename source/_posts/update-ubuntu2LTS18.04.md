@@ -2,7 +2,7 @@
 title: update ubuntu16.04 to ubuntu18.04
 date: 2018-04-24
 description: '1234sudo apt-get updatesudo apt-get upgradesudo apt-get install update-manager-coresudo do-release-upgrade -d --devel-release'
-tags:
+tags: [点滴]
 categories:
 ---
 

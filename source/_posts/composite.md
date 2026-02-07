@@ -2,7 +2,7 @@
 title: 设计模式-组合模式
 date: 2017-11-28
 description: '0x00 组合模式组合模式，即合成模式． 定义Compose objects into tree structures to represent part-whole hierarchies. Composite lets clients treat individual objects and compositions of objects uniformly.(将抽象对象组合成树形结构以表示＂'
-tags:
+tags: [设计模式]
 categories:
 ---
 

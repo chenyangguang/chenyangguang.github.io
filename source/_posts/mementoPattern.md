@@ -2,7 +2,7 @@
 title: 备忘录模式
 date: 2017-12-01
 description: '0x00 备忘录模式定义Without violating encapsulation, capture and externalize an object’s internal state so that the object can be restored to this state later.(在不破坏封装性的前提下，捕获一个对象的内部状态，并在这个对象外保存该状态．之后可将该对象恢复到之'
-tags:
+tags: [设计模式]
 categories:
 ---
 
