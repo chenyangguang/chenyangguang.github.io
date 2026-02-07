@@ -138,7 +138,7 @@
         <span class="site-state-item-name">分类</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -182,7 +182,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/02/07/unity-hub-login-fix-tutorial/" class="post-title-link" itemprop="url">Unity Hub 登录问题修复教程</a>
+          <a href="/2026/02/07/unity-hub-login-fix-tutorial/" class="post-title-link" itemprop="url">Unity Hub 解决登录跳转到 id.unity.cn 问题教程</a>
         </h2>
 
         <div class="post-meta-container">
@@ -194,7 +194,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-02-07 00:00:00 / 修改时间：21:25:53" itemprop="dateCreated datePublished" datetime="2026-02-07T00:00:00+08:00">2026-02-07</time>
+      <time title="创建时间：2026-02-07 21:49:00 / 修改时间：21:58:12" itemprop="dateCreated datePublished" datetime="2026-02-07T21:49:00+08:00">2026-02-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -202,7 +202,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+          <a href="/categories/%E6%8A%80%E6%9C%AF%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">技术教程</span></a>
         </span>
     </span>
 
@@ -216,53 +216,121 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在使用 Unity Hub 时，可能会遇到登录失败、登录卡住或无法验证账户的问题。这些问题通常与网络环境、证书或配置有关。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="方法一：清除-Unity-Hub-缓存"><a href="#方法一：清除-Unity-Hub-缓存" class="headerlink" title="方法一：清除 Unity Hub 缓存"></a>方法一：清除 Unity Hub 缓存</h3><ol>
-<li>关闭 Unity Hub</li>
-<li>删除以下目录：<ul>
-<li>Windows: <code>%APPDATA%\UnityHub</code></li>
-<li>macOS: <code>~/Library/Application Support/UnityHub</code></li>
-<li>Linux: <code>~/.config/UnityHub</code></li>
-</ul>
-</li>
-</ol>
-<h3 id="方法二：修改证书配置"><a href="#方法二：修改证书配置" class="headerlink" title="方法二：修改证书配置"></a>方法二：修改证书配置</h3><p><strong>macOS 用户</strong></p>
-<p>打开终端，执行以下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub --no-sandbox</span><br></pre></td></tr></table></figure>
-
-<p>或者在应用程序中右键点击 Unity Hub，选择”显示包内容”，找到 <code>Info.plist</code> 文件，添加以下内容：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>NSAppTransportSecurity<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">key</span>&gt;</span>NSAllowsArbitraryLoads<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>Windows 用户</strong></p>
-<p>在 Unity Hub 的安装目录中找到 <code>Unity Hub.lnk</code> 或快捷方式，添加 <code>--no-sandbox</code> 参数启动。</p>
-<h3 id="方法三：检查网络代理"><a href="#方法三：检查网络代理" class="headerlink" title="方法三：检查网络代理"></a>方法三：检查网络代理</h3><p>如果使用代理，确保 Unity Hub 能够正确访问网络：</p>
+          <h1 id="Unity-Hub-解决登录跳转到-id-unity-cn-问题教程"><a href="#Unity-Hub-解决登录跳转到-id-unity-cn-问题教程" class="headerlink" title="Unity Hub 解决登录跳转到 id.unity.cn 问题教程"></a>Unity Hub 解决登录跳转到 id.unity.cn 问题教程</h1><h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在使用国际版 Unity Hub 时，点击登录按钮后自动跳转到 <code>id.unity.cn</code>，而不是国际版的 <code>id.unity.com</code>。这导致无法正常登录 Unity 账户。</p>
+<h3 id="登录流程分析"><a href="#登录流程分析" class="headerlink" title="登录流程分析"></a>登录流程分析</h3><p>通过观察发现登录跳转流程如下：</p>
 <ol>
-<li>打开 Unity Hub 设置</li>
-<li>进入 Preferences/首选项</li>
-<li>检查代理设置是否正确配置</li>
+<li>点击 Unity Hub 登录按钮</li>
+<li>首先请求 <code>api.unity.cn</code></li>
+<li>重定向到 <code>id.unity.cn</code></li>
+<li>跳转到中国区登录页面</li>
 </ol>
-<h3 id="方法四：重置网络设置"><a href="#方法四：重置网络设置" class="headerlink" title="方法四：重置网络设置"></a>方法四：重置网络设置</h3><p><strong>macOS</strong></p>
+<h2 id="尝试的方案"><a href="#尝试的方案" class="headerlink" title="尝试的方案"></a>尝试的方案</h2><h3 id="方案-1：修改-hosts-文件（❌-失败）"><a href="#方案-1：修改-hosts-文件（❌-失败）" class="headerlink" title="方案 1：修改 hosts 文件（❌ 失败）"></a>方案 1：修改 hosts 文件（❌ 失败）</h3><p><strong>思路</strong>：通过修改系统 hosts 文件，将 <code>id.unity.cn</code> 和 <code>api.unity.cn</code> 指向国际版服务器 IP。</p>
+<p><strong>操作步骤</strong>：</p>
+<h4 id="获取国际版域名-IP"><a href="#获取国际版域名-IP" class="headerlink" title="获取国际版域名 IP"></a>获取国际版域名 IP</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查询 api.unity.com 的 IP</span></span><br><span class="line">nslookup api.unity.com</span><br><span class="line"><span class="comment"># 结果：35.236.175.221</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询 id.unity.com 的 IP</span></span><br><span class="line">nslookup id.unity.com</span><br><span class="line"><span class="comment"># 结果：34.144.195.225</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="修改-hosts-文件"><a href="#修改-hosts-文件" class="headerlink" title="修改 hosts 文件"></a>修改 hosts 文件</h4><p><strong>macOS 系统</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 备份 hosts 文件</span></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /etc/hosts /etc/hosts.backup</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 编辑 hosts 文件</span></span><br><span class="line"><span class="built_in">sudo</span> nano /etc/hosts</span><br></pre></td></tr></table></figure>
+
+<p>在文件末尾添加以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">35.236.175.221 api.unity.cn</span><br><span class="line">34.144.195.225 id.unity.cn</span><br></pre></td></tr></table></figure>
+
+<p>保存并退出后，刷新 DNS 缓存：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> dscacheutil -flushcache</span><br><span class="line"><span class="built_in">sudo</span> killall -HUP mDNSResponder</span><br></pre></td></tr></table></figure>
 
-<p><strong>Windows</strong></p>
-<p>以管理员身份运行命令提示符：</p>
-<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ipconfig</span> /flushdns</span><br><span class="line">netsh winsock reset</span><br></pre></td></tr></table></figure>
-
-<h2 id="验证修复"><a href="#验证修复" class="headerlink" title="验证修复"></a>验证修复</h2><p>完成上述步骤后，重新启动 Unity Hub 并尝试登录：</p>
-<ol>
-<li>打开 Unity Hub</li>
-<li>点击右上角的登录按钮</li>
-<li>输入 Unity 账户凭据</li>
-<li>确保能够成功登录并访问账户信息</li>
-</ol>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
-<li>某些情况下可能需要多次尝试才能成功登录</li>
-<li>如果问题持续存在，建议检查防火墙和杀毒软件设置</li>
-<li>确保操作系统和 Unity Hub 都是最新版本</li>
+<p><strong>结果</strong>：修改后重新打开 Unity Hub，登录依然跳转到 <code>id.unity.cn</code>，说明 Unity Hub 使用了更底层的检测方式，不依赖系统 DNS 解析。</p>
+<hr>
+<h3 id="方案-2：切换-Unity-Hub-地区设置（❌-无效）"><a href="#方案-2：切换-Unity-Hub-地区设置（❌-无效）" class="headerlink" title="方案 2：切换 Unity Hub 地区设置（❌ 无效）"></a>方案 2：切换 Unity Hub 地区设置（❌ 无效）</h3><p>在 Unity Hub 设置中尝试切换到国际地区，但没有找到相关的地区切换选项。</p>
+<hr>
+<h2 id="最终解决方案：通过-VPN-启动-Unity-Hub（✅-成功）"><a href="#最终解决方案：通过-VPN-启动-Unity-Hub（✅-成功）" class="headerlink" title="最终解决方案：通过 VPN 启动 Unity Hub（✅ 成功）"></a>最终解决方案：通过 VPN 启动 Unity Hub（✅ 成功）</h2><h3 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h3><p>Unity Hub 会根据用户的 IP 地址进行地区检测，如果检测到中国区 IP，就会自动跳转到中国版登录页面。通过 VPN 将 Unity Hub 的网络流量代理到国外服务器，可以绕过这个检测。</p>
+<h3 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h3><h4 id="步骤-1：准备-VPN-代理"><a href="#步骤-1：准备-VPN-代理" class="headerlink" title="步骤 1：准备 VPN 代理"></a>步骤 1：准备 VPN 代理</h4><p>确保你已经有一个可以访问国际互联网的 VPN 服务，并启动代理服务器。</p>
+<p>假设代理服务器地址为：</p>
+<ul>
+<li>HTTP 代理：<code>http://127.0.0.1:7890</code></li>
+<li>HTTPS 代理：<code>http://127.0.0.1:7890</code></li>
 </ul>
-<h2 id="参考资源"><a href="#参考资源" class="headerlink" title="参考资源"></a>参考资源</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/UnityHub.html">Unity 官方文档</a></li>
-<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/UnityHubTroubleshooting.html">Unity Hub 故障排除</a></li>
+<h4 id="步骤-2：通过环境变量启动-Unity-Hub"><a href="#步骤-2：通过环境变量启动-Unity-Hub" class="headerlink" title="步骤 2：通过环境变量启动 Unity Hub"></a>步骤 2：通过环境变量启动 Unity Hub</h4><p><strong>macOS 系统</strong>：</p>
+<p>打开终端，输入以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置代理环境变量</span></span><br><span class="line"><span class="built_in">export</span> HTTP_PROXY=http://127.0.0.1:7890</span><br><span class="line"><span class="built_in">export</span> HTTPS_PROXY=http://127.0.0.1:7890</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动 Unity Hub</span></span><br><span class="line">/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub</span><br></pre></td></tr></table></figure>
+
+<p><strong>或者创建一个启动脚本</strong>：</p>
+<ol>
+<li><p>创建启动脚本文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano ~/launch-unity-hub.sh</span><br></pre></td></tr></table></figure></li>
+<li><p>输入以下内容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置代理环境变量（根据你的 VPN 配置修改端口）</span></span><br><span class="line"><span class="built_in">export</span> HTTP_PROXY=http://127.0.0.1:7890</span><br><span class="line"><span class="built_in">export</span> HTTPS_PROXY=http://127.0.0.1:7890</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动 Unity Hub</span></span><br><span class="line">/Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub</span><br></pre></td></tr></table></figure></li>
+<li><p>保存并退出（Ctrl+O 保存，Enter 确认，Ctrl+X 退出）</p>
+</li>
+<li><p>添加执行权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x ~/launch-unity-hub.sh</span><br></pre></td></tr></table></figure></li>
+<li><p>以后启动 Unity Hub 时直接运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/launch-unity-hub.sh</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="步骤-3：验证登录"><a href="#步骤-3：验证登录" class="headerlink" title="步骤 3：验证登录"></a>步骤 3：验证登录</h4><p>启动 Unity Hub 后，点击登录按钮，此时应该会跳转到国际版登录页面 <code>id.unity.com</code>，可以正常登录了。</p>
+<h3 id="Windows-系统参考"><a href="#Windows-系统参考" class="headerlink" title="Windows 系统参考"></a>Windows 系统参考</h3><p><strong>Windows 命令行方式</strong>：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> HTTP_PROXY=http://<span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">7890</span></span><br><span class="line"><span class="built_in">set</span> HTTPS_PROXY=http://<span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">7890</span></span><br><span class="line">&quot;C:\Program Files\Unity Hub\Unity Hub.exe&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Windows 批处理脚本</strong>：<br>创建文件 <code>launch-unity-hub.bat</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">set HTTP_PROXY=http://127.0.0.1:7890</span><br><span class="line">set HTTPS_PROXY=http://127.0.0.1:7890</span><br><span class="line">&quot;C:\Program Files\Unity Hub\Unity Hub.exe&quot;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="其他可能的解决方案（未测试）"><a href="#其他可能的解决方案（未测试）" class="headerlink" title="其他可能的解决方案（未测试）"></a>其他可能的解决方案（未测试）</h2><h3 id="方案-3：使用旧版-Unity-Hub"><a href="#方案-3：使用旧版-Unity-Hub" class="headerlink" title="方案 3：使用旧版 Unity Hub"></a>方案 3：使用旧版 Unity Hub</h3><p>下载 2022 年之前的 Unity Hub 版本，那时还没有强制中国区检测。</p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://unity.com/releases/hub/previous">Unity Hub Previous Releases</a></p>
+<h3 id="方案-4：命令行直接激活-Unity-Editor"><a href="#方案-4：命令行直接激活-Unity-Editor" class="headerlink" title="方案 4：命令行直接激活 Unity Editor"></a>方案 4：命令行直接激活 Unity Editor</h3><p>如果有 Unity Pro 订阅，可以使用命令行激活 Unity Editor，完全绕过 Unity Hub：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 首先需要在 Unity 网站获取激活文件</span></span><br><span class="line"><span class="comment"># 然后用命令行激活：</span></span><br><span class="line">/Applications/Unity/Unity.app/Contents/MacOS/Unity -quit -batchmode -nographics -manualLicenseFile &lt;license_file_path&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="方案-5：离线激活（仅限-Pro-版）"><a href="#方案-5：离线激活（仅限-Pro-版）" class="headerlink" title="方案 5：离线激活（仅限 Pro 版）"></a>方案 5：离线激活（仅限 Pro 版）</h3><p>Unity Personal 版本不支持离线激活，仅限 Pro/Enterprise 版本使用。</p>
+<p>参考文档：<a target="_blank" rel="noopener" href="https://docs.unity3d.com/6000.3/Documentation/Manual/ManualActivationGuide.html">Unity Manual License Activation</a></p>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>难度</th>
+<th>有效性</th>
+<th>推荐度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>修改 hosts 文件</td>
+<td>低</td>
+<td>❌ 无效</td>
+<td>⭐</td>
+</tr>
+<tr>
+<td>Unity Hub 地区设置</td>
+<td>低</td>
+<td>❌ 无效</td>
+<td>⭐</td>
+</tr>
+<tr>
+<td><strong>VPN + 环境变量启动</strong></td>
+<td>中</td>
+<td>✅ 有效</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>使用旧版 Unity Hub</td>
+<td>中</td>
+<td>✅ 可能有效</td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>命令行激活</td>
+<td>高</td>
+<td>✅ 有效</td>
+<td>⭐⭐⭐</td>
+</tr>
+</tbody></table>
+<p><strong>最佳实践</strong>：推荐使用 VPN + 环境变量启动 Unity Hub 的方案，简单有效且不需要额外下载其他版本。</p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><p><strong>Q: 为什么 hosts 文件修改无效？</strong><br>A: Unity Hub 使用更底层的网络检测方式，不依赖系统 DNS 解析，因此 hosts 文件无法生效。</p>
+<p><strong>Q: 每次启动都需要设置环境变量吗？</strong><br>A: 是的，或者你可以将环境变量添加到系统配置文件中（如 <code>~/.zshrc</code> 或 <code>~/.bash_profile</code>），或使用创建的启动脚本。</p>
+<p><strong>Q: VPN 需要保持开启吗？</strong><br>A: 登录后可以关闭 VPN，但下次登录时需要再次通过 VPN 启动 Unity Hub。</p>
+<p><strong>Q: 这个方案会影响 Unity Editor 的使用吗？</strong><br>A: 不会，只影响 Unity Hub 的登录过程。登录成功后，Unity Editor 可以正常使用，不受 VPN 影响。</p>
+<hr>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/6000.3/Documentation/Manual/ManualActivationGuide.html">Unity License Activation Guide</a></li>
+<li><a target="_blank" rel="noopener" href="https://unity.com/releases/hub/previous">Unity Hub Previous Releases</a></li>
+<li><a target="_blank" rel="noopener" href="https://discussions.unity.com/t/trouble-signing-in-i-am-redirected-to-id-unity-cn/875158">Unity Discussions: Trouble signing in, I am redirected to “id.unity.cn”</a></li>
 </ul>
 
       
