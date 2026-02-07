@@ -28,8 +28,9 @@
 <meta property="og:description" content="PHP 源码赏析 ~ 第一套广播体操(string 篇)寻根究底最近看到一些 php 的函数时，一直在想，它背后是怎么实现的呢？不仔细的挖一遍它的底细，压根就是经常会用错。而且感觉用的是一个黑箱子。指不定里面啥时候窜出一条蛇来。所以，找来源码，推敲一下底层的实现逻辑。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-04-30T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-02-07T12:35:19.575Z">
+<meta property="article:modified_time" content="2026-02-07T13:12:14.407Z">
 <meta property="article:author" content="Gitvim">
+<meta property="article:tag" content="php">
 <meta name="twitter:card" content="summary">
 
 
@@ -133,9 +134,17 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-count">57</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span>
       </div>
   </nav>
 </div>
@@ -197,7 +206,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-02-07 20:35:19" itemprop="dateModified" datetime="2026-02-07T20:35:19+08:00">2026-02-07</time>
+      <time title="修改时间：2026-02-07 21:12:14" itemprop="dateModified" datetime="2026-02-07T21:12:14+08:00">2026-02-07</time>
     </span>
 
   
@@ -346,6 +355,9 @@ if (EXPECTED(off_s &lt; 1024 || needle_len &lt; 9)) &#123;    /* glibc memchr is
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/php/" rel="tag"># php</a>
+          </div>
 
         
 
