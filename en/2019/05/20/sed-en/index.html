@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chenyangguang.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Prelude Today came another more interesting requirement than before. Need to extract two items of data: 1. Filename without extension under two directories; 2. Modification time of these files. Then i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tips - Clever Uses of sed">
+<meta property="og:url" content="https://chenyangguang.github.io/en/2019/05/20/sed-en/index.html">
+<meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="Prelude Today came another more interesting requirement than before. Need to extract two items of data: 1. Filename without extension under two directories; 2. Modification time of these files. Then i">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-05-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-08T20:54:46.648Z">
+<meta property="article:author" content="Gitvim">
+<meta property="article:tag" content="Tips">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://chenyangguang.github.io/en/2019/05/20/sed-en/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://chenyangguang.github.io/2019/05/20/sed-en/","path":"en/2019/05/20/sed-en/","title":"Tips - Clever Uses of sed"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Tips - Clever Uses of sed | 重剑无锋</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">重剑无锋</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Gitvim</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://chenyangguang.github.io/2019/05/20/sed-en/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Gitvim">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="重剑无锋">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Tips - Clever Uses of sed | 重剑无锋">
+      <meta itemprop="description" content="Prelude Today came another more interesting requirement than before. Need to extract two items of data: 1. Filename without extension under two directories; 2. Modification time of these files. Then insert these two associated data into a table for subsequent related queries with other tables. 1234find . -name &quot;*.zip&quot; -print | xargs ls --full-time | head -n 3-rw------- 1 root root ...">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Tips - Clever Uses of sed
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-05-20 00:00:00" itemprop="dateCreated datePublished" datetime="2019-05-20T00:00:00+08:00">2019-05-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-02-09 04:54:46" itemprop="dateModified" datetime="2026-02-09T04:54:46+08:00">2026-02-09</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">Prelude Today came another more interesting requirement than before. Need to extract two items of data: 1. Filename without extension under two directories; 2. Modification time of these files. Then insert these two associated data into a table for subsequent related queries with other tables. 1234find . -name "*.zip" -print | xargs ls --full-time | head -n 3-rw------- 1 root root ...</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><a href="#Prelude"></a>Prelude<br>Today came another more interesting requirement than before.</p>
+<p>Need to extract two items of data: 1. Filename without extension under two directories; 2. Modification time of these files. Then insert these two associated data into a table for subsequent related queries with other tables.</p>
+<p>1<br>2<br>3<br>4<br>find . -name “*.zip” -print  | xargs ls –full-time | head -n 3<br>-rw——- 1 root root   4792 2019-02-18 09:27:47.113037320 +0800 ./5/0/02ef1fefebcef1fddf.zip<br>-rw——- 1 root root  11794 2019-03-19 10:04:15.777575937 +0800 ./5/0/305c3eae0cac4fcfd0.zip<br>-rw——- 1 root root   5813 2019-05-11 14:22:09.270733531 +0800 ./5/0/00640aa46bf544aacf.zip</p>
+<p>For example, extract the 2019-02-18 02ef1fefebcef1fddf from these three lines.</p>
+<p>Then create database:</p>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>CREATE TABLE ‘tmp_code’ (<br>    <code>id</code> int(11) unsigned NOT NULL auto_increment,<br>    <code>code</code> char(20) NOT NULL,<br>    <code>ctime</code> char(30) NOT NULL,<br>    PRIMARY KEY (<code>id</code>),<br>    KEY (<code>code</code>)<br>) ENGINE=InnoDB  DEFAULT CHARSET=utf8;</p>
+<p>Finally insert into database.</p>
+<p><a href="#Idea"></a>Idea<br>My first reaction was: First use command to get</p>
+<p>1<br>2<br>3<br>4<br>5<br>2019-02-18 02ef1fefebcef1fddf<br>2019-03-19 305c3eae0cac4fcfd0<br>2019-05-11 0640aa46bf544aacfx</p>
+<p>out, then use my skilled vim text editor for batch editing.<br>Indeed can be implemented. Just need to use Ctrl + v batch, combined with making one or two macros.</p>
+<p><a href="#vim-Macro-Splicing-sql-Technique"></a>vim Macro Splicing sql Technique<br>For recording macro part can use, like inserting a single field separately</p>
+<p><a href="#Convert-to-Single-Insert-sql-Respectively-Idea-1"></a>Convert to Single Insert sql Respectively (Idea 1)<br>Handle first line separately, then we start making macro from second line<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>qij<br>IINSERT INTO tmp_tb (code) values (‘<br>Ctrl+[<br>A’);<br>Ctrl+[<br>q<br>– View total lines n, when cursor on first line, execute (n-2) macro replays in normal mode: if n = 100, execute 98@i<br>n-2@i</p>
+<p><a href="#Or-vim-Batch-Edit-Splice-Into-insert-sql-Idea2"></a>Or vim Batch Edit Splice Into insert sql (Idea 2)<br>Record macro:</p>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>q<br>ijI’<br>Ctrl+[<br>A’,<br>Ctrl+[<br>q</p>
+<p>View total lines n, when cursor on first line, execute (n-1) macro replays in normal mode: if n = 100, execute 99@i</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n-<span class="number">1</span>@i</span><br></pre></td></tr></table></figure>
+
+<p>First line input</p>
+<p>1<br>2<br>insert into tmp_tb code values (<br>);</p>
+<p>Then put the ending ); on the last line</p>
+<p><a href="#Guided-by-Expert-awk-and-sed-Essence"></a>Guided by Expert awk and sed Essence<br>Here instead use awk and sed to handle it in one line, specifically like this:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -name <span class="string">&quot;*.zip&quot;</span> -<span class="built_in">print</span>  | xargs <span class="built_in">ls</span> --full-time | awk <span class="string">&#x27;&#123;print $6,$9&#125;&#x27;</span> | sed -r <span class="string">&#x27;s#.*([0-9]&#123;4&#125;-[0-9]&#123;2&#125;-[0-9]&#123;2&#125;).*/(\S+)\.zip$#INSERT\ INTO\ tmp_tb\ \(ctime,code\)\ values\ (\1 \2)#&#x27;</span> &gt;&gt; tmp_code.sql</span><br></pre></td></tr></table></figure>
+
+<p>Explanation one by one:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -name <span class="string">&quot;*.zip&quot;</span> -<span class="built_in">print</span></span><br></pre></td></tr></table></figure>
+
+<p>Is to find all files ending with .zip in current directory and subdirectories.</p>
+<p>“|” is the pipe command.<br>Then print out file modification times xargs ls –full-time.<br>Then, use <a href="https://chenyangguang.github.io/2017-04-25-awk/">awk</a> <a href="https://chenyangguang.github.io/2017-04-25-awk/">introduced in awk</a> command, defaulting space as separator, separating text, $6, $9 are sixth and ninth columns among space-separated many columns, respectively time and file information strings. At this point, time has year month day, but ninth column is with path and extension ./5/0/02ef1fefebcef1fddf.zip such string.</p>
+<p>Then sed takes the stage:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -r <span class="string">&#x27;s#.*([0-9]&#123;4&#125;-[0-9]&#123;2&#125;-[0-9]&#123;2&#125;).*/(\S+)\.zip$#INSERT\ INTO\ tmp_tb\ \(ctime,code\)\ values\ (\1 \2)#&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>sed has a wonderful feature, can use pattern like (match pattern), match it, then use \1, \2 to get the matched strings from earlier match patterns, can be understood as a variable. Single sed can use up to 9 such match patterns.</p>
+<p>Thus can complete this requirement. For thousands or tens of thousands, especially files exceeding vim’s opening speed and editing capability, awk and sed combined with other commands like find, grep, xargs etc., simply like divine help!</p>
+<p>Finally use</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; tmp_code.sql</span><br></pre></td></tr></table></figure>
+
+<p>To import all terminal standard output into a tmp_code.sql file.</p>
+<p>Database</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> tmp_code.sql</span><br></pre></td></tr></table></figure>
+
+<p>Import into database. Done.<br>People, as long as you give them a chance, they can do anything.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Tips/" rel="tag"># Tips</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/05/19/zhaimen/" rel="prev" title="走出宅门">
+                  <i class="fa fa-angle-left"></i> 走出宅门
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/05/20/sed/" rel="next" title="灵犀指 之 sed 妙用">
+                  灵犀指 之 sed 妙用 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>English</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="Select language">
+      
+        <option value="zh-CN" data-href="/2019/05/20/sed-en/" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2019/05/20/sed-en/" selected="">
+          English
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Gitvim</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

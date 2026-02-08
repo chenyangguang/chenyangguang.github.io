@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node_modules/.bin/hexo:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(curl:*)",
+      "Bash(npx hexo generate:*)",
+      "Bash(git add:*)",
+      "Bash(unset ALL_PROXY)",
+      "Bash(unset:*)",
+      "Bash(npx hexo list:*)",
+      "Bash(npm info:*)",
+      "Bash(git checkout:*)",
+      "Bash(ls:*)",
+      "Bash(git reset:*)"
+    ]
+  }
+}
