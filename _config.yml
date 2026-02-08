@@ -65,16 +65,7 @@ index_generator:
 # i18n
 i18n:
   type: [page, post]
-  generator: [
-    index,
-    archive,
-    category,
-    tag
-  ]
-  default_language: zh-CN
-  languages:
-    - zh-CN
-    - en
+  generator: [index, archive, category, tag]
 
 # Category & Tag
 default_category: uncategorized
