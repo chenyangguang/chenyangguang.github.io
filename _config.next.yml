@@ -1,0 +1,8 @@
+# Override hexo-theme-next configuration
+
+# Enable language switcher in footer
+language_switcher: true
+
+# I18n settings
+i18n:
+  enable: true

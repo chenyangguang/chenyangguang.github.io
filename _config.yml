@@ -2,12 +2,22 @@
 # Docs: https://hexo.io/docs/configuration.html
 
 # Site
-title: 重剑无锋
+title:
+  zh-CN: 重剑无锋
+  en: Sharp Sword Without Edge
 subtitle:
+  zh-CN:
+  en:
 description:
+  zh-CN:
+  en:
 keywords:
+  zh-CN:
+  en:
 author: Gitvim
-language: zh-CN
+language:
+  - zh-CN
+  - en
 timezone:
 
 # URL

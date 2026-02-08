@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chenyangguang.github.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Lua 入门最近想系统花几天时间学习 Lua 是因为在看 《redis 实战》的过程中发现 Lua 可与 redis 匹配产生叠加性能。nginx+Lua+redis 的联姻又可以再次增强 redis 的功力。 教程  Lua 是用标准 C 语言编写的强大的、开源、轻量级、嵌入式的脚本语言。提供面向过程, 面向对象, 面向函数式, 数据驱动的编程方式。 设计目的  嵌入到应用程序中, 为应用程序提">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lua">
+<meta property="og:url" content="http://chenyangguang.github.com/en/2018/04/26/lua-lumen/index.html">
+<meta property="og:site_name" content="[object Object]">
+<meta property="og:description" content="Lua 入门最近想系统花几天时间学习 Lua 是因为在看 《redis 实战》的过程中发现 Lua 可与 redis 匹配产生叠加性能。nginx+Lua+redis 的联姻又可以再次增强 redis 的功力。 教程  Lua 是用标准 C 语言编写的强大的、开源、轻量级、嵌入式的脚本语言。提供面向过程, 面向对象, 面向函数式, 数据驱动的编程方式。 设计目的  嵌入到应用程序中, 为应用程序提">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-04-25T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-07T13:12:14.374Z">
+<meta property="article:author" content="Gitvim">
+<meta property="article:tag" content="lua">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://chenyangguang.github.com/en/2018/04/26/lua-lumen/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://chenyangguang.github.com/2018/04/26/lua-lumen/","path":"en/2018/04/26/lua-lumen/","title":"lua"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>lua | [object Object]</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">[object Object]</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">[object Object]</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Gitvim</p>
+  <div class="site-description" itemprop="description">[object Object]</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018/04/26/lua-lumen/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Gitvim">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="[object Object]">
+      <meta itemprop="description" content="[object Object]">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="lua | [object Object]">
+      <meta itemprop="description" content="Lua 入门最近想系统花几天时间学习 Lua 是因为在看 《redis 实战》的过程中发现 Lua 可与 redis 匹配产生叠加性能。nginx+Lua+redis 的联姻又可以再次增强 redis 的功力。 教程  Lua 是用标准 C 语言编写的强大的、开源、轻量级、嵌入式的脚本语言。提供面向过程, 面向对象, 面向函数式, 数据驱动的编程方式。 设计目的  嵌入到应用程序中, 为应用程序提">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          lua
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-04-26 00:00:00" itemprop="dateCreated datePublished" datetime="2018-04-26T00:00:00+08:00">2018-04-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-02-07 21:12:14" itemprop="dateModified" datetime="2026-02-07T21:12:14+08:00">2026-02-07</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">Lua 入门最近想系统花几天时间学习 Lua 是因为在看 《redis 实战》的过程中发现 Lua 可与 redis 匹配产生叠加性能。nginx+Lua+redis 的联姻又可以再次增强 redis 的功力。 教程  Lua 是用标准 C 语言编写的强大的、开源、轻量级、嵌入式的脚本语言。提供面向过程, 面向对象, 面向函数式, 数据驱动的编程方式。 设计目的  嵌入到应用程序中, 为应用程序提</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><a href="#Lua-%E5%85%A5%E9%97%A8"></a>Lua 入门<br>最近想系统花几天时间学习 Lua 是因为在看 《redis 实战》的过程中发现 Lua 可与 redis 匹配产生叠加性能。nginx+Lua+redis 的联姻又可以再次增强 redis 的功力。</p>
+<p><a href="#%E6%95%99%E7%A8%8B"></a>教程<br>  Lua 是用标准 C 语言编写的强大的、开源、轻量级、嵌入式的脚本语言。提供面向过程, 面向对象, 面向函数式, 数据驱动的编程方式。</p>
+<p><a href="#%E8%AE%BE%E8%AE%A1%E7%9B%AE%E7%9A%84"></a>设计目的<br>  嵌入到应用程序中, 为应用程序提供灵活的扩展和定制功能。</p>
+<p><a href="#%E7%89%B9%E6%80%A7"></a>特性<br>轻量级: 使用标准 C 语言编写并以源码形式开放, 编译后只有 100 多k, 非常便于嵌入到别的程序中。<br>可扩展: Lua 提供了非常易于使用的扩展接口和机制: 由宿主(通常是 C 或 C++)提供这些功能， 使用起来就像内置的功能一般。<br>其他特性: 自动内存管理; 提供了一种通用的类型的表(<strong>table</strong>), 用来实现数组, 哈希表, 集合, 对象; 语言内置模式匹配; 闭包(<strong>closure</strong>); 函数也可以看作一个值; 提供多线程等。</p>
+<p><a href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"></a>应用场景<br>游戏开发<br>独立应用脚本<br>Web 应用脚本<br>扩展和数据库插件: MySQL Proxy 和 MySQL WorkBench<br>安全系统, 如入侵检测系统</p>
+<p><a href="#%E5%AE%89%E8%A3%85"></a>安装  1<br>2<br>3<br>4<br>5<br>6<br>cd ~<br>curl -R -O <a target="_blank" rel="noopener" href="http://www.lua.org/ftp/lua-5.3.0.tar.gz">http://www.lua.org/ftp/lua-5.3.0.tar.gz</a><br>tar zxf lua-5.3.0.tar.gz<br>cd lua-5.3.0<br>make linux test<br>make install</p>
+<p><a href="#%E5%BC%80%E5%A7%8B"></a>开始1<br>2<br>3<br>4<br>5<br>➜  ~ lua -i<br>Lua 5.2.3  Copyright (C) 1994-2013 Lua.org, PUC-Rio</p>
+<blockquote>
+<p>print(“Hello Lua!”)<br>Hello Lua!</p>
+</blockquote>
+<p>并没有诸如 <strong>exit</strong> 的命令退出! 直接 Ctrl + c, 呵。</p>
+<p><a href="#First-Blood-Demo"></a>First Blood Demo !1<br>2<br>3<br>4<br>5<br>➜ touch first-blood.lua<br>➜ lua echo ‘print(“hello world lua!”)’ &gt; first-blood.lua<br>echo print(“hello world lua”) &gt; first-blood.lua<br>➜  lua lua first-blood.lua<br>hello world lua!</p>
+<p><a href="#%E4%B8%A4%E7%A7%8D%E6%B3%A8%E9%87%8A%E6%96%B9%E5%BC%8F"></a>两种注释方式1<br>2<br>3<br>4<br>5<br>– single line commentary for lua<br>–[[<br>print(‘multiple’)<br>print(‘commentary’)<br>]]–</p>
+<p><a href="#%E5%85%AB%E7%A7%8D%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"></a>八种数据类型<br>nil<br>boolean<br>number, 双精度类型浮点实数<br>string<br>userdata, 表示任意存储在变量中的 C 数据结构<br>function, 由C 或者 Lua 写的函数<br>thread, 表示执行的独立线路, 用于执行协同程序<br>table, Lua 中的表(table), 其实是个<strong>关联数组</strong>(associative arrays), 数组的索引可以是数字或者字符串。使用**{}**来构造创建。</p>
+<p><a href="#%E5%9F%BA%E6%9C%AC"></a>基本<br><strong>数字</strong>, <strong>字母</strong> 和 <strong>下划线</strong> 构成合法变量, <strong>区分大小写</strong>。<br>默认变量都是全局的, 使用 <strong>local</strong> 显示声明局部变量。使用前无需声明，默认值是 <strong>nil</strong>, 删除一个变量直接将该变量值致 <strong>nil</strong> 即可。<br>字符串连接使用 <strong>..</strong> 。<br><strong>#</strong> 计算字符串长度。<br>索引从 <strong>1</strong> 开始!<br><strong>table</strong> 长度不固定, 添加新数据时长度自动增长。未初始化值为 <strong>nil</strong>。<br><strong>线程</strong> VS <strong>协程</strong>: 线程可以同时运行多个，协程任意时刻只能运行一个，并且出于运行状态的协程只有被挂起(<strong>suspend</strong>)时才会暂停。<br>table 的索引可以使用**[i]**或者 <strong>.</strong> 操作, 如: table1[“fix”], table.fix。<br><strong>^</strong> 和 <strong>..</strong> 是右连接, 其他运算符是左连。</p>
+<p><a href="#%E5%BE%AA%E7%8E%AF%E6%8E%A7%E5%88%B6"></a>循环控制<br>for 循环<br>while<br>repeat … until<br>break, 跳出当前循环语句, 并执行脚本紧接着的语句。</p>
+<p><a href="#%E5%87%BD%E6%95%B0"></a>函数<br>Lua 函数可以 <strong>return</strong> 多个结果值。<br>Lua 函数可以在参数列表中使用 <strong>…</strong> 作为可变参数。<br>函数可以作为参数传递给函数, 有点像 <strong>Lisp</strong> 里面的。</p>
+<p><a href="#%E8%BF%90%E7%AE%97"></a>运算<br>加减乘除求余之外, 特殊的运算符号 <strong>^</strong> 乘幂;<br>关系运算符号中 <strong>~=</strong> 表示不等于;<br>逻辑运算符号三板斧: and, or , not;<br><strong>..</strong> 号连接, <strong>#</strong> 一元运算符, 返回字符串或表的长度(pirnt(#’abc’))。</p>
+<p>运算符优先级排行榜:</p>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>^<br>not - (unary)</p>
+<ul>
+<li>/</li>
+</ul>
+<ul>
+<li>-<br>..<br>&lt; &gt; &lt;= &gt;= ~= ==<br>and<br>or</li>
+</ul>
+<p><a href="#%E5%8F%82%E8%80%83%E6%9D%A5%E6%BA%90"></a>参考来源<br><a target="_blank" rel="noopener" href="https://www.lua.org/">Lua官网</a><br><a target="_blank" rel="noopener" href="http://www.runoob.com/Lua/Lua-tutorial.html">Lua 基本入门网上教程</a><br><a target="_blank" rel="noopener" href="https://github.com/lua/lua">github 源码</a><br><a target="_blank" rel="noopener" href="http://lua-users.org/wiki/">Lua wiki tools</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/lua/" rel="tag"># lua</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/04/24/update-ubuntu2LTS18.04/" rel="prev" title="update ubuntu16.04 to ubuntu18.04">
+                  <i class="fa fa-angle-left"></i> update ubuntu16.04 to ubuntu18.04
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/05/01/tools/" rel="next" title="源码">
+                  源码 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>English</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="Select language">
+      
+        <option value="zh-CN" data-href="/2018/04/26/lua-lumen/" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2018/04/26/lua-lumen/" selected="">
+          English
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Gitvim</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

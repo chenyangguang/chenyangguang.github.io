@@ -24,7 +24,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="php 源码 (string)">
 <meta property="og:url" content="http://chenyangguang.github.com/2018/05/01/php-source-code-appreciation/index.html">
-<meta property="og:site_name" content="重剑无锋">
+<meta property="og:site_name" content="[object Object]">
 <meta property="og:description" content="PHP 源码赏析 ~ 第一套广播体操(string 篇)寻根究底最近看到一些 php 的函数时，一直在想，它背后是怎么实现的呢？不仔细的挖一遍它的底细，压根就是经常会用错。而且感觉用的是一个黑箱子。指不定里面啥时候窜出一条蛇来。所以，找来源码，推敲一下底层的实现逻辑。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-04-30T16:00:00.000Z">
@@ -40,7 +40,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://chenyangguang.github.com/2018/05/01/php-source-code-appreciation/","path":"2018/05/01/php-source-code-appreciation/","title":"php 源码 (string)"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>php 源码 (string) | 重剑无锋</title>
+<title>php 源码 (string) | [object Object]</title>
   
 
 
@@ -87,9 +87,10 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">重剑无锋</p>
+      <p class="site-title">[object Object]</p>
       <i class="logo-line"></i>
     </a>
+      <p class="site-subtitle" itemprop="description">[object Object]</p>
   </div>
 
   <div class="site-nav-right">
@@ -128,7 +129,7 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Gitvim</p>
-  <div class="site-description" itemprop="description"></div>
+  <div class="site-description" itemprop="description">[object Object]</div>
 </div>
 <div class="site-state-wrap animated">
   <nav class="site-state">
@@ -178,12 +179,12 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="重剑无锋">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="[object Object]">
+      <meta itemprop="description" content="[object Object]">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="php 源码 (string) | 重剑无锋">
+      <meta itemprop="name" content="php 源码 (string) | [object Object]">
       <meta itemprop="description" content="PHP 源码赏析 ~ 第一套广播体操(string 篇)寻根究底最近看到一些 php 的函数时，一直在想，它背后是怎么实现的呢？不仔细的挖一遍它的底细，压根就是经常会用错。而且感觉用的是一个黑箱子。指不定里面啥时候窜出一条蛇来。所以，找来源码，推敲一下底层的实现逻辑。">
     </span>
       <header class="post-header">
@@ -387,6 +388,24 @@ if (EXPECTED(off_s &lt; 1024 || needle_len &lt; 9)) &#123;    /* glibc memchr is
 
   <footer class="footer">
     <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>简体中文</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="选择语言">
+      
+        <option value="zh-CN" data-href="/2018/05/01/php-source-code-appreciation/" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2018/05/01/php-source-code-appreciation/" selected="">
+          English
+        </option>
+      
+    </select>
+  </div>
 
   <div class="copyright">
     &copy; 
