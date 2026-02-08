@@ -18,12 +18,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"chenyangguang.github.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chenyangguang.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="前奏今天又来了一个比之前更有意思的一个需求。 需要提取两项数据，1. 包含两层目录下面的不带后缀的文件名；2. 这些文件的修改时间。然后将这两个关联的数据插入一个表中，供后续和其他表关联查询使用。 1234find . -name &quot;*.zip&quot; -print  | xargs ls --full-time | head -n 3-rw------- 1 root root">
 <meta property="og:type" content="article">
 <meta property="og:title" content="灵犀指 之 sed 妙用">
-<meta property="og:url" content="http://chenyangguang.github.com/2019/05/20/sed/index.html">
+<meta property="og:url" content="https://chenyangguang.github.io/2019/05/20/sed/index.html">
 <meta property="og:site_name" content="重剑无锋">
 <meta property="og:description" content="前奏今天又来了一个比之前更有意思的一个需求。 需要提取两项数据，1. 包含两层目录下面的不带后缀的文件名；2. 这些文件的修改时间。然后将这两个关联的数据插入一个表中，供后续和其他表关联查询使用。 1234find . -name &quot;*.zip&quot; -print  | xargs ls --full-time | head -n 3-rw------- 1 root root">
 <meta property="og:locale" content="zh_CN">
@@ -34,10 +34,10 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://chenyangguang.github.com/2019/05/20/sed/">
+<link rel="canonical" href="https://chenyangguang.github.io/2019/05/20/sed/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://chenyangguang.github.com/2019/05/20/sed/","path":"2019/05/20/sed/","title":"灵犀指 之 sed 妙用"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://chenyangguang.github.io/2019/05/20/sed/","path":"2019/05/20/sed/","title":"灵犀指 之 sed 妙用"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>灵犀指 之 sed 妙用 | 重剑无锋</title>
@@ -170,7 +170,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2019/05/20/sed/">
+    <link itemprop="mainEntityOfPage" href="https://chenyangguang.github.io/2019/05/20/sed/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -245,7 +245,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -name <span class="string">&quot;*.zip&quot;</span> -<span class="built_in">print</span></span><br></pre></td></tr></table></figure>
 
 <p>是为了 找到当前目录及子目录中所有的 .zip 结尾的文件。</p>
-<p>“|” 是管道命令。<br>紧接着将文件的更改时间打印出来  xargs ls –full-time  。<br>然后，使用 <a target="_blank" rel="noopener" href="https://chenyangguang.github.io/2017-04-25-awk/">awk</a> <a target="_blank" rel="noopener" href="https://chenyangguang.github.io/2017-04-25-awk/">awk中介绍过</a> 的 awk 命令，默认空格作为分割符，将文本分离出来, $6, $9分别是空格分割的这么多列里，第六，第九列分别就是时间和文件信息的字符串。此时，时间已经拿到年月日，但是第九列却是带路径带后缀  ./5/0/02ef1fefebcef1fddf.zip 这样的字符串。<br>然后就到 sed 粉墨登场: </p>
+<p>“|” 是管道命令。<br>紧接着将文件的更改时间打印出来  xargs ls –full-time  。<br>然后，使用 <a href="https://chenyangguang.github.io/2017-04-25-awk/">awk</a> <a href="https://chenyangguang.github.io/2017-04-25-awk/">awk中介绍过</a> 的 awk 命令，默认空格作为分割符，将文本分离出来, $6, $9分别是空格分割的这么多列里，第六，第九列分别就是时间和文件信息的字符串。此时，时间已经拿到年月日，但是第九列却是带路径带后缀  ./5/0/02ef1fefebcef1fddf.zip 这样的字符串。<br>然后就到 sed 粉墨登场: </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -r <span class="string">&#x27;s#.*([0-9]&#123;4&#125;-[0-9]&#123;2&#125;-[0-9]&#123;2&#125;).*/(\S+)\.zip$#INSERT\ INTO\ tmp_tb\ \(ctime,code\)\ values\ (\1 \2)#&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <p>sed 有一个绝妙的地方，就是可以使用像 (匹配模式) 这样的模式，匹配起来, 然后 使用 \1 , \2 这样拿到前面的匹配模式里原文的匹配的字符串，可以理解为一个变量。 单条 sed 一共可使用 9 个这样的匹配模式。</p>

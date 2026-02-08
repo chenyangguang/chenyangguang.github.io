@@ -18,28 +18,28 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"chenyangguang.github.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chenyangguang.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="IDE据我观察，很多程序员们喜欢 IDE 的原因在于工程化全局查询，函数定义, 复制粘贴， 其他的模块化插入代码块，是没有太多吸引力的。 作为 Go 开发 IDEemacs as golang ide 这里有基本的配置。godef 安装一下可以解决函数定义的出处查找问题。没事就来一下\: C-c C-j, 立马追到底。包括 go&#x2F;src&#x2F; 目录也能追杀到底。查找使用 Emacs 本身的查找 fin">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Emacs as golang IDE">
-<meta property="og:url" content="http://chenyangguang.github.com/2018/11/27/ide/index.html">
+<meta property="og:url" content="https://chenyangguang.github.io/2018/11/27/ide/index.html">
 <meta property="og:site_name" content="重剑无锋">
 <meta property="og:description" content="IDE据我观察，很多程序员们喜欢 IDE 的原因在于工程化全局查询，函数定义, 复制粘贴， 其他的模块化插入代码块，是没有太多吸引力的。 作为 Go 开发 IDEemacs as golang ide 这里有基本的配置。godef 安装一下可以解决函数定义的出处查找问题。没事就来一下\: C-c C-j, 立马追到底。包括 go&#x2F;src&#x2F; 目录也能追杀到底。查找使用 Emacs 本身的查找 fin">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://chenyangguang.github.com/2018-11-27-ide/emacs-command.png">
+<meta property="og:image" content="https://chenyangguang.github.io/2018-11-27-ide/emacs-command.png">
 <meta property="article:published_time" content="2018-11-26T16:00:00.000Z">
 <meta property="article:modified_time" content="2026-02-07T13:11:55.383Z">
 <meta property="article:author" content="Gitvim">
 <meta property="article:tag" content="Emacs">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://chenyangguang.github.com/2018-11-27-ide/emacs-command.png">
+<meta name="twitter:image" content="https://chenyangguang.github.io/2018-11-27-ide/emacs-command.png">
 
 
-<link rel="canonical" href="http://chenyangguang.github.com/2018/11/27/ide/">
+<link rel="canonical" href="https://chenyangguang.github.io/2018/11/27/ide/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://chenyangguang.github.com/2018/11/27/ide/","path":"2018/11/27/ide/","title":"Emacs as golang IDE"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://chenyangguang.github.io/2018/11/27/ide/","path":"2018/11/27/ide/","title":"Emacs as golang IDE"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Emacs as golang IDE | 重剑无锋</title>
@@ -172,7 +172,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chenyangguang.github.com/2018/11/27/ide/">
+    <link itemprop="mainEntityOfPage" href="https://chenyangguang.github.io/2018/11/27/ide/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">

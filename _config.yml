@@ -13,7 +13,7 @@ language:
 timezone:
 
 # URL
-url: http://chenyangguang.github.com
+url: https://chenyangguang.github.io
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
