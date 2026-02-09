@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chenyangguang.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Git Worktree 是一个强大但常被忽视的功能。本文介绍如何使用 git worktree 来同时处理多个分支，提高开发效率。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git Worktree 应该这样用">
+<meta property="og:url" content="https://chenyangguang.github.io/en/2026/02/09/git-worktree-usage/index.html">
+<meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="Git Worktree 是一个强大但常被忽视的功能。本文介绍如何使用 git worktree 来同时处理多个分支，提高开发效率。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-02-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-09T13:29:02.271Z">
+<meta property="article:author" content="Gitvim">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="Git">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://chenyangguang.github.io/en/2026/02/09/git-worktree-usage/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://chenyangguang.github.io/2026/02/09/git-worktree-usage/","path":"en/2026/02/09/git-worktree-usage/","title":"Git Worktree 应该这样用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Git Worktree 应该这样用 | 重剑无锋</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">重剑无锋</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-Git-Worktree%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">为什么需要 Git Worktree？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-Git-Worktree%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">什么是 Git Worktree？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">基本用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B0%E7%9A%84-Worktree"><span class="nav-number">3.1.</span> <span class="nav-text">创建新的 Worktree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-Worktree-%E5%88%97%E8%A1%A8"><span class="nav-number">3.2.</span> <span class="nav-text">查看 Worktree 列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4-Worktree"><span class="nav-number">3.3.</span> <span class="nav-text">删除 Worktree</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E6%88%98%E5%9C%BA%E6%99%AF"><span class="nav-number">4.</span> <span class="nav-text">实战场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF%E4%B8%80%EF%BC%9A%E7%B4%A7%E6%80%A5-Bug-%E4%BF%AE%E5%A4%8D"><span class="nav-number">4.1.</span> <span class="nav-text">场景一：紧急 Bug 修复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF%E4%BA%8C%EF%BC%9A%E5%90%8C%E6%97%B6%E7%BB%B4%E6%8A%A4%E5%A4%9A%E4%B8%AA%E7%89%88%E6%9C%AC"><span class="nav-number">4.2.</span> <span class="nav-text">场景二：同时维护多个版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF%E4%B8%89%EF%BC%9A%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5"><span class="nav-number">4.3.</span> <span class="nav-text">场景三：代码审查</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E6%8A%80%E5%B7%A7"><span class="nav-number">5.</span> <span class="nav-text">高级技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%87%AA%E5%8A%A8%E6%B8%85%E7%90%86"><span class="nav-number">5.1.</span> <span class="nav-text">1. 自动清理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Worktree-%E4%B8%8E-Git-Hook"><span class="nav-number">5.2.</span> <span class="nav-text">2. Worktree 与 Git Hook</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%B8%8D%E5%90%8C-Worktree-%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%90%8C%E9%85%8D%E7%BD%AE"><span class="nav-number">5.3.</span> <span class="nav-text">3. 不同 Worktree 使用不同配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">6.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Q1-Worktree-%E5%8F%AF%E4%BB%A5%E6%8E%A8%E9%80%81%E5%90%97%EF%BC%9F"><span class="nav-number">6.1.</span> <span class="nav-text">Q1: Worktree 可以推送吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q2-%E5%A6%82%E4%BD%95%E5%9C%A8%E4%B8%8D%E5%90%8C-worktree-%E4%B9%8B%E9%97%B4%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%EF%BC%9F"><span class="nav-number">6.2.</span> <span class="nav-text">Q2: 如何在不同 worktree 之间共享配置？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q3-Worktree-%E4%BC%9A%E5%8D%A0%E7%94%A8%E6%9B%B4%E5%A4%9A%E7%A9%BA%E9%97%B4%E5%90%97%EF%BC%9F"><span class="nav-number">6.3.</span> <span class="nav-text">Q3: Worktree 会占用更多空间吗？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">7.</span> <span class="nav-text">最佳实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%BA%90"><span class="nav-number">9.</span> <span class="nav-text">参考资源</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Gitvim</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://chenyangguang.github.io/2026/02/09/git-worktree-usage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Gitvim">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="重剑无锋">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Git Worktree 应该这样用 | 重剑无锋">
+      <meta itemprop="description" content="Git Worktree 是一个强大但常被忽视的功能。本文介绍如何使用 git worktree 来同时处理多个分支，提高开发效率。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Git Worktree 应该这样用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-02-09 00:00:00 / Modified: 21:29:02" itemprop="dateCreated datePublished" datetime="2026-02-09T00:00:00+08:00">2026-02-09</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">Git Worktree 是一个强大但常被忽视的功能。本文介绍如何使用 git worktree 来同时处理多个分支，提高开发效率。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="为什么需要-Git-Worktree？"><a href="#为什么需要-Git-Worktree？" class="headerlink" title="为什么需要 Git Worktree？"></a>为什么需要 Git Worktree？</h2><p>在日常开发中，我们经常遇到这样的场景：</p>
+<ol>
+<li>正在开发一个新功能，突然需要修复线上紧急 bug</li>
+<li>同时需要维护多个版本分支（如 v1.0、v2.0）</li>
+<li>需要对比两个分支的代码差异</li>
+</ol>
+<p>传统做法是：</p>
+<ul>
+<li>使用 <code>git stash</code> 暂存当前工作</li>
+<li>或者创建多个工作目录副本</li>
+</ul>
+<p>但这些方法都有问题：</p>
+<ul>
+<li><code>git stash</code> 容易混乱，且只能暂存一套</li>
+<li>多个副本占用空间，且不同步</li>
+</ul>
+<p><strong>Git Worktree 完美解决了这些问题！</strong></p>
+<h2 id="什么是-Git-Worktree？"><a href="#什么是-Git-Worktree？" class="headerlink" title="什么是 Git Worktree？"></a>什么是 Git Worktree？</h2><p>Git Worktree 允许你在同一个仓库中，同时检出多个分支到不同的工作目录。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">my-project/</span><br><span class="line">├── .git/</span><br><span class="line">├── main-branch/          # 主分支工作目录</span><br><span class="line">├── feature-branch/       # 功能分支工作目录</span><br><span class="line">└── hotfix-branch/        # 热修复分支工作目录</span><br></pre></td></tr></table></figure>
+
+<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><h3 id="创建新的-Worktree"><a href="#创建新的-Worktree" class="headerlink" title="创建新的 Worktree"></a>创建新的 Worktree</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基于现有分支创建 worktree</span></span><br><span class="line">git worktree add ../feature-branch feature-branch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 基于新分支创建 worktree</span></span><br><span class="line">git worktree add ../bugfix -b hotfix/bug-123</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定提交创建 worktree</span></span><br><span class="line">git worktree add ../temp-commit abc1234</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看-Worktree-列表"><a href="#查看-Worktree-列表" class="headerlink" title="查看 Worktree 列表"></a>查看 Worktree 列表</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git worktree list</span><br></pre></td></tr></table></figure>
+
+<p>输出示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/Users/dev/project                            abc1234 [main]</span><br><span class="line">/Users/dev/feature-branch          def5678 [feature-branch]</span><br><span class="line">/Users/dev/hotfix-branch            3456789 [hotfix/bug-123]</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除-Worktree"><a href="#删除-Worktree" class="headerlink" title="删除 Worktree"></a>删除 Worktree</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除指定 worktree</span></span><br><span class="line">git worktree remove ../feature-branch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除后清理</span></span><br><span class="line">git worktree prune</span><br></pre></td></tr></table></figure>
+
+<h2 id="实战场景"><a href="#实战场景" class="headerlink" title="实战场景"></a>实战场景</h2><h3 id="场景一：紧急-Bug-修复"><a href="#场景一：紧急-Bug-修复" class="headerlink" title="场景一：紧急 Bug 修复"></a>场景一：紧急 Bug 修复</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 当前正在开发功能</span></span><br><span class="line"><span class="built_in">cd</span> ~/dev/project</span><br><span class="line">git status</span><br><span class="line"><span class="comment"># On branch feature/new-ui</span></span><br><span class="line"><span class="comment"># Changes not staged...</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 突然需要修复紧急 bug</span></span><br><span class="line">git worktree add ../hotfix main</span><br><span class="line"><span class="built_in">cd</span> ../hotfix</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 修复 bug 并提交</span></span><br><span class="line"><span class="comment"># ... 修复代码 ...</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;Fix: critical bug&quot;</span></span><br><span class="line">git push origin main</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 删除 worktree</span></span><br><span class="line"><span class="built_in">cd</span> ..</span><br><span class="line">git worktree remove hotfix</span><br></pre></td></tr></table></figure>
+
+<h3 id="场景二：同时维护多个版本"><a href="#场景二：同时维护多个版本" class="headerlink" title="场景二：同时维护多个版本"></a>场景二：同时维护多个版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 主目录：开发版本</span></span><br><span class="line"><span class="built_in">cd</span> ~/dev/project-main</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建稳定版本 worktree</span></span><br><span class="line">git worktree add ../project-v1.0 release/v1.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建下一个版本 worktree</span></span><br><span class="line">git worktree add ../project-v2.0 develop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 现在可以同时在不同目录工作</span></span><br><span class="line"><span class="comment"># ~/dev/project-main    - 开发新功能</span></span><br><span class="line"><span class="comment"># ~/dev/project-v1.0    - 修复 v1.0 bug</span></span><br><span class="line"><span class="comment"># ~/dev/project-v2.0    - 准备 v2.0 发布</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="场景三：代码审查"><a href="#场景三：代码审查" class="headerlink" title="场景三：代码审查"></a>场景三：代码审查</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 审查同事的 PR</span></span><br><span class="line">git worktree add ../review-pr-123 origin/pr/123</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在独立目录中测试、修改</span></span><br><span class="line"><span class="built_in">cd</span> ../review-pr-123</span><br><span class="line">npm install</span><br><span class="line">npm <span class="built_in">test</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果发现问题，直接提交</span></span><br><span class="line">git commit -m <span class="string">&quot;Fix review comments&quot;</span></span><br><span class="line">git push origin <span class="built_in">pr</span>/123</span><br><span class="line"></span><br><span class="line"><span class="comment"># 完成后删除</span></span><br><span class="line">git worktree remove review-pr-123</span><br></pre></td></tr></table></figure>
+
+<h2 id="高级技巧"><a href="#高级技巧" class="headerlink" title="高级技巧"></a>高级技巧</h2><h3 id="1-自动清理"><a href="#1-自动清理" class="headerlink" title="1. 自动清理"></a>1. 自动清理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加自动清理配置</span></span><br><span class="line">git config worktree.cleanup <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者在 .gitconfig 中添加</span></span><br><span class="line">[worktree]</span><br><span class="line">    cleanup = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-Worktree-与-Git-Hook"><a href="#2-Worktree-与-Git-Hook" class="headerlink" title="2. Worktree 与 Git Hook"></a>2. Worktree 与 Git Hook</h3><p>在每个 worktree 中，Git hooks 都会独立工作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在主仓库设置 hooks</span></span><br><span class="line"><span class="built_in">cd</span> ~/dev/project</span><br><span class="line"><span class="built_in">cp</span> pre-commit .git/hooks/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有 worktree 都会使用相同的 hooks</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-不同-Worktree-使用不同配置"><a href="#3-不同-Worktree-使用不同配置" class="headerlink" title="3. 不同 Worktree 使用不同配置"></a>3. 不同 Worktree 使用不同配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在每个 worktree 中使用不同的 .git/config</span></span><br><span class="line"><span class="built_in">cd</span> ~/dev/project-v1.0</span><br><span class="line">git config user.email <span class="string">&quot;v1.0-maintainer@example.com&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> ~/dev/project-v2.0</span><br><span class="line">git config user.email <span class="string">&quot;v2.0-maintainer@example.com&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="Q1-Worktree-可以推送吗？"><a href="#Q1-Worktree-可以推送吗？" class="headerlink" title="Q1: Worktree 可以推送吗？"></a>Q1: Worktree 可以推送吗？</h3><p>A: 可以！每个 worktree 都可以独立推送：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ../feature-branch</span><br><span class="line">git push origin feature-branch</span><br></pre></td></tr></table></figure>
+
+<h3 id="Q2-如何在不同-worktree-之间共享配置？"><a href="#Q2-如何在不同-worktree-之间共享配置？" class="headerlink" title="Q2: 如何在不同 worktree 之间共享配置？"></a>Q2: 如何在不同 worktree 之间共享配置？</h3><p>A: 使用全局 Git 配置或符号链接：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 共享 .gitignore</span></span><br><span class="line"><span class="built_in">ln</span> -s ~/dev/project/.gitignore ~/dev/feature-branch/.gitignore</span><br></pre></td></tr></table></figure>
+
+<h3 id="Q3-Worktree-会占用更多空间吗？"><a href="#Q3-Worktree-会占用更多空间吗？" class="headerlink" title="Q3: Worktree 会占用更多空间吗？"></a>Q3: Worktree 会占用更多空间吗？</h3><p>A: 不会！Worktree 共享同一个 <code>.git</code> 目录，只包含工作文件，不会复制 Git 对象。</p>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><ol>
+<li><p><strong>命名规范</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用描述性的目录名</span></span><br><span class="line">git worktree add ../feature-user-auth feature/user-auth</span><br><span class="line">git worktree add ../hotfix-login-bug hotfix/login-bug</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>定期清理</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 每周清理未使用的 worktree</span></span><br><span class="line">git worktree prune</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>使用完及时删除</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 任务完成后删除 worktree</span></span><br><span class="line">git worktree remove ../temporary-branch</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>配合 IDE 使用</strong></p>
+<ul>
+<li>VS Code：每个 worktree 作为独立项目打开</li>
+<li>IntelliJ：使用 “Open as Project”</li>
+</ul>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Git Worktree 是一个强大的工具，可以：</p>
+<ul>
+<li>✅ 同时处理多个分支</li>
+<li>✅ 避免频繁切换分支</li>
+<li>✅ 隔离不同任务的工作环境</li>
+<li>✅ 不占用额外存储空间</li>
+</ul>
+<p>如果你的工作涉及多分支并行开发，Git Worktree 绝对值得一试！</p>
+<h2 id="参考资源"><a href="#参考资源" class="headerlink" title="参考资源"></a>参考资源</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://git-scm.com/docs/git-worktree">Git Worktree 官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.blog/git-worktree/">Git Worktree 实战技巧</a></li>
+</ul>
+<p><a href="#%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%AD%A6%E4%B9%A0"></a>进一步学习</p>
+<p>尝试在你的下一个项目中使用 Git Worktree，你会发现开发效率大大提升！</p>
+<p>如果你有更多 Git Worktree 使用技巧，欢迎分享！</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%99%E7%A8%8B/" rel="tag"># 教程</a>
+              <a href="/tags/Git/" rel="tag"># Git</a>
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/02/07/unity-hub-login-fix-tutorial/" rel="prev" title="Unity Hub 解决登录跳转到 id.unity.cn 问题教程">
+                  <i class="fa fa-angle-left"></i> Unity Hub 解决登录跳转到 id.unity.cn 问题教程
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>English</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="Select language">
+      
+        <option value="zh-CN" data-href="/2026/02/09/git-worktree-usage/" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2026/02/09/git-worktree-usage/" selected="">
+          English
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Gitvim</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
