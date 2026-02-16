@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chenyangguang.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="记录将 Rust + React 全栈项目从 macOS 开发环境部署到阿里云 Ubuntu 服务器的完整过程，包括 PostgreSQL&#x2F;Nginx 安装、HTTPS 证书配置、交叉编译、OpenSSL 依赖问题解决等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust + React 全栈项目部署从 macOS 交叉编译部署到阿里云 Ubuntu 踩坑实录">
+<meta property="og:url" content="https://chenyangguang.github.io/en/2026/02/16/rust-react-deploy/index.html">
+<meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="记录将 Rust + React 全栈项目从 macOS 开发环境部署到阿里云 Ubuntu 服务器的完整过程，包括 PostgreSQL&#x2F;Nginx 安装、HTTPS 证书配置、交叉编译、OpenSSL 依赖问题解决等">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-02-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-16T06:27:11.872Z">
+<meta property="article:author" content="Gitvim">
+<meta property="article:tag" content="Rust">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="部署">
+<meta property="article:tag" content="阿里云">
+<meta property="article:tag" content="Ubuntu">
+<meta property="article:tag" content="Nginx">
+<meta property="article:tag" content="PostgreSQL">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://chenyangguang.github.io/en/2026/02/16/rust-react-deploy/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://chenyangguang.github.io/2026/02/16/rust-react-deploy/","path":"en/2026/02/16/rust-react-deploy/","title":"Rust + React 全栈项目部署从 macOS 交叉编译部署到阿里云 Ubuntu 踩坑实录"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Rust + React 全栈项目部署从 macOS 交叉编译部署到阿里云 Ubuntu 踩坑实录 | 重剑无锋</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">重剑无锋</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Rust-%E9%A1%B9%E7%9B%AE%E4%BB%8E-macOS-%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E9%83%A8%E7%BD%B2%E5%88%B0-Ubuntu-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">Rust 项目从 macOS 交叉编译部署到 Ubuntu 服务器的踩坑实录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.</span> <span class="nav-text">一、服务器基础环境配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%AE%89%E8%A3%85-PostgreSQL"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.1 安装 PostgreSQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E5%AE%89%E8%A3%85-Nginx"><span class="nav-number">1.2.2.</span> <span class="nav-text">1.2 安装 Nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E9%85%8D%E7%BD%AE-HTTPS-%E8%AF%81%E4%B9%A6%EF%BC%88%E9%80%9A%E9%85%8D%E7%AC%A6%E5%9F%9F%E5%90%8D%EF%BC%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">1.3 配置 HTTPS 证书（通配符域名）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%EF%BC%9A%E6%9C%80%E5%A4%A7%E7%9A%84%E5%9D%91"><span class="nav-number">1.3.</span> <span class="nav-text">二、交叉编译：最大的坑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E9%97%AE%E9%A2%98%EF%BC%9A%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8B%E8%BD%BD%E5%A4%AA%E6%85%A2"><span class="nav-number">1.3.1.</span> <span class="nav-text">2.1 问题：服务器下载太慢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%B7%A5%E5%85%B7%E9%80%89%E6%8B%A9%EF%BC%9Across-vs-cargo-zigbuild"><span class="nav-number">1.3.2.</span> <span class="nav-text">2.2 工具选择：cross vs cargo-zigbuild</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%AE%89%E8%A3%85-cross"><span class="nav-number">1.3.3.</span> <span class="nav-text">2.3 安装 cross</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E5%88%9B%E5%BB%BA-Cross-toml-%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.4.</span> <span class="nav-text">2.4 创建 Cross.toml 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%9D%91%EF%BC%9AOpenSSL-%E7%89%88%E6%9C%AC%E4%B8%8D%E5%85%BC%E5%AE%B9"><span class="nav-number">1.3.5.</span> <span class="nav-text">2.5 第一个坑：OpenSSL 版本不兼容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-%E7%BC%96%E8%AF%91%E6%88%90%E5%8A%9F%E5%90%8E%E7%9A%84%E6%89%93%E5%8C%85"><span class="nav-number">1.3.6.</span> <span class="nav-text">2.6 编译成功后的打包</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E9%83%A8%E7%BD%B2%E6%B5%81%E7%A8%8B"><span class="nav-number">1.4.</span> <span class="nav-text">三、部署流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E4%B8%8A%E4%BC%A0%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.4.1.</span> <span class="nav-text">3.1 上传到服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E8%A7%A3%E5%8E%8B%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="nav-number">1.4.2.</span> <span class="nav-text">3.2 服务器上解压和配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">1.4.3.</span> <span class="nav-text">3.3 数据库初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E5%88%9B%E5%BB%BA-systemd-%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.4.4.</span> <span class="nav-text">3.4 创建 systemd 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E9%85%8D%E7%BD%AE-Nginx-%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"><span class="nav-number">1.4.5.</span> <span class="nav-text">3.5 配置 Nginx 反向代理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93"><span class="nav-number">1.5.</span> <span class="nav-text">四、问题总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98-1%EF%BC%9AOpenSSL-%E7%89%88%E6%9C%AC%E4%B8%8D%E5%85%BC%E5%AE%B9"><span class="nav-number">1.5.1.</span> <span class="nav-text">问题 1：OpenSSL 版本不兼容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98-2%EF%BC%9A%E9%80%9A%E9%85%8D%E7%AC%A6%E8%AF%81%E4%B9%A6%E9%9C%80%E8%A6%81-DNS-%E9%AA%8C%E8%AF%81"><span class="nav-number">1.5.2.</span> <span class="nav-text">问题 2：通配符证书需要 DNS 验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98-3%EF%BC%9Across-%E7%BC%96%E8%AF%91%E9%9C%80%E8%A6%81-Docker"><span class="nav-number">1.5.3.</span> <span class="nav-text">问题 3：cross 编译需要 Docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98-4%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E7%94%A8%E6%88%B7%E8%AE%A4%E8%AF%81%E5%A4%B1%E8%B4%A5"><span class="nav-number">1.5.4.</span> <span class="nav-text">问题 4：数据库用户认证失败</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">1.6.</span> <span class="nav-text">五、最佳实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2%E6%B8%85%E5%8D%95"><span class="nav-number">1.7.</span> <span class="nav-text">六、快速部署清单</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Gitvim</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://chenyangguang.github.io/2026/02/16/rust-react-deploy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Gitvim">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="重剑无锋">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Rust + React 全栈项目部署从 macOS 交叉编译部署到阿里云 Ubuntu 踩坑实录 | 重剑无锋">
+      <meta itemprop="description" content="记录将 Rust + React 全栈项目从 macOS 开发环境部署到阿里云 Ubuntu 服务器的完整过程，包括 PostgreSQL&#x2F;Nginx 安装、HTTPS 证书配置、交叉编译、OpenSSL 依赖问题解决等">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Rust + React 全栈项目部署从 macOS 交叉编译部署到阿里云 Ubuntu 踩坑实录
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-02-16 00:00:00 / Modified: 14:27:11" itemprop="dateCreated datePublished" datetime="2026-02-16T00:00:00+08:00">2026-02-16</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">记录将 Rust + React 全栈项目从 macOS 开发环境部署到阿里云 Ubuntu 服务器的完整过程，包括 PostgreSQL/Nginx 安装、HTTPS 证书配置、交叉编译、OpenSSL 依赖问题解决等</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Rust-项目从-macOS-交叉编译部署到-Ubuntu-服务器的踩坑实录"><a href="#Rust-项目从-macOS-交叉编译部署到-Ubuntu-服务器的踩坑实录" class="headerlink" title="Rust 项目从 macOS 交叉编译部署到 Ubuntu 服务器的踩坑实录"></a>Rust 项目从 macOS 交叉编译部署到 Ubuntu 服务器的踩坑实录</h1><blockquote>
+<p> 记录了将一个 Rust + React 全栈项目从 macOS 开发环境部署到阿里云 Ubuntu 服务器的完整过程，包括 PostgreSQL/Nginx 安装、HTTPS 证书配置、交叉编译、OpenSSL 依赖问题解决等。</p>
+</blockquote>
+<span id="more"></span>
+
+
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>项目是一个球场预订系统：</p>
+<ul>
+<li><strong>后端</strong>: Rust + Axum + Sea-ORM + PostgreSQL</li>
+<li><strong>前端</strong>: React + Vite + Ant Design (Admin 管理后台)</li>
+<li><strong>目标服务器</strong>: 阿里云 Ubuntu 22.04</li>
+</ul>
+<h2 id="一、服务器基础环境配置"><a href="#一、服务器基础环境配置" class="headerlink" title="一、服务器基础环境配置"></a>一、服务器基础环境配置</h2><h3 id="1-1-安装-PostgreSQL"><a href="#1-1-安装-PostgreSQL" class="headerlink" title="1.1 安装 PostgreSQL"></a>1.1 安装 PostgreSQL</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install -y postgresql postgresql-contrib</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动并设置开机自启</span></span><br><span class="line"><span class="built_in">sudo</span> systemctl start postgresql</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> postgresql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 postgres 用户密码</span></span><br><span class="line"><span class="built_in">sudo</span> -u postgres psql -c <span class="string">&quot;ALTER USER postgres WITH PASSWORD &#x27;your_password&#x27;;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-安装-Nginx"><a href="#1-2-安装-Nginx" class="headerlink" title="1.2 安装 Nginx"></a>1.2 安装 Nginx</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install -y nginx</span><br><span class="line"><span class="built_in">sudo</span> systemctl start nginx</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-配置-HTTPS-证书（通配符域名）"><a href="#1-3-配置-HTTPS-证书（通配符域名）" class="headerlink" title="1.3 配置 HTTPS 证书（通配符域名）"></a>1.3 配置 HTTPS 证书（通配符域名）</h3><p>由于需要支持 <code>*.gitvim.com</code> 通配符域名，必须使用 DNS 验证方式。</p>
+<p><strong>推荐使用 acme.sh</strong>（比 certbot 更好用）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 acme.sh</span></span><br><span class="line">curl https://get.acme.sh | sh</span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置阿里云 API（用于 DNS 验证）</span></span><br><span class="line"><span class="built_in">export</span> Ali_Key=<span class="string">&quot;your_access_key_id&quot;</span></span><br><span class="line"><span class="built_in">export</span> Ali_Secret=<span class="string">&quot;your_access_key_secret&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 申请通配符证书</span></span><br><span class="line">acme.sh --issue --dns dns_ali \</span><br><span class="line">  -d xxx.com \</span><br><span class="line">  -d www.xxx.com \</span><br><span class="line">  -d <span class="string">&quot;*.xxx.com&quot;</span> \</span><br><span class="line">  --server letsencrypt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装证书到 Nginx 目录</span></span><br><span class="line"><span class="built_in">mkdir</span> -p /etc/nginx/ssl/gitvim</span><br><span class="line">acme.sh --install-cert -d xxx.com \</span><br><span class="line">  --key-file       /etc/nginx/ssl/gitvim/key.pem \</span><br><span class="line">  --fullchain-file /etc/nginx/ssl/gitvim/cert.pem \</span><br><span class="line">  --reloadcmd      <span class="string">&quot;nginx -s reload&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：acme.sh 默认使用 ZeroSSL，建议切换到 Let’s Encrypt：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --register-account -m your-email@example.com --server letsencrypt</span><br><span class="line">acme.sh --set-default-ca --server letsencrypt</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、交叉编译：最大的坑"><a href="#二、交叉编译：最大的坑" class="headerlink" title="二、交叉编译：最大的坑"></a>二、交叉编译：最大的坑</h2><h3 id="2-1-问题：服务器下载太慢"><a href="#2-1-问题：服务器下载太慢" class="headerlink" title="2.1 问题：服务器下载太慢"></a>2.1 问题：服务器下载太慢</h3><p>服务器在国内，下载 Rust 工具链和编译依赖非常慢。解决方案：<strong>本地编译好再上传</strong>。</p>
+<h3 id="2-2-工具选择：cross-vs-cargo-zigbuild"><a href="#2-2-工具选择：cross-vs-cargo-zigbuild" class="headerlink" title="2.2 工具选择：cross vs cargo-zigbuild"></a>2.2 工具选择：cross vs cargo-zigbuild</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cross</td>
+<td>官方推荐，兼容性好</td>
+<td>需要 Docker</td>
+</tr>
+<tr>
+<td>cargo-zigbuild</td>
+<td>不需要 Docker</td>
+<td>某些 crate 兼容性问题</td>
+</tr>
+</tbody></table>
+<p>我选择 <strong>cross</strong>，因为项目依赖较复杂。</p>
+<h3 id="2-3-安装-cross"><a href="#2-3-安装-cross" class="headerlink" title="2.3 安装 cross"></a>2.3 安装 cross</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 需要 Docker Desktop 运行</span></span><br><span class="line">cargo install cross</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-创建-Cross-toml-配置"><a href="#2-4-创建-Cross-toml-配置" class="headerlink" title="2.4 创建 Cross.toml 配置"></a>2.4 创建 Cross.toml 配置</h3><figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># backend/Cross.toml</span></span><br><span class="line"><span class="section">[target.x86_64-unknown-linux-gnu]</span></span><br><span class="line"><span class="attr">pre-build</span> = [</span><br><span class="line">    <span class="string">&quot;apt-get update &amp;&amp; apt-get install -y libssl-dev pkg-config&quot;</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5-第一个坑：OpenSSL-版本不兼容"><a href="#2-5-第一个坑：OpenSSL-版本不兼容" class="headerlink" title="2.5 第一个坑：OpenSSL 版本不兼容"></a>2.5 第一个坑：OpenSSL 版本不兼容</h3><p><strong>现象</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./stadium_backend: error while loading shared libraries: libssl.so.1.0.0: cannot open shared object file</span><br></pre></td></tr></table></figure>
+
+<p><strong>原因</strong>：服务器是 OpenSSL 3.x，而 cross 编译的二进制链接的是 OpenSSL 1.0.0。</p>
+<p><strong>尝试方案 1 - 静态编译</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OPENSSL_STATIC=1 cross build --release --target x86_64-unknown-linux-gnu</span><br></pre></td></tr></table></figure>
+<p>结果：仍然失败，静态链接没有生效。</p>
+<p><strong>最终方案 - 使用 rustls 替代 OpenSSL</strong>：</p>
+<p>修改 <code>Cargo.toml</code>，将依赖从 native-tls 改为 rustls：</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 原来（依赖系统 OpenSSL）</span></span><br><span class="line"><span class="attr">reqwest</span> = &#123; version = <span class="string">&quot;0.12&quot;</span>, features = [<span class="string">&quot;json&quot;</span>] &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改为（使用 rustls，纯 Rust 实现）</span></span><br><span class="line"><span class="attr">reqwest</span> = &#123; version = <span class="string">&quot;0.12&quot;</span>, features = [<span class="string">&quot;json&quot;</span>, <span class="string">&quot;rustls-tls&quot;</span>], default-features = <span class="literal">false</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编译</span></span><br><span class="line">cross build --release --target x86_64-unknown-linux-gnu</span><br></pre></td></tr></table></figure>
+
+<p><strong>为什么 rustls 更好？</strong></p>
+<ul>
+<li>纯 Rust 实现，无 C 依赖</li>
+<li>静态链接，二进制可移植</li>
+<li>更安全，内存安全保证</li>
+</ul>
+<h3 id="2-6-编译成功后的打包"><a href="#2-6-编译成功后的打包" class="headerlink" title="2.6 编译成功后的打包"></a>2.6 编译成功后的打包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建部署目录</span></span><br><span class="line"><span class="built_in">mkdir</span> -p deploy/backend deploy/admin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 复制后端二进制</span></span><br><span class="line"><span class="built_in">cp</span> target/x86_64-unknown-linux-gnu/release/stadium_backend deploy/backend/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 复制配置文件</span></span><br><span class="line"><span class="built_in">cp</span> backend/.env.example deploy/backend/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建前端</span></span><br><span class="line"><span class="built_in">cd</span> admin &amp;&amp; npm run build</span><br><span class="line"><span class="built_in">cp</span> -r dist ../deploy/admin/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打包</span></span><br><span class="line">tar -czvf stadium-deploy.tar.gz deploy/</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、部署流程"><a href="#三、部署流程" class="headerlink" title="三、部署流程"></a>三、部署流程</h2><h3 id="3-1-上传到服务器"><a href="#3-1-上传到服务器" class="headerlink" title="3.1 上传到服务器"></a>3.1 上传到服务器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp stadium-deploy.tar.gz root@xxx.com:/opt/</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-服务器上解压和配置"><a href="#3-2-服务器上解压和配置" class="headerlink" title="3.2 服务器上解压和配置"></a>3.2 服务器上解压和配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /opt</span><br><span class="line">tar -xzvf stadium-deploy.tar.gz</span><br><span class="line"><span class="built_in">cd</span> deploy/backend</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置环境变量</span></span><br><span class="line"><span class="built_in">cp</span> .env.example .<span class="built_in">env</span></span><br><span class="line">nano .<span class="built_in">env</span></span><br></pre></td></tr></table></figure>
+
+<p><code>.env</code> 关键配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">DATABASE_URL=postgresql://stadium_admin:password@localhost:5432/stadium</span><br><span class="line">JWT_SECRET=your-random-secret-key</span><br><span class="line">JWT_ADMIN_SECRET=another-random-secret-key</span><br><span class="line">SERVER_PORT=3000</span><br><span class="line">DEV_MODE=0</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-数据库初始化"><a href="#3-3-数据库初始化" class="headerlink" title="3.3 数据库初始化"></a>3.3 数据库初始化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建用户和数据库</span></span><br><span class="line"><span class="built_in">sudo</span> -u postgres psql &lt;&lt; <span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">CREATE USER stadium_admin WITH PASSWORD <span class="string">&#x27;your_password&#x27;</span>;</span><br><span class="line">CREATE DATABASE stadium OWNER stadium_admin;</span><br><span class="line">GRANT ALL PRIVILEGES ON DATABASE stadium TO stadium_admin;</span><br><span class="line">\c stadium</span><br><span class="line">GRANT ALL ON SCHEMA public TO stadium_admin;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行迁移（如果有迁移工具）</span></span><br><span class="line"><span class="comment"># ./migration</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-创建-systemd-服务"><a href="#3-4-创建-systemd-服务" class="headerlink" title="3.4 创建 systemd 服务"></a>3.4 创建 systemd 服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &gt; /etc/systemd/system/stadium-backend.service &lt;&lt; <span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">[Unit]</span><br><span class="line">Description=Stadium Booking Backend</span><br><span class="line">After=network.target postgresql.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">User=root</span><br><span class="line">WorkingDirectory=/opt/deploy/backend</span><br><span class="line">ExecStart=/opt/deploy/backend/stadium_backend</span><br><span class="line">Restart=always</span><br><span class="line">RestartSec=5</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl <span class="built_in">enable</span> stadium-backend</span><br><span class="line">systemctl start stadium-backend</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-5-配置-Nginx-反向代理"><a href="#3-5-配置-Nginx-反向代理" class="headerlink" title="3.5 配置 Nginx 反向代理"></a>3.5 配置 Nginx 反向代理</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># /etc/nginx/sites-available/gitvim</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span> xxx.com www.xxx.com <span class="regexp">*.xxx.com</span>;</span><br><span class="line">    <span class="attribute">return</span> <span class="number">301</span> https://<span class="variable">$host</span><span class="variable">$request_uri</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">443</span> ssl http2;</span><br><span class="line">    <span class="attribute">server_name</span> xxx.com www.xxx.com <span class="regexp">*.xxx.com</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl_certificate</span> /etc/nginx/ssl/gitvim/cert.pem;</span><br><span class="line">    <span class="attribute">ssl_certificate_key</span> /etc/nginx/ssl/gitvim/key.pem;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl_protocols</span> TLSv1.<span class="number">2</span> TLSv1.<span class="number">3</span>;</span><br><span class="line">    <span class="attribute">ssl_prefer_server_ciphers</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">ssl_session_cache</span> shared:SSL:<span class="number">10m</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Admin 前端</span></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">root</span> /opt/deploy/admin/dist;</span><br><span class="line">        <span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ /index.html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># API 代理</span></span><br><span class="line">    <span class="section">location</span> /api &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://127.0.0.1:3000;</span><br><span class="line">        <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Proto <span class="variable">$scheme</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Connection <span class="string">&#x27;upgrade&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -sf /etc/nginx/sites-available/gitvim /etc/nginx/sites-enabled/</span><br><span class="line">nginx -t &amp;&amp; systemctl reload nginx</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、问题总结"><a href="#四、问题总结" class="headerlink" title="四、问题总结"></a>四、问题总结</h2><h3 id="问题-1：OpenSSL-版本不兼容"><a href="#问题-1：OpenSSL-版本不兼容" class="headerlink" title="问题 1：OpenSSL 版本不兼容"></a>问题 1：OpenSSL 版本不兼容</h3><table>
+<thead>
+<tr>
+<th>现象</th>
+<th>解决方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>libssl.so.1.0.0: cannot open shared object file</code></td>
+<td>使用 rustls 替代 native-tls</td>
+</tr>
+</tbody></table>
+<h3 id="问题-2：通配符证书需要-DNS-验证"><a href="#问题-2：通配符证书需要-DNS-验证" class="headerlink" title="问题 2：通配符证书需要 DNS 验证"></a>问题 2：通配符证书需要 DNS 验证</h3><table>
+<thead>
+<tr>
+<th>现象</th>
+<th>解决方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>certbot HTTP 验证不支持通配符</td>
+<td>使用 acme.sh + DNS 验证</td>
+</tr>
+</tbody></table>
+<h3 id="问题-3：cross-编译需要-Docker"><a href="#问题-3：cross-编译需要-Docker" class="headerlink" title="问题 3：cross 编译需要 Docker"></a>问题 3：cross 编译需要 Docker</h3><table>
+<thead>
+<tr>
+<th>现象</th>
+<th>解决方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Cannot connect to the Docker daemon</code></td>
+<td>启动 Docker Desktop</td>
+</tr>
+</tbody></table>
+<h3 id="问题-4：数据库用户认证失败"><a href="#问题-4：数据库用户认证失败" class="headerlink" title="问题 4：数据库用户认证失败"></a>问题 4：数据库用户认证失败</h3><table>
+<thead>
+<tr>
+<th>现象</th>
+<th>解决方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>password authentication failed for user</code></td>
+<td>检查 .env 配置和 PostgreSQL 用户权限</td>
+</tr>
+</tbody></table>
+<h2 id="五、最佳实践"><a href="#五、最佳实践" class="headerlink" title="五、最佳实践"></a>五、最佳实践</h2><ol>
+<li><strong>优先使用 rustls</strong>：避免 OpenSSL 依赖问题，二进制更可移植</li>
+<li><strong>本地交叉编译</strong>：避免服务器编译慢的问题</li>
+<li><strong>使用 systemd 管理服务</strong>：自动重启、日志管理</li>
+<li><strong>HTTPS 必配</strong>：acme.sh 自动续期</li>
+<li><strong>打包部署</strong>：只上传必要文件，减小传输体积</li>
+</ol>
+<h2 id="六、快速部署清单"><a href="#六、快速部署清单" class="headerlink" title="六、快速部署清单"></a>六、快速部署清单</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 本地</span></span><br><span class="line">cross build --release --target x86_64-unknown-linux-gnu</span><br><span class="line"><span class="built_in">cd</span> admin &amp;&amp; npm run build</span><br><span class="line">tar -czvf deploy.tar.gz deploy/</span><br><span class="line">scp deploy.tar.gz root@server:/opt/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 服务器</span></span><br><span class="line"><span class="built_in">cd</span> /opt &amp;&amp; tar -xzvf deploy.tar.gz</span><br><span class="line">systemctl start stadium-backend</span><br><span class="line">systemctl reload nginx</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>参考资料</strong>：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/cross-rs/cross">cross - Cross Compiling Rust</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rustls/rustls">rustls - A TLS library in Rust</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/acmesh-official/acme.sh">acme.sh - Let’s Encrypt Client</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Rust/" rel="tag"># Rust</a>
+              <a href="/tags/React/" rel="tag"># React</a>
+              <a href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag"># 部署</a>
+              <a href="/tags/%E9%98%BF%E9%87%8C%E4%BA%91/" rel="tag"># 阿里云</a>
+              <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+              <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+              <a href="/tags/PostgreSQL/" rel="tag"># PostgreSQL</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/02/09/git-worktree-usage/" rel="prev" title="Git Worktree 应该这样用">
+                  <i class="fa fa-angle-left"></i> Git Worktree 应该这样用
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>English</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="Select language">
+      
+        <option value="zh-CN" data-href="/2026/02/16/rust-react-deploy/" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2026/02/16/rust-react-deploy/" selected="">
+          English
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Gitvim</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
