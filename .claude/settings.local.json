@@ -13,7 +13,8 @@
       "Bash(npm info:*)",
       "Bash(git checkout:*)",
       "Bash(ls:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(git -C /Users/c/Apps/chenyangguang.github.io ls-files)"
     ]
   }
 }
