@@ -129,7 +129,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -138,7 +138,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-count">44</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -164,7 +164,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chenyangguang.github.io/2017/11/21/command/">
+    <link itemprop="mainEntityOfPage" href="https://chenyangguang.github.io/2017/11/22/chainOfResponsibility/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -182,7 +182,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/11/21/command/" class="post-title-link" itemprop="url">设计模式-命令模式</a>
+          <a href="/2017/11/22/chainOfResponsibility/" class="post-title-link" itemprop="url">设计模式-责任链模式</a>
         </h2>
 
         <div class="post-meta-container">
@@ -193,14 +193,14 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2017-11-21 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-21T00:00:00+08:00">2017-11-21</time>
+      <time title="Created: 2017-11-22 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-22T00:00:00+08:00">2017-11-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-02-07 21:13:42" itemprop="dateModified" datetime="2026-02-07T21:13:42+08:00">2026-02-07</time>
+      <time title="Modified: 2026-02-07 21:49:24" itemprop="dateModified" datetime="2026-02-07T21:49:24+08:00">2026-02-07</time>
     </span>
 
   
@@ -213,10 +213,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>0x00 命令模式定义命令模式是一个高内聚的模式，其定义为\: Encapsulate a request as an object, there by letting you parameterize clients with different requests, queue or log requests, and support undoable oerations.(将一个请求封装成一个对</p>
+          <p>0x00 责任链模式定义Avoid coupling the sender of a request to its rceiver by giving more than one object a chance to handle the request. Chain the receiving objects and pass the request along the chain until</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2017/11/21/command/">
+              <a class="btn" href="/2017/11/22/chainOfResponsibility/">
                 Read more &raquo;
               </a>
             </div>
@@ -330,6 +330,89 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://chenyangguang.github.io/2017/11/21/command/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Gitvim">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="重剑无锋">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | 重剑无锋">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/11/21/command/" class="post-title-link" itemprop="url">设计模式-命令模式</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-11-21 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-21T00:00:00+08:00">2017-11-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-02-07 21:49:24" itemprop="dateModified" datetime="2026-02-07T21:49:24+08:00">2026-02-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>0x00 命令模式定义命令模式是一个高内聚的模式，其定义为\: Encapsulate a request as an object, there by letting you parameterize clients with different requests, queue or log requests, and support undoable oerations.(将一个请求封装成一个对</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/11/21/command/">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://chenyangguang.github.io/2017/11/12/MediaPattern/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -366,7 +449,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-02-07 21:13:57" itemprop="dateModified" datetime="2026-02-07T21:13:57+08:00">2026-02-07</time>
+      <time title="Modified: 2026-02-07 21:49:24" itemprop="dateModified" datetime="2026-02-07T21:49:24+08:00">2026-02-07</time>
     </span>
 
   
@@ -532,7 +615,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-02-07 21:11:59" itemprop="dateModified" datetime="2026-02-07T21:11:59+08:00">2026-02-07</time>
+      <time title="Modified: 2026-02-07 21:49:24" itemprop="dateModified" datetime="2026-02-07T21:49:24+08:00">2026-02-07</time>
     </span>
 
   
@@ -549,89 +632,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2017/11/08/secKill/">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chenyangguang.github.io/2017/11/06/TheZenOfDesignPatternPrototype/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Gitvim">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="重剑无锋">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | 重剑无锋">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/11/06/TheZenOfDesignPatternPrototype/" class="post-title-link" itemprop="url">设计模式-原型模式</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-11-06 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-06T00:00:00+08:00">2017-11-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-02-07 21:13:57" itemprop="dateModified" datetime="2026-02-07T21:13:57+08:00">2026-02-07</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>设计模式第七式–原型模式。 0x00 原型模式定义 Specify the kinds of objects to create using prototypical instance, and create new objects by copying this prototype. (用原型实例指定创建对象的种类, 并且通过拷贝这些原型创建新的对象。)</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/11/06/TheZenOfDesignPatternPrototype/">
                 Read more &raquo;
               </a>
             </div>
@@ -745,7 +745,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chenyangguang.github.io/2017/10/26/BuilderPattern/">
+    <link itemprop="mainEntityOfPage" href="https://chenyangguang.github.io/2017/11/06/TheZenOfDesignPatternPrototype/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -763,7 +763,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/10/26/BuilderPattern/" class="post-title-link" itemprop="url">设计模式-建造者模式</a>
+          <a href="/2017/11/06/TheZenOfDesignPatternPrototype/" class="post-title-link" itemprop="url">设计模式-原型模式</a>
         </h2>
 
         <div class="post-meta-container">
@@ -774,14 +774,14 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2017-10-26 00:00:00" itemprop="dateCreated datePublished" datetime="2017-10-26T00:00:00+08:00">2017-10-26</time>
+      <time title="Created: 2017-11-06 00:00:00" itemprop="dateCreated datePublished" datetime="2017-11-06T00:00:00+08:00">2017-11-06</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-02-07 21:14:04" itemprop="dateModified" datetime="2026-02-07T21:14:04+08:00">2026-02-07</time>
+      <time title="Modified: 2026-02-07 21:49:24" itemprop="dateModified" datetime="2026-02-07T21:49:24+08:00">2026-02-07</time>
     </span>
 
   
@@ -794,10 +794,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>0x00 建造者模式定义Separate the construction of a complex object from its representation so that the sameconstruction process can create different representations.(将一个复杂对象的构建与它的表示分离, 使得同样的构建过程可以创建不同的表示。)</p>
+          <p>设计模式第七式–原型模式。 0x00 原型模式定义 Specify the kinds of objects to create using prototypical instance, and create new objects by copying this prototype. (用原型实例指定创建对象的种类, 并且通过拷贝这些原型创建新的对象。)</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2017/10/26/BuilderPattern/">
+              <a class="btn" href="/2017/11/06/TheZenOfDesignPatternPrototype/">
                 Read more &raquo;
               </a>
             </div>
@@ -911,7 +911,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chenyangguang.github.io/2017/10/25/TheZenOfDesignPatternTemplateMethod/">
+    <link itemprop="mainEntityOfPage" href="https://chenyangguang.github.io/2017/10/26/BuilderPattern/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -929,7 +929,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/10/25/TheZenOfDesignPatternTemplateMethod/" class="post-title-link" itemprop="url">设计模式-模板方法模式</a>
+          <a href="/2017/10/26/BuilderPattern/" class="post-title-link" itemprop="url">设计模式-建造者模式</a>
         </h2>
 
         <div class="post-meta-container">
@@ -940,14 +940,14 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2017-10-25 00:00:00" itemprop="dateCreated datePublished" datetime="2017-10-25T00:00:00+08:00">2017-10-25</time>
+      <time title="Created: 2017-10-26 00:00:00" itemprop="dateCreated datePublished" datetime="2017-10-26T00:00:00+08:00">2017-10-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-02-07 21:14:04" itemprop="dateModified" datetime="2026-02-07T21:14:04+08:00">2026-02-07</time>
+      <time title="Modified: 2026-02-07 21:49:24" itemprop="dateModified" datetime="2026-02-07T21:49:24+08:00">2026-02-07</time>
     </span>
 
   
@@ -960,10 +960,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>设计模式第四式–模板方法模式。 0x00 工厂方法模式定义 Define the skeleton of an algorithm in an operation, deferring some step to subclasses. Template Method lets subclasses redefine certain steps of an algorithm without cha</p>
+          <p>0x00 建造者模式定义Separate the construction of a complex object from its representation so that the sameconstruction process can create different representations.(将一个复杂对象的构建与它的表示分离, 使得同样的构建过程可以创建不同的表示。)</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2017/10/25/TheZenOfDesignPatternTemplateMethod/">
+              <a class="btn" href="/2017/10/26/BuilderPattern/">
                 Read more &raquo;
               </a>
             </div>

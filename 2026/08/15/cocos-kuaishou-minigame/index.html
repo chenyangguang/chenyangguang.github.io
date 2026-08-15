@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chenyangguang.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Cocos Creator 3.8.8 的构建平台列表里没有快手小游戏。本文记录一条已跑通的出包路线：用微信小游戏导出入口出包，靠快手开发者工具的「自动适配微信小游戏」拉起引擎，并说明这套方案成立的两个前提、客户端探测顺序的坑，以及服务端和后台侧要跟着改什么。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cocos Creator 3.8.8 没有快手小游戏发布平台，怎么把包发出去">
+<meta property="og:url" content="https://chenyangguang.github.io/2026/08/15/cocos-kuaishou-minigame/index.html">
+<meta property="og:site_name" content="重剑无锋">
+<meta property="og:description" content="Cocos Creator 3.8.8 的构建平台列表里没有快手小游戏。本文记录一条已跑通的出包路线：用微信小游戏导出入口出包，靠快手开发者工具的「自动适配微信小游戏」拉起引擎，并说明这套方案成立的两个前提、客户端探测顺序的坑，以及服务端和后台侧要跟着改什么。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-15T10:33:00.716Z">
+<meta property="article:author" content="Gitvim">
+<meta property="article:tag" content="Cocos Creator">
+<meta property="article:tag" content="快手小游戏">
+<meta property="article:tag" content="小游戏">
+<meta property="article:tag" content="跨平台">
+<meta property="article:tag" content="踩坑">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://chenyangguang.github.io/2026/08/15/cocos-kuaishou-minigame/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://chenyangguang.github.io/2026/08/15/cocos-kuaishou-minigame/","path":"2026/08/15/cocos-kuaishou-minigame/","title":"Cocos Creator 3.8.8 没有快手小游戏发布平台，怎么把包发出去"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Cocos Creator 3.8.8 没有快手小游戏发布平台，怎么把包发出去 | 重剑无锋</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">重剑无锋</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Cocos-Creator-3-8-8-%E6%B2%A1%E6%9C%89%E5%BF%AB%E6%89%8B%E5%B0%8F%E6%B8%B8%E6%88%8F%E5%8F%91%E5%B8%83%E5%B9%B3%E5%8F%B0%EF%BC%8C%E6%80%8E%E4%B9%88%E6%8A%8A%E5%8C%85%E5%8F%91%E5%87%BA%E5%8E%BB"><span class="nav-number">1.</span> <span class="nav-text">Cocos Creator 3.8.8 没有快手小游戏发布平台，怎么把包发出去</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%85%88%E7%A1%AE%E8%AE%A4%E3%80%8C%E4%B8%8D%E6%94%AF%E6%8C%81%E3%80%8D%E4%B8%8D%E6%98%AF%E9%94%99%E8%A7%89"><span class="nav-number">1.1.</span> <span class="nav-text">一、先确认「不支持」不是错觉</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%AE%98%E6%96%B9%E7%BB%99%E7%9A%84%E8%B7%AF%E5%AD%90%EF%BC%9A%E5%80%9F%E5%BE%AE%E4%BF%A1%E5%B0%8F%E6%B8%B8%E6%88%8F%E7%9A%84%E5%A3%B3"><span class="nav-number">1.2.</span> <span class="nav-text">二、官方给的路子：借微信小游戏的壳</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%8F%AF%E5%A4%8D%E7%8E%B0%E7%9A%84-CLI-%E6%9E%84%E5%BB%BA%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.</span> <span class="nav-text">三、可复现的 CLI 构建配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E8%BF%99%E5%A5%97%E6%96%B9%E6%A1%88%E6%88%90%E7%AB%8B%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%89%8D%E6%8F%90"><span class="nav-number">1.4.</span> <span class="nav-text">四、这套方案成立的两个前提</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E6%8F%90%E4%B8%80%EF%BC%9A%E5%BC%95%E6%93%8E%E9%80%82%E9%85%8D%E5%B1%82%E5%BF%85%E9%A1%BB%E8%83%BD%E6%8B%BF%E5%88%B0-wx"><span class="nav-number">1.4.1.</span> <span class="nav-text">前提一：引擎适配层必须能拿到 wx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E6%8F%90%E4%BA%8C%EF%BC%9A%E4%B8%9A%E5%8A%A1%E5%B1%82%E5%BF%85%E9%A1%BB%E4%BB%8D%E7%84%B6%E8%AE%A4%E5%BE%97%E5%87%BA%E8%87%AA%E5%B7%B1%E5%9C%A8%E5%BF%AB%E6%89%8B"><span class="nav-number">1.4.2.</span> <span class="nav-text">前提二：业务层必须仍然认得出自己在快手</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%B7%9F%E7%9D%80%E8%A6%81%E6%94%B9%E4%BB%80%E4%B9%88"><span class="nav-number">1.5.</span> <span class="nav-text">五、服务端跟着要改什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E9%AA%8C%E6%94%B6%E6%B8%85%E5%8D%95"><span class="nav-number">1.6.</span> <span class="nav-text">六、验收清单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E5%90%8E%E5%8F%B0%E4%BE%A7%E5%87%A0%E4%B8%AA%E8%83%BD%E7%9C%81%E5%8D%8A%E5%A4%A9%E7%9A%84%E5%9D%91"><span class="nav-number">1.7.</span> <span class="nav-text">七、后台侧几个能省半天的坑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">1.8.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Gitvim</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chenyangguang.github.io/2026/08/15/cocos-kuaishou-minigame/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Gitvim">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="重剑无锋">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Cocos Creator 3.8.8 没有快手小游戏发布平台，怎么把包发出去 | 重剑无锋">
+      <meta itemprop="description" content="Cocos Creator 3.8.8 的构建平台列表里没有快手小游戏。本文记录一条已跑通的出包路线：用微信小游戏导出入口出包，靠快手开发者工具的「自动适配微信小游戏」拉起引擎，并说明这套方案成立的两个前提、客户端探测顺序的坑，以及服务端和后台侧要跟着改什么。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Cocos Creator 3.8.8 没有快手小游戏发布平台，怎么把包发出去
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-08-15 00:00:00 / 修改时间：18:33:00" itemprop="dateCreated datePublished" datetime="2026-08-15T00:00:00+08:00">2026-08-15</time>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">Cocos Creator 3.8.8 的构建平台列表里没有快手小游戏。本文记录一条已跑通的出包路线：用微信小游戏导出入口出包，靠快手开发者工具的「自动适配微信小游戏」拉起引擎，并说明这套方案成立的两个前提、客户端探测顺序的坑，以及服务端和后台侧要跟着改什么。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Cocos-Creator-3-8-8-没有快手小游戏发布平台，怎么把包发出去"><a href="#Cocos-Creator-3-8-8-没有快手小游戏发布平台，怎么把包发出去" class="headerlink" title="Cocos Creator 3.8.8 没有快手小游戏发布平台，怎么把包发出去"></a>Cocos Creator 3.8.8 没有快手小游戏发布平台，怎么把包发出去</h1><blockquote>
+<p>一个已经发布到微信、抖音小游戏的 Cocos 项目，要再上快手。结果发现 Cocos Creator 3.8.8 的构建平台里根本没有快手这一项。本文记录一条已经跑通真机的出包路线，以及这套方案能成立的前提——它比「怎么出包」更重要。</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="一、先确认「不支持」不是错觉"><a href="#一、先确认「不支持」不是错觉" class="headerlink" title="一、先确认「不支持」不是错觉"></a>一、先确认「不支持」不是错觉</h2><p>Cocos Creator 3.8.8 构建面板的发布平台下拉里，小游戏这一档有微信、字节跳动（抖音）、支付宝、淘宝、百度、小米快游戏、OPPO、vivo、华为快游戏、荣耀、咪咕……<strong>没有快手</strong>。</p>
+<p>不放心的话可以直接翻编辑器的 asar 包，搜 <code>kuaishou</code> / <code>kwai</code>，同样搜不到平台声明。也就是说，既没有内置平台，也没有官方发布插件可装。</p>
+<p>这一步之所以要确认，是因为「找不到平台名」和「平台名我不知道叫什么」是两件事。当时因为查不到可用的 CLI 平台名，构建配置一直没提交，导致快手 AppID 都拿到了却出不了包——<strong>卡住的不是权限，是根本没有入口</strong>。</p>
+<h2 id="二、官方给的路子：借微信小游戏的壳"><a href="#二、官方给的路子：借微信小游戏的壳" class="headerlink" title="二、官方给的路子：借微信小游戏的壳"></a>二、官方给的路子：借微信小游戏的壳</h2><p>快手官方的《快手小游戏导出指南》里写得很直白：各引擎目前都还没上线快手专用导出入口，做法是——</p>
+<ol>
+<li>用<strong>微信小游戏</strong>的导出入口出包；</li>
+<li>在<strong>快手小游戏开发者工具</strong>里导入这个包，打开「自动适配微信小游戏」（右上角设置 → 本地配置）。</li>
+</ol>
+<p>这个开关做的事，本质上只有一行：它会生成一个 <code>kwaiadapter.js</code>，内容是</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">GameGlobal</span>.<span class="property">wx</span> = ks;</span><br></pre></td></tr></table></figure>
+
+<p>把快手的全局对象 <code>ks</code> 挂成 <code>wx</code>。引擎侧的小游戏适配层以为自己跑在微信里，照常调 <code>wx.*</code>，实际打到的是快手的实现。</p>
+<p>理解到这一层，剩下的事情就清楚了：<strong>这是一次全局对象层面的鸠占鹊巢</strong>，所有的坑都出在「谁以为自己是微信」这件事上。</p>
+<h2 id="三、可复现的-CLI-构建配置"><a href="#三、可复现的-CLI-构建配置" class="headerlink" title="三、可复现的 CLI 构建配置"></a>三、可复现的 CLI 构建配置</h2><p>编辑器构建面板有个隐性问题：AppID 靠面板的「上次配置」合并，换台机器或清一次缓存就丢。三端并行发布的时候，这种不可复现的配置迟早出事，所以配置钉进仓库、走 CLI 构建：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// client/build-configs/kuaishou.json</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;platform&quot;</span><span class="punctuation">:</span> <span class="string">&quot;wechatgame&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;debug&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;outputName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;kuaishou&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;packages&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;wechatgame&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;appid&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ksXXXXXXXXXXXXXXXXXX&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>三处要点：</p>
+<ul>
+<li><code>platform</code> 声明的是 <code>wechatgame</code>——这就是上一节那条路线在构建配置里的样子；</li>
+<li><code>outputName</code> 改成 <code>kuaishou</code>，输出到 <code>build/kuaishou</code>，<strong>不要覆盖微信的正式包</strong>。默认情况下两次构建会写进同一个目录，微信包被快手 AppID 污染是很难查的一类事故；</li>
+<li><code>appid</code> 填快手的（<code>ks</code> 开头那串）。它只会被写进 <code>project.config.json</code>；快手开发者工具导入工程时<strong>还要再填一次</strong> AppID，两边都得对。</li>
+</ul>
+<p>构建命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CC=/Applications/Cocos/Creator/3.8.8/CocosCreator.app/Contents/MacOS/CocosCreator</span><br><span class="line"></span><br><span class="line"><span class="variable">$CC</span> --project client --build <span class="string">&quot;configPath=<span class="variable">$PWD</span>/client/build-configs/wechatgame.json&quot;</span></span><br><span class="line"><span class="variable">$CC</span> --project client --build <span class="string">&quot;configPath=<span class="variable">$PWD</span>/client/build-configs/bytedance-mini-game.json&quot;</span></span><br><span class="line"><span class="variable">$CC</span> --project client --build <span class="string">&quot;configPath=<span class="variable">$PWD</span>/client/build-configs/kuaishou.json&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>顺手记一个 3.8.8 的 CLI 行为：<code>configPath</code> 是<strong>按进程启动时的工作目录</strong>解析的，不是按 <code>--project</code> 解析。从仓库根目录跑、写相对路径会报「配置不存在」，看起来像文件写错了其实是路径基准不同。显式传绝对路径，别赌。</p>
+<p><code>debug</code> 一定给 <code>false</code>。调试模式那个左下角的 FPS/DrawCall 面板是引擎 profiler，真机上会盖住底部按钮，在提审截图里尤其难看。</p>
+<h2 id="四、这套方案成立的两个前提"><a href="#四、这套方案成立的两个前提" class="headerlink" title="四、这套方案成立的两个前提"></a>四、这套方案成立的两个前提</h2><p>出包只是开始。借壳能跑起来，靠的是两层各行其是，<strong>改动前必须确认这两点还成立</strong>：</p>
+<h3 id="前提一：引擎适配层必须能拿到-wx"><a href="#前提一：引擎适配层必须能拿到-wx" class="headerlink" title="前提一：引擎适配层必须能拿到 wx"></a>前提一：引擎适配层必须能拿到 <code>wx</code></h3><p>构建产物的 <code>web-adapter.js</code> 里有四十来处 <code>wx.</code> 调用。如果在快手开发者工具里没开「自动适配微信小游戏」，<code>wx</code> 就是 undefined，引擎在启动阶段直接崩，连第一帧都渲不出来。</p>
+<p>也就是说，这条路线的可用性完全挂在那个开关上，它不是「优化项」，是<strong>运行前提</strong>。</p>
+<h3 id="前提二：业务层必须仍然认得出自己在快手"><a href="#前提二：业务层必须仍然认得出自己在快手" class="headerlink" title="前提二：业务层必须仍然认得出自己在快手"></a>前提二：业务层必须仍然认得出自己在快手</h3><p>这是整件事里最容易翻车的地方。适配器把 <code>wx</code> 指向了 <code>ks</code>，如果业务代码还按老顺序「先看有没有 <code>wx</code>」来判断平台，就会把快手判成微信——然后拿<strong>快手的 login code</strong> 去调<strong>微信的 code2session</strong>，用错 AppSecret，登录链路整个报废。而且它坏得很隐蔽：编辑器预览、微信真机都正常，只有快手上登不进去。</p>
+<p>所以平台探测必须让更专属的全局对象排在前面：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">detectMiniGame</span>(<span class="params"></span>): <span class="title class_">DetectedMiniGame</span> | <span class="literal">null</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> g = globalThis <span class="keyword">as</span> <span class="title class_">Record</span>&lt;<span class="built_in">string</span>, <span class="built_in">unknown</span>&gt;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 顺序有讲究：抖音环境里 `tt` 一定存在，个别版本为兼容还会挂个残缺的 `wx`；</span></span><br><span class="line">    <span class="comment">// 快手新接口挂在 `ks`，早期的 `kwaigame` 仍兼容。</span></span><br><span class="line">    <span class="comment">// 认错平台会导致 code2session 拿错 AppSecret，所以先认专属对象，最后才兜微信。</span></span><br><span class="line">    <span class="keyword">const</span> tt = g.<span class="property">tt</span> <span class="keyword">as</span> <span class="title class_">MiniGameApi</span> | <span class="literal">undefined</span>;</span><br><span class="line">    <span class="keyword">if</span> (tt &amp;&amp; <span class="keyword">typeof</span> tt.<span class="property">login</span> === <span class="string">&#x27;function&#x27;</span>) <span class="keyword">return</span> &#123; <span class="attr">vendor</span>: <span class="string">&#x27;douyin&#x27;</span>, <span class="attr">api</span>: tt &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> ks = (g.<span class="property">ks</span> ?? g.<span class="property">kwaigame</span>) <span class="keyword">as</span> <span class="title class_">MiniGameApi</span> | <span class="literal">undefined</span>;</span><br><span class="line">    <span class="keyword">if</span> (ks &amp;&amp; <span class="keyword">typeof</span> ks.<span class="property">login</span> === <span class="string">&#x27;function&#x27;</span>) <span class="keyword">return</span> &#123; <span class="attr">vendor</span>: <span class="string">&#x27;kuaishou&#x27;</span>, <span class="attr">api</span>: ks &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> wx = g.<span class="property">wx</span> <span class="keyword">as</span> <span class="title class_">MiniGameApi</span> | <span class="literal">undefined</span>;</span><br><span class="line">    <span class="keyword">if</span> (wx &amp;&amp; <span class="keyword">typeof</span> wx.<span class="property">login</span> === <span class="string">&#x27;function&#x27;</span>) <span class="keyword">return</span> &#123; <span class="attr">vendor</span>: <span class="string">&#x27;wechat&#x27;</span>, <span class="attr">api</span>: wx &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>两个细节：</p>
+<ul>
+<li>用 <code>globalThis[...]</code> 取，别直接写裸标识符 <code>wx</code>。直接写的话，在没有这个全局的环境（Cocos 预览、vitest）里，模块求值阶段就 <code>ReferenceError</code>，连开发环境的 mock 实现都进不去。</li>
+<li>光判存在不够，还要 <code>typeof x.login === &#39;function&#39;</code>。宿主为了兼容挂的那些残缺对象，就是靠这一条筛掉的。</li>
+</ul>
+<p>这种「顺序即正确性」的代码，注释救不了它，得有测试钉住：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">it</span>(<span class="string">&#x27;识别快手 ks 全局对象&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> kuaishou = <span class="title function_">api</span>();</span><br><span class="line">    globals.<span class="property">ks</span> = kuaishou;</span><br><span class="line">    <span class="title function_">expect</span>(<span class="title function_">detectMiniGame</span>()).<span class="title function_">toEqual</span>(&#123; <span class="attr">vendor</span>: <span class="string">&#x27;kuaishou&#x27;</span>, <span class="attr">api</span>: kuaishou &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">it</span>(<span class="string">&#x27;兼容快手早期 kwaigame 全局对象&#x27;</span>, <span class="function">() =&gt;</span> &#123; <span class="comment">/* ... */</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">it</span>(<span class="string">&#x27;抖音优先级高于兼容 wx 对象&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> douyin = <span class="title function_">api</span>();</span><br><span class="line">    globals.<span class="property">tt</span> = douyin;</span><br><span class="line">    globals.<span class="property">wx</span> = <span class="title function_">api</span>();</span><br><span class="line">    <span class="title function_">expect</span>(<span class="title function_">detectMiniGame</span>()).<span class="title function_">toEqual</span>(&#123; <span class="attr">vendor</span>: <span class="string">&#x27;douyin&#x27;</span>, <span class="attr">api</span>: douyin &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>再补一条工程约定：<strong>业务代码里出现 <code>wx.</code> / <code>tt.</code> / <code>ks.</code> 一律视为违规</strong>，全部收敛进适配层的一个文件。三端并行的时候，这条约定的价值不在「整洁」，在于平台判定只有一处、错也只错一处。</p>
+<h2 id="五、服务端跟着要改什么"><a href="#五、服务端跟着要改什么" class="headerlink" title="五、服务端跟着要改什么"></a>五、服务端跟着要改什么</h2><p>客户端认对了平台，只是把正确的 <code>platform</code> 字段发了出去。服务端这边有三处要动：</p>
+<p><strong>1）多一个平台的 code2session。</strong> 三家的接口和响应形状都不一样，成功/失败的判定条件也不同：</p>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>接口</th>
+<th>成功字段</th>
+<th>失败字段</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>微信</td>
+<td><code>jscode2session</code></td>
+<td><code>openid</code></td>
+<td><code>errcode</code>（成功时缺省或 0）</td>
+</tr>
+<tr>
+<td>抖音</td>
+<td><code>jscode2session</code> v2</td>
+<td><code>data.openid</code></td>
+<td><code>err_no</code></td>
+</tr>
+<tr>
+<td>快手</td>
+<td><code>auth.code2Session</code></td>
+<td><code>open_id</code></td>
+<td><code>result</code> / <code>error_code</code> / <code>error_msg</code></td>
+</tr>
+</tbody></table>
+<p>快手的响应解释起来要小心，成功不是「没有错误码」而是「有 <code>open_id</code>」：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">interpret</span>(body: KuaishouSession) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;OpenId, AuthError&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(open_id) = body.open_id &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_ invoke__">Ok</span>(OpenId::<span class="title function_ invoke__">new</span>(open_id));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 没有 open_id 又没有可用错误码，说明响应结构不对，不能当成「code 无效」吞掉</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">errcode</span> = body.error_code.<span class="title function_ invoke__">or</span>(body.result);</span><br><span class="line">    <span class="keyword">match</span> errcode &#123;</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(<span class="number">0</span> | <span class="number">1</span>) | <span class="literal">None</span> =&gt; <span class="title function_ invoke__">Err</span>(AuthError::MalformedResponse),</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(errcode) =&gt; <span class="title function_ invoke__">Err</span>(AuthError::CodeRejected &#123; errcode &#125;),</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>把「平台拒绝了这个 code」（客户端问题，401）和「平台响应不对劲」（我们和平台之间的问题，5xx）分成两种错误，线上排查时省的时间远超写这几行的成本。</p>
+<p><strong>2）平台枚举加值。</strong> 数据库里 <code>platform</code> 是个枚举，加一条迁移：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 增加快手小游戏平台来源</span></span><br><span class="line"><span class="keyword">ALTER</span> TYPE platform <span class="keyword">ADD</span> <span class="keyword">VALUE</span> <span class="string">&#x27;kuaishou&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3）凭据按平台隔离。</strong> <code>KUAISHOU_APP_ID</code> / <code>KUAISHOU_APP_SECRET</code> 走环境变量，AppSecret 绝不进 git、不进日志、不进 <code>Debug</code> 输出（<code>Debug</code> 手写掩码，别让它跟着 <code>AppState</code> 一起被打印出来）。AppID 随包公开分发不算机密，可以入库。</p>
+<p>生产环境还加了一条：<strong>缺任何一个平台的凭据就拒绝启动</strong>。否则最坏的情况是悄悄退回开发用的 mock 实现——那意味着任意 code 都能登录成功。</p>
+<h2 id="六、验收清单"><a href="#六、验收清单" class="headerlink" title="六、验收清单"></a>六、验收清单</h2><p>借壳出来的包，不能只看「能启动」。这几项是真出过问题或真值得复验的：</p>
+<ul>
+<li><strong>分包还在不在。</strong> 项目把笔画数据切成了独立 Bundle 走微信/抖音的分包。因为快手包实际是微信包，分包策略是复用的，但仍然要打开产物的 <code>game.json</code> 确认 <code>subpackages</code> 条目还在——主包超限是提审阶段最浪费时间的一类退回。实测主包 3.1MB、数据分包 1.7MB，在 4MB 限内。</li>
+<li><strong>横竖屏设置</strong>是否跟着配置走。</li>
+<li><strong>真机预览</strong>：用后台生成的 <code>kwai://</code> 二维码在快手 APP 里跑，开发者工具里正常不代表真机正常。</li>
+<li><strong>登录链路没退回 mock</strong>：拿一个假 code 打 <code>/v1/auth/login</code>，<strong>必须返回 401 而不是 200</strong>。返回 200 说明服务端在用假实现，这时候所有「登录成功」的截图都是假的。</li>
+</ul>
+<h2 id="七、后台侧几个能省半天的坑"><a href="#七、后台侧几个能省半天的坑" class="headerlink" title="七、后台侧几个能省半天的坑"></a>七、后台侧几个能省半天的坑</h2><p>出包之外，快手后台这一侧也有几处反直觉的地方：</p>
+<ul>
+<li><strong>AppSecret 那个输入框默认显示的是占位符</strong>，一串 22 个 0，不是你的密钥。要点旁边的眼睛图标才会去拉真值。更坑的是这个按钮用脚本 <code>element.click()</code> 触发不了（框架的事件处理器不监听合成的 click），要老老实实模拟 <code>mousedown</code> → <code>mouseup</code> → <code>click</code> 三连——用自动化脚本抓配置的话，这里会静默拿到 22 个 0 然后写进生产环境。</li>
+<li><strong>凭据写进生产前先验一次</strong>：拿 <code>app_id</code> + <code>app_secret</code> + 一个乱填的 <code>js_code</code> 去打 code2session，返回「Invalid jscode」说明<strong>密钥是对的</strong>（只是 code 假），返回「Invalid app secret」才是密钥错了。界面上读到的值不等于真值，这一步只花一分钟。</li>
+<li><strong>创建审核通过前，服务器域名怎么填都报错</strong>。提交合法域名恒返回一个固定错误码，那是应用状态导致的，跟你填什么无关，别在这上面反复试。</li>
+<li><strong>包体上传只能在快手小游戏开发者工具里点</strong>，网页后台没有这个入口。创建审核没过之前上传会报「无此游戏」，审核通过后自动解除。</li>
+<li><strong>主体资格</strong>：快手小游戏文档明确只支持企业主体入驻，个人主体走不通——这跟微信、抖音都不一样。如果软著权利人是自然人而接入主体是公司，上线时还要补一份授权书。这条最好在立项时就确认，不然客户端都做完了才发现主体不对，很被动。</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>一句话版本：<strong>Cocos Creator 3.8.8 不支持快手，官方解法是借微信小游戏的壳出包，靠快手开发者工具把 <code>wx</code> 指向 <code>ks</code> 拉起引擎。</strong></p>
+<p>但真正需要写进项目文档的是那两个前提：引擎层依赖 <code>wx</code> 存在，业务层必须先认 <code>ks</code>。这两条一旦被后来的改动打破，症状分别是「白屏起不来」和「只有快手登不上」——都不便宜。</p>
+<p>最后，这条路线是引擎侧还没上线快手导出入口时的过渡方案，是否已有官方平台支持，请以你手上的 Cocos 版本和快手当前文档为准。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Cocos-Creator/" rel="tag"># Cocos Creator</a>
+              <a href="/tags/%E5%BF%AB%E6%89%8B%E5%B0%8F%E6%B8%B8%E6%88%8F/" rel="tag"># 快手小游戏</a>
+              <a href="/tags/%E5%B0%8F%E6%B8%B8%E6%88%8F/" rel="tag"># 小游戏</a>
+              <a href="/tags/%E8%B7%A8%E5%B9%B3%E5%8F%B0/" rel="tag"># 跨平台</a>
+              <a href="/tags/%E8%B8%A9%E5%9D%91/" rel="tag"># 踩坑</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/02/16/rust-react-deploy/" rel="prev" title="Rust + React 全栈项目部署从 macOS 交叉编译部署到阿里云 Ubuntu 踩坑实录">
+                  <i class="fa fa-angle-left"></i> Rust + React 全栈项目部署从 macOS 交叉编译部署到阿里云 Ubuntu 踩坑实录
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+  <div class="languages">
+    <label class="lang-select-label">
+      <i class="fa fa-language"></i>
+      <span>简体中文</span>
+      <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </label>
+    <select class="lang-select" data-canonical="" aria-label="选择语言">
+      
+        <option value="zh-CN" data-href="/2026/08/15/cocos-kuaishou-minigame/" selected="">
+          简体中文
+        </option>
+      
+        <option value="en" data-href="/en/2026/08/15/cocos-kuaishou-minigame/" selected="">
+          English
+        </option>
+      
+    </select>
+  </div>
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Gitvim</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

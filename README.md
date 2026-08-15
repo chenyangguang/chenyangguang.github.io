@@ -8,6 +8,7 @@
 
 ### 2026
 
+- [Cocos Creator 3.8.8 没有快手小游戏发布平台，怎么把包发出去](https://chenyangguang.github.io/2026/08/15/cocos-kuaishou-minigame/) - 借微信小游戏入口出包、全局对象探测顺序、服务端多平台适配
 - [Rust + React 全栈项目部署从 macOS 交叉编译部署到阿里云 Ubuntu 踩坑实录](https://chenyangguang.github.io/2026/02/16/rust-react-deploy/) - 交叉编译、OpenSSL、Nginx、HTTPS 证书配置
 - [Git Worktree 实战指南](https://chenyangguang.github.io/2026/02/09/git-worktree-practical/) - 多分支并行开发实战
 - [Git Worktree 应该这样用](https://chenyangguang.github.io/2026/02/09/git-worktree-usage/) - Git Worktree 基础用法
@@ -62,9 +63,14 @@ npm install
 # 本地预览
 npx hexo server
 
-# 生成静态文件
-npx hexo generate
+# 生成静态文件（务必带 TZ，见下）
+TZ=Asia/Shanghai npx hexo generate
 ```
+
+> **生成时必须指定 `TZ=Asia/Shanghai`。** 文章 front-matter 的 `date` 只有日期没有时刻，
+> Hexo 的 `timezone` 配置只作用于解析、不作用于 permalink 格式化，所以在非 +8 时区的机器上
+> 生成会把**全站文章的 URL 整体前移一天**（`2026/02/16/xxx` → `2026/02/15/xxx`），
+> 等于把已发布的链接全部作废。带上 `TZ` 后与线上产物一致。
 
 ## License
 

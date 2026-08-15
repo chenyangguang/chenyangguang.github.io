@@ -10,7 +10,7 @@ author: Gitvim
 language:
   - zh-CN
   - en
-timezone:
+timezone: Asia/Shanghai
 
 # URL
 url: https://chenyangguang.github.io
